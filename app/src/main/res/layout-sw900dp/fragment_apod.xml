@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminateTint="@color/colorWhite"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/apod_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_weight="3"
+                android:id="@+id/image_type"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/apod_image"
+                            android:scaleType="centerCrop"
+                            android:background="@color/colorAccent"
+                            android:contentDescription="@string/apod"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </FrameLayout>
+
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+                <LinearLayout
+                    android:id="@+id/title_layout"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:background="@color/colorTransparentBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit ="marquee_forever"
+                        android:focusableInTouchMode="true"
+                        android:scrollHorizontally="true"
+                        android:padding="10dp"
+                        android:textSize="20sp"
+                        android:focusable="true"
+                        android:id="@+id/apod_title"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <ImageButton
+                        android:id="@+id/download"
+                        android:contentDescription="@string/apod"
+                        android:layout_gravity="center"
+                        android:padding="10dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/icons8_downloading_updates_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <WebView
+                android:layout_weight="3"
+                android:visibility="gone"
+                android:id="@+id/video"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:id="@+id/apod_date"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:textSize="18sp"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:textSize="18sp"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
+                    android:id="@+id/apod_credits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <ScrollView
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:paddingBottom="10dp"
+                    android:textSize="18sp"
+                    android:id="@+id/apod_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <include layout="@layout/no_content_view" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</FrameLayout>
