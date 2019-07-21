@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/apod"
+    android:layout_margin="@dimen/margin_8"
+    app:cardCornerRadius="6dp"
+    android:layout_width="250dp"
+    android:layout_height="130dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/apod_image"
+            android:src="@drawable/noimage"
+            android:contentDescription="@string/apod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/apod_title"
+            android:background="@color/colorPrimaryTransparent"
+            android:padding="@dimen/padding_8"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

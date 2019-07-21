@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
     compileSdkVersion 28
@@ -6,29 +6,70 @@ android {
         applicationId "space.pal.sig"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.3"
+        versionCode 20
+        versionName "2.0"
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    //noinspection GradleDependency
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+    def archVersion = "2.2.0-alpha02"
+    def roomVersion = "2.1.0"
+    def squareUpVersion = "2.5.0"
+    def daggerVersion = "2.23"
+    def glideVersion = "4.8.0"
+    def butterKnifeVersion = "10.1.0"
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation "org.projectlombok:lombok:1.18.8"
+    annotationProcessor "org.projectlombok:lombok:1.18.8"
+
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+
+    implementation "androidx.room:room-runtime:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$archVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$archVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata:$archVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archVersion"
+
+    implementation "com.google.android.material:material:1.0.0"
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    implementation "io.reactivex.rxjava2:rxjava:2.2.8"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+    implementation "com.squareup.retrofit2:retrofit:$squareUpVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$squareUpVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$squareUpVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$squareUpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+
+    implementation 'com.jsibbold:zoomage:1.1.0'
+
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation "com.github.bumptech.glide:annotations:$glideVersion"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+
+    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+
 }

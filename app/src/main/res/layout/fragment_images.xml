@@ -4,55 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/images"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:indeterminateTint="@color/colorWhite"
-            android:indeterminate="true"
-            android:visibility="visible"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RelativeLayout
-            android:id="@+id/content"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/loading"
-                android:visibility="gone"
-                android:translationZ="5dp"
-                android:background="@color/colorTransparentWhite"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_loading"
-                    android:indeterminateTint="@color/colorPrimary"
-                    android:indeterminate="true"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </RelativeLayout>
-
-        <include layout="@layout/no_content_view" />
-
-    </android.support.design.widget.CoordinatorLayout>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

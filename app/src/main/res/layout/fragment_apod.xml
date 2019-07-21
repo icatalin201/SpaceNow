@@ -1,157 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:indeterminateTint="@color/colorWhite"
-            android:indeterminate="true"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/apod_layout"
-                android:orientation="vertical"
+            <TextView
+                android:layout_marginTop="@dimen/margin_8"
+                android:paddingTop="@dimen/padding_8"
+                android:paddingStart="@dimen/padding_16"
+                android:paddingEnd="@dimen/padding_16"
+                android:paddingBottom="@dimen/padding_8"
+                android:textSize="@dimen/size_16"
+                android:text="@string/apod_long"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/apod"
+                android:layout_margin="@dimen/margin_8"
+                app:cardCornerRadius="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
 
                 <RelativeLayout
-                    android:layout_weight="3"
-                    android:id="@+id/image_type"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp">
+                    android:layout_height="match_parent">
 
-                    <android.support.v4.widget.SwipeRefreshLayout
-                        android:id="@+id/swipe_refresh"
+                    <ImageView
+                        android:id="@+id/apod_image"
+                        android:src="@drawable/noimage"
+                        android:contentDescription="@string/apod"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/apod_image"
-                            android:scaleType="centerCrop"
-                            android:background="@color/colorAccent"
-                            android:contentDescription="@string/apod"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                    </FrameLayout>
-
-                    </android.support.v4.widget.SwipeRefreshLayout>
-
-                    <LinearLayout
-                        android:id="@+id/title_layout"
-                        android:layout_alignParentBottom="true"
-                        android:orientation="horizontal"
+                    <TextView
+                        android:id="@+id/apod_title"
                         android:background="@color/colorTransparentBlack"
+                        android:padding="@dimen/padding_16"
+                        android:textColor="@color/colorWhite"
+                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:ellipsize="marquee"
-                            android:marqueeRepeatLimit ="marquee_forever"
-                            android:focusableInTouchMode="true"
-                            android:scrollHorizontally="true"
-                            android:padding="10dp"
-                            android:focusable="true"
-                            android:id="@+id/apod_title"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
-
-                        <ImageButton
-                            android:id="@+id/download"
-                            android:contentDescription="@string/apod"
-                            android:layout_gravity="center"
-                            android:padding="10dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/icons8_downloading_updates_24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content" />
 
                 </RelativeLayout>
 
-                <WebView
-                    android:layout_weight="3"
-                    android:visibility="gone"
-                    android:id="@+id/video"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp" />
+            </androidx.cardview.widget.CardView>
 
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="@dimen/margin_8"
+                android:paddingTop="@dimen/padding_8"
+                android:paddingStart="@dimen/padding_16"
+                android:paddingEnd="@dimen/padding_16"
+                android:paddingBottom="@dimen/padding_8"
+                android:textSize="@dimen/size_16"
+                android:text="@string/more_apod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:id="@+id/apod_date"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit ="marquee_forever"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:scrollHorizontally="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:textStyle="bold"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit ="marquee_forever"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:scrollHorizontally="true"
-                        android:id="@+id/apod_credits"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/apods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-                </LinearLayout>
-                <ScrollView
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp">
+        </LinearLayout>
 
-                    <TextView
-                        android:paddingBottom="10dp"
-                        android:id="@+id/apod_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </ScrollView>
-
-            </LinearLayout>
-
-        <include layout="@layout/no_content_view" />
-
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

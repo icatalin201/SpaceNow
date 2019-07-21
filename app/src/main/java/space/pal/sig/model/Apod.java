@@ -1,91 +1,38 @@
 package space.pal.sig.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(tableName = "apod", indices = @Index(value = {"date"}, unique = true))
 public class Apod {
 
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo
+    private Long id;
+    @ColumnInfo
     private String date;
+    @ColumnInfo
     private String explanation;
-    private String media_type;
-    private String hdurl;
+    @ColumnInfo
     private String url;
-    private String service_version;
+    @ColumnInfo
+    private String hdUrl;
+    @ColumnInfo
     private String title;
+    @ColumnInfo
     private String copyright;
 
-    public Apod() { }
-
-    public Apod(String date, String explanation, String media_type, String hdurl,
-                String url, String service_version, String title, String copyright) {
-        this.date = date;
-        this.explanation = explanation;
-        this.media_type = media_type;
-        this.hdurl = hdurl;
-        this.url = url;
-        this.service_version = service_version;
-        this.title = title;
-        this.copyright = copyright;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
-
-    public String getMedia_type() {
-        return media_type;
-    }
-
-    public void setMedia_type(String media_type) {
-        this.media_type = media_type;
-    }
-
-    public String getHdurl() {
-        return hdurl;
-    }
-
-    public void setHdurl(String hdurl) {
-        this.hdurl = hdurl;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getService_version() {
-        return service_version;
-    }
-
-    public void setService_version(String service_version) {
-        this.service_version = service_version;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
 }

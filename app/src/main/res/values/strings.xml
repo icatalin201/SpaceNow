@@ -2,7 +2,7 @@
     <string name="app_name">Space Now</string>
     <string name="app_name_extended">Space Images, Facts, News &amp; Glossary</string>
     <string name="app_description">Space Now is an educational app that aims to all kind of users. Using Space Now you can view and download on your phone space images, read and learn a lot from news (Hubble News, James Webb Space Telescope News, Space Telescope Live), read amazing space facts and glossary terms.\n\nAll credits: NASA</string>
-    <string name="app_version">App version: 1.2</string>
+    <string name="app_version">App version</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="images">Images</string>
@@ -18,7 +18,8 @@
     <string name="share">Share</string>
     <string name="favorites">Favorites</string>
     <string name="rate">Give a rating</string>
-    <string name="apod">Astronomy picture of the day</string>
+    <string name="apod">APOD</string>
+    <string name="apod_long">Astronomy picture of the day</string>
     <string name="press_notification">Do you want to see more? Tap here</string>
     <string name="quality">Display High Quality Images</string>
     <string name="like">Do you like this app? Please share and rate.</string>
@@ -35,4 +36,10 @@
     <string name="credits">Credits: NASA</string>
     <string name="space_infinity">Space Infinity</string>
     <string name="similar">Similar App</string>
+    <string name="icon">Icon</string>
+    <string name="more_apod">More astronomy pictures</string>
+    <string name="exit">Exit</string>
+    <string name="ok">OK</string>
+    <string name="recent">Recent</string>
+    <string name="description">Description</string>
 </resources>
