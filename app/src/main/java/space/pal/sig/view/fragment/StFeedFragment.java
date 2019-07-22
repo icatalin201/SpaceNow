@@ -77,6 +77,11 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
                 feedAdapter.addItems(feedDtos);
             }
         });
+        mainViewModel.getMoreStFeed().observe(this, feedDtos -> {
+            if (feedDtos != null) {
+                feedAdapter.addItems(feedDtos);
+            }
+        });
         return view;
     }
 

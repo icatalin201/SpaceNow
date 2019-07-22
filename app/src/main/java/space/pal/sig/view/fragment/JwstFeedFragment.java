@@ -77,6 +77,11 @@ public class JwstFeedFragment extends Fragment implements FeedAdapter.FeedClickL
                 feedAdapter.addItems(feedDtos);
             }
         });
+        mainViewModel.getMoreJwstFeed().observe(this, feedDtos -> {
+            if (feedDtos != null) {
+                feedAdapter.addItems(feedDtos);
+            }
+        });
         return view;
     }
 

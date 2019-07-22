@@ -77,6 +77,11 @@ public class EsaFeedFragment extends Fragment implements FeedAdapter.FeedClickLi
                 feedAdapter.addItems(feedDtos);
             }
         });
+        mainViewModel.getMoreEsaFeed().observe(this, feedDtos -> {
+            if (feedDtos != null) {
+                feedAdapter.addItems(feedDtos);
+            }
+        });
         return view;
     }
 

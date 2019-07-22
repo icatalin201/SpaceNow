@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import lombok.Getter;
 import retrofit2.Response;
 import space.pal.sig.R;
 import space.pal.sig.model.Apod;
@@ -47,6 +48,7 @@ import static space.pal.sig.model.NavigationItem.MENU_ITEM;
 import static space.pal.sig.util.DateTimeUtil.DATE_FORMAT;
 import static space.pal.sig.util.DateTimeUtil.dateToString;
 
+@Getter
 public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<Fragment> fragment = new MutableLiveData<>();
@@ -61,10 +63,16 @@ public class MainViewModel extends ViewModel {
     private final LiveData<List<Apod>> apods;
     private final LiveData<List<Glossary>> glossary;
     private final LiveData<List<Fact>> facts;
+
     private final MutableLiveData<List<FeedDto>> esaFeed = new MutableLiveData<>();
     private final MutableLiveData<List<FeedDto>> jwstFeed = new MutableLiveData<>();
     private final MutableLiveData<List<FeedDto>> stFeed = new MutableLiveData<>();
     private final MutableLiveData<List<NewsDto>> hubbleFeed = new MutableLiveData<>();
+
+    private final MutableLiveData<List<FeedDto>> moreEsaFeed = new MutableLiveData<>();
+    private final MutableLiveData<List<FeedDto>> moreJwstFeed = new MutableLiveData<>();
+    private final MutableLiveData<List<FeedDto>> moreStFeed = new MutableLiveData<>();
+    private final MutableLiveData<List<NewsDto>> moreHubbleFeed = new MutableLiveData<>();
 
     private Apod selectedApod;
     private FeedDto selectedFeed;
@@ -83,10 +91,10 @@ public class MainViewModel extends ViewModel {
         apods = apodRepository.findAll();
         facts = factRepository.findAll();
         apod(apodRepository);
-        downloadEsaFeed(1);
-        downloadJwstFeed(1);
-        downloadStFeed(1);
-        downloadHubble(1);
+        downloadEsaFeed();
+        downloadJwstFeed();
+        downloadStFeed();
+        downloadHubble();
     }
 
     public void dispose() {
@@ -96,101 +104,41 @@ public class MainViewModel extends ViewModel {
     public void downloadEsaFeed(int page) {
         Disposable disposable = feedRepository
                 .esaFeed(page)
-                .subscribe(esaFeed::setValue);
+                .subscribe(moreEsaFeed::setValue);
         compositeDisposable.add(disposable);
     }
 
     public void downloadJwstFeed(int page) {
         Disposable disposable = feedRepository
                 .jwstFeed(page)
-                .subscribe(jwstFeed::setValue);
+                .subscribe(moreJwstFeed::setValue);
         compositeDisposable.add(disposable);
     }
 
     public void downloadStFeed(int page) {
         Disposable disposable = feedRepository
                 .spaceTelescopeFeed(page)
-                .subscribe(stFeed::setValue);
+                .subscribe(moreStFeed::setValue);
         compositeDisposable.add(disposable);
     }
 
     public void downloadHubble(int page) {
         Disposable disposable = feedRepository
                 .hubbleFeed(page)
-                .subscribe(this::downloadHubble);
+                .subscribe(this::downloadMoreHubble);
         compositeDisposable.add(disposable);
-    }
-
-    public Apod getSelectedApod() {
-        return selectedApod;
     }
 
     public void setSelectedApod(Apod selectedApod) {
         this.selectedApod = selectedApod;
     }
 
-    public FeedDto getSelectedFeed() {
-        return selectedFeed;
-    }
-
     public void setSelectedFeed(FeedDto selectedFeed) {
         this.selectedFeed = selectedFeed;
     }
 
-    public NewsDto getSelectedNews() {
-        return selectedNews;
-    }
-
     public void setSelectedNews(NewsDto selectedNews) {
         this.selectedNews = selectedNews;
-    }
-
-    public MutableLiveData<List<FeedDto>> getEsaFeed() {
-        return esaFeed;
-    }
-
-    public MutableLiveData<List<FeedDto>> getJwstFeed() {
-        return jwstFeed;
-    }
-
-    public MutableLiveData<List<FeedDto>> getStFeed() {
-        return stFeed;
-    }
-
-    public MutableLiveData<List<NewsDto>> getHubbleFeed() {
-        return hubbleFeed;
-    }
-
-    public LiveData<List<Glossary>> getGlossary() {
-        return glossary;
-    }
-
-    public LiveData<Apod> getApod() {
-        return apod;
-    }
-
-    public LiveData<List<Apod>> getApods() {
-        return apods;
-    }
-
-    public LiveData<List<Fact>> getFacts() {
-        return facts;
-    }
-
-    public MutableLiveData<Boolean> isLoading() {
-        return isLoading;
-    }
-
-    public MutableLiveData<Fragment> getFragment() {
-        return fragment;
-    }
-
-    public MutableLiveData<Integer> getTitle() {
-        return title;
-    }
-
-    public MutableLiveData<List<NavigationItem>> getNavigation() {
-        return navigation;
     }
 
     public void setFragment(Fragment f) {
@@ -246,6 +194,16 @@ public class MainViewModel extends ViewModel {
     }
 
     private void downloadHubble(List<NewsPreviewDto> newsPreviewDtos) {
+        List<NewsDto> newsDtos = buildNews(newsPreviewDtos);
+        handler.post(() -> hubbleFeed.setValue(newsDtos));
+    }
+
+    private void downloadMoreHubble(List<NewsPreviewDto> newsPreviewDtos) {
+        List<NewsDto> newsDtos = buildNews(newsPreviewDtos);
+        handler.post(() -> moreHubbleFeed.setValue(newsDtos));
+    }
+
+    private List<NewsDto> buildNews(List<NewsPreviewDto> newsPreviewDtos) {
         List<NewsDto> newsDtos = new ArrayList<>();
         for (NewsPreviewDto newsPreviewDto : newsPreviewDtos) {
             try {
@@ -257,7 +215,7 @@ public class MainViewModel extends ViewModel {
                 e.printStackTrace();
             }
         }
-        handler.post(() -> hubbleFeed.setValue(newsDtos));
+        return newsDtos;
     }
 
     private void apod(ApodRepository apodRepository) {
@@ -292,5 +250,34 @@ public class MainViewModel extends ViewModel {
                 }
             });
     }
+
+    private void downloadEsaFeed() {
+        Disposable disposable = feedRepository
+                .esaFeed(1)
+                .subscribe(esaFeed::setValue);
+        compositeDisposable.add(disposable);
+    }
+
+    private void downloadJwstFeed() {
+        Disposable disposable = feedRepository
+                .jwstFeed(1)
+                .subscribe(jwstFeed::setValue);
+        compositeDisposable.add(disposable);
+    }
+
+    private void downloadStFeed() {
+        Disposable disposable = feedRepository
+                .spaceTelescopeFeed(1)
+                .subscribe(stFeed::setValue);
+        compositeDisposable.add(disposable);
+    }
+
+    private void downloadHubble() {
+        Disposable disposable = feedRepository
+                .hubbleFeed(1)
+                .subscribe(this::downloadHubble);
+        compositeDisposable.add(disposable);
+    }
+
 
 }
