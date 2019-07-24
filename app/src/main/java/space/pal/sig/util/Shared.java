@@ -11,6 +11,9 @@ public class Shared {
     private SharedPreferences sharedPreferences;
     private Gson gson;
 
+    private static final String INITIAL = "initial";
+    private static final String UPDATE = "update";
+
     private Shared(Context context) {
         sharedPreferences = context.getSharedPreferences("space", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -22,6 +25,16 @@ public class Shared {
 
     public static Shared getInstance() {
         return instance;
+    }
+
+    public void setInitial() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(INITIAL, 1);
+        editor.apply();
+    }
+
+    public boolean isFirstTime() {
+        return sharedPreferences.getInt(INITIAL, 0) == 0;
     }
 
     public void clear() {

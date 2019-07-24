@@ -46,6 +46,10 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
     @BindView(R.id.image) ImageView image;
     private FeedDto feedDto;
 
+    private int page = 1;
+    private boolean loading = true;
+    private int previousTotal = 0;
+
     public StFeedFragment() { }
 
     public static StFeedFragment getInstance() {
@@ -67,7 +71,8 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
         unbinder = ButterKnife.bind(this, view);
         mainViewModel = ViewModelProviders.of(appCompatActivity).get(MainViewModel.class);
         feedAdapter = new FeedAdapter(this);
-        feeds.setLayoutManager(new LinearLayoutManager(appCompatActivity));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
+        feeds.setLayoutManager(linearLayoutManager);
         feeds.setItemAnimator(new DefaultItemAnimator());
         feeds.setAdapter(feedAdapter);
         mainViewModel.getStFeed().observe(this, feedDtos -> {
@@ -75,11 +80,34 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
                 setupBigFeed(feedDtos.get(0));
                 feedDtos.remove(0);
                 feedAdapter.addItems(feedDtos);
+                page++;
             }
         });
         mainViewModel.getMoreStFeed().observe(this, feedDtos -> {
             if (feedDtos != null) {
                 feedAdapter.addItems(feedDtos);
+                page++;
+            }
+        });
+        feeds.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                int visibleThreshold = 5;
+                if (!loading && (totalItemCount - visibleItemCount) <=
+                        (firstVisibleItem + visibleThreshold)) {
+                    mainViewModel.downloadStFeed(page);
+                    loading = true;
+                }
             }
         });
         return view;

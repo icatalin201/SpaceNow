@@ -46,6 +46,10 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
     @BindView(R.id.image) ImageView image;
     private NewsDto newsDto;
 
+    private int page = 1;
+    private boolean loading = true;
+    private int previousTotal = 0;
+
     public HubbleFeedFragment() { }
 
     public static HubbleFeedFragment getInstance() {
@@ -67,7 +71,8 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
         unbinder = ButterKnife.bind(this, view);
         mainViewModel = ViewModelProviders.of(appCompatActivity).get(MainViewModel.class);
         newsAdapter = new NewsAdapter(this);
-        feeds.setLayoutManager(new LinearLayoutManager(appCompatActivity));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
+        feeds.setLayoutManager(linearLayoutManager);
         feeds.setItemAnimator(new DefaultItemAnimator());
         feeds.setAdapter(newsAdapter);
         mainViewModel.getHubbleFeed().observe(this, newsDtos -> {
@@ -75,6 +80,34 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
                 setupBigFeed(newsDtos.get(0));
                 newsDtos.remove(0);
                 newsAdapter.addItems(newsDtos);
+                page++;
+            }
+        });
+        mainViewModel.getMoreHubbleFeed().observe(this, newsDtos -> {
+            if (newsDtos != null) {
+                newsAdapter.addItems(newsDtos);
+                page++;
+            }
+        });
+        feeds.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                int visibleThreshold = 5;
+                if (!loading && (totalItemCount - visibleItemCount) <=
+                        (firstVisibleItem + visibleThreshold)) {
+                    mainViewModel.downloadHubble(page);
+                    loading = true;
+                }
             }
         });
         return view;
