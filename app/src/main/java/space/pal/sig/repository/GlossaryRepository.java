@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers;
 import space.pal.sig.api.GlossaryService;
 import space.pal.sig.db.GlossaryDao;
 import space.pal.sig.model.Glossary;
+import space.pal.sig.util.DownloadListener;
 
 public class GlossaryRepository {
 
@@ -39,11 +40,14 @@ public class GlossaryRepository {
         return glossaryDao.findAll();
     }
 
-    public void download() {
+    public void download(DownloadListener downloadListener) {
         Disposable disposable = glossaryService
                 .glossary()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(glossaries -> create(glossaries.toArray(new Glossary[0])));
+                .subscribe(glossaries -> {
+                    create(glossaries.toArray(new Glossary[0]));
+                    downloadListener.onStepCompleted();
+                });
     }
 }

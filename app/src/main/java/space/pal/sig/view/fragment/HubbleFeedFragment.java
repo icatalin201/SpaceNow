@@ -70,6 +70,7 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         unbinder = ButterKnife.bind(this, view);
         mainViewModel = ViewModelProviders.of(appCompatActivity).get(MainViewModel.class);
+        mainViewModel.setLoading(true);
         newsAdapter = new NewsAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
         feeds.setLayoutManager(linearLayoutManager);
@@ -77,6 +78,7 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
         feeds.setAdapter(newsAdapter);
         mainViewModel.getHubbleFeed().observe(this, newsDtos -> {
             if (newsDtos != null) {
+                mainViewModel.setLoading(false);
                 setupBigFeed(newsDtos.get(0));
                 newsDtos.remove(0);
                 newsAdapter.addItems(newsDtos);

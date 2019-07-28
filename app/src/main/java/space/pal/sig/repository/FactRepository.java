@@ -13,6 +13,7 @@ import space.pal.sig.db.FactDao;
 import space.pal.sig.model.Fact;
 import space.pal.sig.model.dto.FactDto;
 import space.pal.sig.model.dto.SpaceResponse;
+import space.pal.sig.util.DownloadListener;
 
 public class FactRepository {
 
@@ -37,7 +38,7 @@ public class FactRepository {
         factDao.delete(facts);
     }
 
-    public void download() {
+    public void download(DownloadListener downloadListener) {
         Disposable disposable = factService
                 .download()
                 .subscribeOn(Schedulers.io())
@@ -47,6 +48,7 @@ public class FactRepository {
                     for (FactDto factDto : factDtos) {
                         create(factDto.toFact());
                     }
+                    downloadListener.onStepCompleted();
                 });
     }
 

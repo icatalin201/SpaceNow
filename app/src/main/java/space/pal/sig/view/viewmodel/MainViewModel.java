@@ -1,6 +1,5 @@
 package space.pal.sig.view.viewmodel;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -85,9 +84,6 @@ public class MainViewModel extends ViewModel {
                   FeedRepository feedRepository,
                   FactRepository factRepository,
                   GlossaryRepository glossaryRepository) {
-        apodRepository.downloadAll();
-        factRepository.download();
-        glossaryRepository.download();
         setLoading(false);
         this.feedRepository = feedRepository;
         navigation.setValue(navigationItems());

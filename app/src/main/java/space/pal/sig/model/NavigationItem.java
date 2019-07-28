@@ -1,7 +1,5 @@
 package space.pal.sig.model;
 
-import android.content.Intent;
-
 import androidx.fragment.app.Fragment;
 
 import lombok.Getter;

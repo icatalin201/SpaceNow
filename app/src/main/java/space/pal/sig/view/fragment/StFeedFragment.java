@@ -70,6 +70,7 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         unbinder = ButterKnife.bind(this, view);
         mainViewModel = ViewModelProviders.of(appCompatActivity).get(MainViewModel.class);
+        mainViewModel.setLoading(true);
         feedAdapter = new FeedAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
         feeds.setLayoutManager(linearLayoutManager);
@@ -77,6 +78,7 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
         feeds.setAdapter(feedAdapter);
         mainViewModel.getStFeed().observe(this, feedDtos -> {
             if (feedDtos != null) {
+                mainViewModel.setLoading(false);
                 setupBigFeed(feedDtos.get(0));
                 feedDtos.remove(0);
                 feedAdapter.addItems(feedDtos);

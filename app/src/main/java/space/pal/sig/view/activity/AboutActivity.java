@@ -1,13 +1,13 @@
 package space.pal.sig.view.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,12 +16,15 @@ import butterknife.Unbinder;
 import space.pal.sig.R;
 
 import static space.pal.sig.BuildConfig.VERSION_NAME;
+import static space.pal.sig.view.activity.WebViewActivity.TITLE;
+import static space.pal.sig.view.activity.WebViewActivity.URL;
 
 public class AboutActivity extends AppCompatActivity {
 
     @BindView(R.id.appversion) TextView appVersion;
     @BindView(R.id.toolbar) Toolbar toolbar;
     private Unbinder unbinder;
+    private static final String POLICY_URL = "https://icatalin201.github.io/space/privacy_policy.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,10 @@ public class AboutActivity extends AppCompatActivity {
 
     @OnClick(R.id.privacy)
     void onClickPrivacy() {
-
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra(TITLE, getString(R.string.privacy_policy));
+        intent.putExtra(URL, POLICY_URL);
+        startActivity(intent);
     }
 
     @OnClick(R.id.share)

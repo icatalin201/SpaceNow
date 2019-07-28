@@ -16,6 +16,7 @@ import space.pal.sig.db.ApodDao;
 import space.pal.sig.model.Apod;
 import space.pal.sig.model.dto.ApodDto;
 import space.pal.sig.model.dto.SpaceResponse;
+import space.pal.sig.util.DownloadListener;
 
 public class ApodRepository {
 
@@ -61,7 +62,7 @@ public class ApodRepository {
                 .subscribe(apodDto -> create(apodDto.toApod()));
     }
 
-    public void downloadAll() {
+    public void downloadAll(DownloadListener downloadListener) {
         Disposable disposable = galleryService
                 .download()
                 .subscribeOn(Schedulers.io())
@@ -71,6 +72,7 @@ public class ApodRepository {
                     for (ApodDto apodDto : apodDtos) {
                         create(apodDto.toApod());
                     }
+                    downloadListener.onStepCompleted();
                 });
     }
 

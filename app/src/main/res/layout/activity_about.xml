@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorSmokeWhite"
     tools:context=".view.activity.AboutActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -85,13 +84,23 @@
     <TextView
         android:id="@+id/credits"
         android:layout_below="@id/info"
+        android:layout_above="@id/buttons"
         android:padding="@dimen/padding_8"
         android:text="@string/credits"
-        android:gravity="center"
+        android:gravity="center|top"
         android:elevation="2dp"
-        android:textColor="@color/colorPrimary"
+        android:background="@color/colorPrimaryTransparent"
+        android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_below="@id/info"
+        android:layout_above="@id/buttons"
+        android:src="@drawable/banner"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_alignParentBottom="true"
