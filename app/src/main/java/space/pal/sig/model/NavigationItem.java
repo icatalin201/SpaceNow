@@ -17,7 +17,7 @@ public class NavigationItem {
     private int title;
     private int icon;
     private int type;
-    private Intent intent;
+    private boolean isActivity;
     private Fragment fragment;
 
 }

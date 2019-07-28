@@ -88,6 +88,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             .autoClone()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .priority(Priority.HIGH))
+                    .error(R.drawable.ic_placeholder)
                     .into(this.image);
             title.setText(newsDto.getName());
         }

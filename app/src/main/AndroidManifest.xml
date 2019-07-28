@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.activity.SplashActivity"></activity>
+        <activity android:name=".view.activity.WebViewActivity"/>
+        <activity android:name=".view.activity.AboutActivity" />
+        <activity android:name=".view.activity.SplashActivity" />
         <activity android:name=".view.activity.FeedActivity" />
         <activity android:name=".view.activity.NewsActivity" />
         <activity android:name=".view.activity.ApodActivity" />

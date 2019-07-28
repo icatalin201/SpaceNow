@@ -1,18 +1,21 @@
 package space.pal.sig.view.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Priority;
@@ -21,6 +24,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -34,6 +39,13 @@ import space.pal.sig.util.GlideApp;
 import space.pal.sig.util.IntelViewModelFactory;
 import space.pal.sig.view.viewmodel.MainViewModel;
 
+import static space.pal.sig.util.DateTimeUtil.DATE_FORMAT;
+import static space.pal.sig.util.DateTimeUtil.DISPLAY_DATE_FORMAT;
+import static space.pal.sig.util.DateTimeUtil.dateToString;
+import static space.pal.sig.util.DateTimeUtil.stringToDate;
+import static space.pal.sig.view.activity.WebViewActivity.TITLE;
+import static space.pal.sig.view.activity.WebViewActivity.URL;
+
 public class NewsActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)Toolbar toolbar;
@@ -41,7 +53,11 @@ public class NewsActivity extends AppCompatActivity {
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.image) ImageView image;
     @BindView(R.id.name) TextView name;
+    @BindView(R.id.publication_date) TextView publicationDate;
+    @BindView(R.id.credits) TextView credits;
     @BindView(R.id.description) TextView description;
+    @BindView(R.id.layout) ConstraintLayout layout;
+    @BindView(R.id.mission) TextView mission;
     private Unbinder unbinder;
     private MainViewModel mainViewModel;
     @Inject IntelViewModelFactory factory;
@@ -53,6 +69,7 @@ public class NewsActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
         Space.getApplicationComponent().inject(this);
         unbinder = ButterKnife.bind(this);
+        setupLayout();
         setSupportActionBar(toolbar);
         setTitle("");
         ActionBar actionBar = getSupportActionBar();
@@ -95,8 +112,10 @@ public class NewsActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.open) {
             NewsDto newsDto = mainViewModel.getSelectedNews();
             if (newsDto.getUrl() != null) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsDto.getUrl()));
-                startActivity(browserIntent);
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(TITLE, newsDto.getName());
+                intent.putExtra(URL, newsDto.getUrl());
+                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -108,7 +127,14 @@ public class NewsActivity extends AppCompatActivity {
         } else {
             description.setText(Html.fromHtml(newsDto.getAbstractText()));
         }
+        Date date = stringToDate(newsDto.getPublication().split("T")[0], DATE_FORMAT);
+        publicationDate.setText(String.format("Publication date: %s",
+                dateToString(date, DISPLAY_DATE_FORMAT)));
+        if (newsDto.getCredits() != null) {
+            credits.setText(String.format("Credits: %s", Html.fromHtml(newsDto.getCredits())));
+        }
         name.setText(newsDto.getName());
+        mission.setText(newsDto.getMission());
         String keyStoneImage2x = newsDto.getKeystoneImage2x();
         String thumbnail = newsDto.getThumbnailRetina();
         String url = "";
@@ -125,7 +151,26 @@ public class NewsActivity extends AppCompatActivity {
                         .autoClone()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .priority(Priority.HIGH))
+                .error(R.drawable.ic_placeholder)
                 .into(this.image);
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources()
+                .getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private void setupLayout() {
+        int titleBarHeight = getStatusBarHeight();
+        CollapsingToolbarLayout.LayoutParams params =
+                (CollapsingToolbarLayout.LayoutParams) layout.getLayoutParams();
+        params.bottomMargin = -titleBarHeight;
+        layout.setLayoutParams(params);
     }
 
 }

@@ -85,6 +85,10 @@ public class MainViewModel extends ViewModel {
                   FeedRepository feedRepository,
                   FactRepository factRepository,
                   GlossaryRepository glossaryRepository) {
+        apodRepository.downloadAll();
+        factRepository.download();
+        glossaryRepository.download();
+        setLoading(false);
         this.feedRepository = feedRepository;
         navigation.setValue(navigationItems());
         glossary = glossaryRepository.findAll();
@@ -141,6 +145,10 @@ public class MainViewModel extends ViewModel {
         this.selectedNews = selectedNews;
     }
 
+    public void setLoading(boolean loading) {
+        this.isLoading.setValue(loading);
+    }
+
     public void setFragment(Fragment f) {
         fragment.setValue(f);
     }
@@ -152,44 +160,44 @@ public class MainViewModel extends ViewModel {
     private List<NavigationItem> navigationItems() {
         List<NavigationItem> navigationItems = new ArrayList<>();
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.apod,
-                R.drawable.icons8_planet_48, ApodFragment.getInstance(), null));
+                R.drawable.icons8_planet_48, ApodFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.images,
-                R.drawable.ic_baseline_collections_24px, ImagesFragment.getInstance(), null));
+                R.drawable.ic_baseline_collections_24px, ImagesFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.glossary,
-                R.drawable.icons8_planetarium_48, GlossaryFragment.getInstance(), null));
+                R.drawable.icons8_planetarium_48, GlossaryFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.facts,
-                R.drawable.icons8_satellites_48, SpaceFragment.getInstance(), null));
+                R.drawable.icons8_satellites_48, SpaceFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
-                0, null, null));
+                0, null, false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.news,
-                R.drawable.ic_baseline_library_books_24px, HubbleFeedFragment.getInstance(), null));
+                R.drawable.ic_baseline_library_books_24px, HubbleFeedFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.esa_feed,
-                R.drawable.icons8_rocket_48, EsaFeedFragment.getInstance(), null));
+                R.drawable.icons8_rocket_48, EsaFeedFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.jwst_feed,
-                R.drawable.icons_telescope, JwstFeedFragment.getInstance(), null));
+                R.drawable.icons_telescope, JwstFeedFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.st_live_feed,
-                R.drawable.icons8_satellite_signal_48, StFeedFragment.getInstance(), null));
+                R.drawable.icons8_satellite_signal_48, StFeedFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
-                0, null, null));
+                0, null, false));
 //        navigationItems.add(createNavigationItem(MENU_ITEM, R.string.settings,
 //                R.drawable.ic_baseline_settings_20px, null, null));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.about,
-                R.drawable.ic_baseline_info_24px, null, null));
+                R.drawable.ic_baseline_info_24px, null, true));
         navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
-                0, null, null));
+                0, null, false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.exit,
-                R.drawable.ic_baseline_close_24px, null, null));
+                R.drawable.ic_baseline_close_24px, null, false));
         return navigationItems;
     }
 
     private NavigationItem createNavigationItem(int type, int title, int icon,
-                                                Fragment fragment, Intent intent) {
+                                                Fragment fragment, boolean isActivity) {
         NavigationItem navigationItem = new NavigationItem();
         navigationItem.setType(type);
         navigationItem.setTitle(title);
         navigationItem.setIcon(icon);
         navigationItem.setFragment(fragment);
-        navigationItem.setIntent(intent);
+        navigationItem.setActivity(isActivity);
         return navigationItem;
     }
 

@@ -85,6 +85,7 @@ public class EsaFeedFragment extends Fragment implements FeedAdapter.FeedClickLi
         });
         mainViewModel.getMoreEsaFeed().observe(this, feedDtos -> {
             if (feedDtos != null) {
+                mainViewModel.setLoading(false);
                 feedAdapter.addItems(feedDtos);
                 page++;
             }
@@ -105,6 +106,7 @@ public class EsaFeedFragment extends Fragment implements FeedAdapter.FeedClickLi
                 int visibleThreshold = 5;
                 if (!loading && (totalItemCount - visibleItemCount) <=
                         (firstVisibleItem + visibleThreshold)) {
+                    mainViewModel.setLoading(true);
                     mainViewModel.downloadEsaFeed(page);
                     loading = true;
                 }
@@ -153,6 +155,7 @@ public class EsaFeedFragment extends Fragment implements FeedAdapter.FeedClickLi
                         .autoClone()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .priority(Priority.HIGH))
+                .error(R.drawable.ic_placeholder)
                 .into(this.image);
         title.setText(feedDto.getTitle());
         description.setText(feedDto.getDescription());

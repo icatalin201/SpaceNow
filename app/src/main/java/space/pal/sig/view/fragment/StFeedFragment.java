@@ -85,6 +85,7 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
         });
         mainViewModel.getMoreStFeed().observe(this, feedDtos -> {
             if (feedDtos != null) {
+                mainViewModel.setLoading(false);
                 feedAdapter.addItems(feedDtos);
                 page++;
             }
@@ -105,6 +106,7 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
                 int visibleThreshold = 5;
                 if (!loading && (totalItemCount - visibleItemCount) <=
                         (firstVisibleItem + visibleThreshold)) {
+                    mainViewModel.setLoading(true);
                     mainViewModel.downloadStFeed(page);
                     loading = true;
                 }
@@ -153,6 +155,7 @@ public class StFeedFragment extends Fragment implements FeedAdapter.FeedClickLis
                         .autoClone()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .priority(Priority.HIGH))
+                .error(R.drawable.ic_placeholder)
                 .into(this.image);
         title.setText(feedDto.getTitle());
         description.setText(feedDto.getDescription());

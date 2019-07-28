@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/apod_image"
-            android:src="@drawable/noimage"
+            android:src="@drawable/ic_placeholder"
             android:contentDescription="@string/apod"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

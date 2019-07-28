@@ -85,6 +85,7 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
         });
         mainViewModel.getMoreHubbleFeed().observe(this, newsDtos -> {
             if (newsDtos != null) {
+                mainViewModel.setLoading(false);
                 newsAdapter.addItems(newsDtos);
                 page++;
             }
@@ -105,6 +106,7 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
                 int visibleThreshold = 5;
                 if (!loading && (totalItemCount - visibleItemCount) <=
                         (firstVisibleItem + visibleThreshold)) {
+                    mainViewModel.setLoading(true);
                     mainViewModel.downloadHubble(page);
                     loading = true;
                 }
@@ -150,6 +152,7 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
                         .autoClone()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .priority(Priority.HIGH))
+                .error(R.drawable.ic_placeholder)
                 .into(this.image);
         title.setText(newsDto.getName());
         description.setText(newsDto.getAbstractText());

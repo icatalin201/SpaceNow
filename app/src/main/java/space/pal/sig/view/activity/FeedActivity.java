@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Priority;
@@ -21,6 +22,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -34,6 +37,13 @@ import space.pal.sig.util.GlideApp;
 import space.pal.sig.util.IntelViewModelFactory;
 import space.pal.sig.view.viewmodel.MainViewModel;
 
+import static space.pal.sig.util.DateTimeUtil.DATE_FORMAT;
+import static space.pal.sig.util.DateTimeUtil.DISPLAY_DATE_FORMAT;
+import static space.pal.sig.util.DateTimeUtil.dateToString;
+import static space.pal.sig.util.DateTimeUtil.stringToDate;
+import static space.pal.sig.view.activity.WebViewActivity.TITLE;
+import static space.pal.sig.view.activity.WebViewActivity.URL;
+
 public class FeedActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -42,6 +52,8 @@ public class FeedActivity extends AppCompatActivity {
     @BindView(R.id.image) ImageView image;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.description) TextView description;
+    @BindView(R.id.publication_date) TextView publicationDate;
+    @BindView(R.id.layout) ConstraintLayout layout;
     private Unbinder unbinder;
     private MainViewModel mainViewModel;
     @Inject IntelViewModelFactory factory;
@@ -53,6 +65,7 @@ public class FeedActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
         Space.getApplicationComponent().inject(this);
         unbinder = ButterKnife.bind(this);
+        setupLayout();
         setSupportActionBar(toolbar);
         setTitle("");
         ActionBar actionBar = getSupportActionBar();
@@ -95,8 +108,10 @@ public class FeedActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.open) {
             FeedDto feedDto = mainViewModel.getSelectedFeed();
             if (feedDto.getLink() != null) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(feedDto.getLink()));
-                startActivity(browserIntent);
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(TITLE, feedDto.getTitle());
+                intent.putExtra(URL, feedDto.getLink());
+                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -109,6 +124,9 @@ public class FeedActivity extends AppCompatActivity {
             description.setText(Html.fromHtml(feedDto.getDescription()));
         }
         name.setText(feedDto.getTitle());
+        Date date = stringToDate(feedDto.getPubDate().split("T")[0], DATE_FORMAT);
+        publicationDate.setText(String.format("Publication date: %s",
+                dateToString(date, DISPLAY_DATE_FORMAT)));
         String thumbnail = feedDto.getImageSquareLarge();
         String url = "";
         if (thumbnail != null && !thumbnail.contains("https:")) {
@@ -122,6 +140,25 @@ public class FeedActivity extends AppCompatActivity {
                         .autoClone()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .priority(Priority.HIGH))
+                .error(R.drawable.ic_placeholder)
                 .into(this.image);
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources()
+                .getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private void setupLayout() {
+        int titleBarHeight = getStatusBarHeight();
+        CollapsingToolbarLayout.LayoutParams params =
+                (CollapsingToolbarLayout.LayoutParams) layout.getLayoutParams();
+        params.bottomMargin = -titleBarHeight;
+        layout.setLayoutParams(params);
     }
 }

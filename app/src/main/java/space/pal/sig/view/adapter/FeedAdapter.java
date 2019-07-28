@@ -91,6 +91,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedDtoViewHol
                             .autoClone()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .priority(Priority.HIGH))
+                    .error(R.drawable.ic_placeholder)
                     .into(this.image);
             title.setText(feedDto.getTitle());
         }

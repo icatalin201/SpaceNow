@@ -119,11 +119,11 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
         @OnClick(R.id.item)
         void onClick() {
             NavigationItem navigationItem = navigationItemList.get(getAdapterPosition());
-            if (navigationItem.getFragment() == null && navigationItem.getIntent() == null) {
+            if (navigationItem.getFragment() == null && !navigationItem.isActivity()) {
                 onNavigationItemClickListener.onNavigateExit();
             } else if (navigationItem.getFragment() != null) {
                 onNavigationItemClickListener.onNavigateFragment(navigationItem);
-            } else if (navigationItem.getIntent() != null) {
+            } else if (navigationItem.isActivity()) {
                 onNavigationItemClickListener.onNavigateActivity(navigationItem);
             }
         }

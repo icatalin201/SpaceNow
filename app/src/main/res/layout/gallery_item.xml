@@ -2,7 +2,7 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image"
-    android:src="@drawable/noimage"
+    android:src="@drawable/ic_placeholder"
     android:contentDescription="@string/apod"
     android:layout_width="match_parent"
     android:layout_height="250dp" />

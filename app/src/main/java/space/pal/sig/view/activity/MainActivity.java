@@ -1,5 +1,6 @@
 package space.pal.sig.view.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +13,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,13 +30,18 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import space.pal.sig.BuildConfig;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.model.NavigationItem;
 import space.pal.sig.util.IntelViewModelFactory;
 import space.pal.sig.view.adapter.NavigationAdapter;
 import space.pal.sig.view.viewmodel.MainViewModel;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static androidx.core.view.GravityCompat.START;
+import static space.pal.sig.BuildConfig.VERSION_NAME;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationAdapter.OnNavigationItemClickListener {
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.title) TextView title;
     @BindView(R.id.banner) ImageView banner;
+    @BindView(R.id.progress_horizontal) SmoothProgressBar progressBar;
     private ActionBarDrawerToggle toggle;
     private NavigationAdapter navigationAdapter;
     private MainViewModel mainViewModel;
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        appVersion.setText(String.format("%s: %s", getString(R.string.app_version), BuildConfig.VERSION_NAME));
+        appVersion.setText(String.format("%s: %s", getString(R.string.app_version), VERSION_NAME));
         mainViewModel.getFragment().observe(this, this::consumeFragment);
         mainViewModel.getNavigation().observe(this, this::consumeNavigation);
         mainViewModel.getTitle().observe(this, this::consumeTitle);
@@ -82,6 +88,9 @@ public class MainActivity extends AppCompatActivity
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions.centerCropTransform())
                 .into(banner);
+        mainViewModel.getIsLoading().observe(this, isLoading -> {
+            progressBar.setVisibility(isLoading ? VISIBLE : GONE);
+        });
     }
 
     @Override
@@ -109,8 +118,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(START)) {
+            drawerLayout.closeDrawer(START);
             return;
         }
         super.onBackPressed();
@@ -125,7 +134,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNavigateActivity(NavigationItem navigationItem) {
-        startActivity(navigationItem.getIntent());
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
         drawerLayout.closeDrawers();
     }
 

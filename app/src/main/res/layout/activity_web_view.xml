@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.WebViewActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ToolbarTheme"
+        android:translationZ="1dp"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/colorPrimary"/>
+
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_below="@id/toolbar"
+        android:id="@+id/progress_horizontal"
+        android:translationZ="1dp"
+        app:spb_sections_count="4"
+        app:spb_colors="@array/progress_colors"
+        app:spb_speed="2.0"
+        app:spb_stroke_width="4dp"
+        app:spb_stroke_separator_length="4dp"
+        app:spb_reversed="true"
+        app:spb_mirror_mode="true"
+        app:spb_progressiveStart_activated="true"
+        app:spb_progressiveStart_speed="1.5"
+        app:spb_progressiveStop_speed="3.4" />
+
+    <WebView
+        android:id="@+id/web"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

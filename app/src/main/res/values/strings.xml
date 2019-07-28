@@ -33,7 +33,7 @@
     <string name="more">More</string>
     <string name="hubble_now">What is Hubble looking at now?</string>
     <string name="download">Download</string>
-    <string name="credits">Credits: NASA</string>
+    <string name="credits">All credits: NASA</string>
     <string name="space_infinity">Space Infinity</string>
     <string name="similar">Similar App</string>
     <string name="icon">Icon</string>
@@ -42,4 +42,5 @@
     <string name="ok">OK</string>
     <string name="recent">Recent</string>
     <string name="description">Description</string>
+    <string name="privacy_policy">Privacy policy</string>
 </resources>
