@@ -152,7 +152,7 @@ public class NewsActivity extends AppCompatActivity {
                 .into(this.image);
     }
 
-    public int getStatusBarHeight() {
+    private int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources()
                 .getIdentifier("status_bar_height", "dimen", "android");

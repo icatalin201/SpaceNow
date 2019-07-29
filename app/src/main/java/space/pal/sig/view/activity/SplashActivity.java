@@ -20,6 +20,7 @@ import space.pal.sig.Space;
 import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.GlossaryRepository;
+import space.pal.sig.repository.LaunchRepository;
 import space.pal.sig.util.DownloadListener;
 import space.pal.sig.util.Shared;
 
@@ -33,6 +34,8 @@ public class SplashActivity extends AppCompatActivity implements DownloadListene
     @Inject ApodRepository apodRepository;
     @Inject FactRepository factRepository;
     @Inject GlossaryRepository glossaryRepository;
+    @Inject
+    LaunchRepository launchRepository;
 
     private int step = 0;
 
@@ -64,7 +67,7 @@ public class SplashActivity extends AppCompatActivity implements DownloadListene
     public void onStepCompleted() {
         synchronized(this) {
             step++;
-            if (step == 3) {
+            if (step == 4) {
                 finishHere();
             }
         }
@@ -73,12 +76,14 @@ public class SplashActivity extends AppCompatActivity implements DownloadListene
     private void finishHere() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+        Shared.getInstance().setInitial();
     }
 
     private void download() {
         apodRepository.downloadAll(this);
         factRepository.download(this);
         glossaryRepository.download(this);
+        launchRepository.downloadRockets(this);
     }
 
     private void animateView(View view) {

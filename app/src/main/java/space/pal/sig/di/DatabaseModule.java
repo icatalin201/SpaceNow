@@ -10,6 +10,7 @@ import space.pal.sig.db.ApodDao;
 import space.pal.sig.db.FactDao;
 import space.pal.sig.db.FeedDao;
 import space.pal.sig.db.GlossaryDao;
+import space.pal.sig.db.RocketDao;
 import space.pal.sig.db.SpaceDatabase;
 
 @Module
@@ -43,6 +44,12 @@ public class DatabaseModule {
     @Singleton
     FactDao factDao(SpaceDatabase spaceDatabase) {
         return spaceDatabase.factDao();
+    }
+
+    @Provides
+    @Singleton
+    RocketDao rocketDao(SpaceDatabase spaceDatabase) {
+        return spaceDatabase.rocketDao();
     }
 
 }

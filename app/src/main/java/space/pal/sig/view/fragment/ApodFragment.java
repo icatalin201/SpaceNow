@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -71,14 +72,15 @@ public class ApodFragment extends Fragment implements ApodAdapter.ApodClickListe
                 GridLayoutManager.HORIZONTAL, false));
         mainViewModel.getApod().observe(this, apod -> {
             if (apod != null) {
-                Glide.with(appCompatActivity)
-                        .load(apod.getUrl())
+                RequestManager manager = Glide.with(appCompatActivity);
+                manager.load(apod.getUrl())
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .apply(new RequestOptions()
                                 .centerCrop()
                                 .autoClone()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .priority(Priority.HIGH))
+                        .error(manager.load(R.drawable.ic_placeholder))
                         .into(apodImage);
                 apodTitle.setText(apod.getTitle());
             }
@@ -86,6 +88,7 @@ public class ApodFragment extends Fragment implements ApodAdapter.ApodClickListe
         mainViewModel.getApods().observe(this, apods -> {
             if (apods != null) {
                 apodAdapter.add(apods);
+                this.apods.scrollToPosition(0);
             }
         });
         return view;

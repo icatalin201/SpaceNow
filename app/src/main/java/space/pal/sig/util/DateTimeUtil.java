@@ -30,4 +30,14 @@ public class DateTimeUtil {
         }
         return new Date();
     }
+
+    public static String formatNumber(long number) {
+        String numberStr;
+        if (number < 10) {
+            numberStr = String.format("0%s", number);
+        } else {
+            numberStr = String.valueOf(number);
+        }
+        return numberStr;
+    }
 }

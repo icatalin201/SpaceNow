@@ -15,6 +15,8 @@ import space.pal.sig.api.FeedService;
 import space.pal.sig.api.GalleryService;
 import space.pal.sig.api.GlossaryService;
 import space.pal.sig.api.HubbleClient;
+import space.pal.sig.api.LaunchClient;
+import space.pal.sig.api.LaunchService;
 import space.pal.sig.api.NasaClient;
 import space.pal.sig.api.SpaceClient;
 import space.pal.sig.api.SpaceFlightClient;
@@ -23,10 +25,12 @@ import space.pal.sig.db.ApodDao;
 import space.pal.sig.db.FactDao;
 import space.pal.sig.db.FeedDao;
 import space.pal.sig.db.GlossaryDao;
+import space.pal.sig.db.RocketDao;
 import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.FeedRepository;
 import space.pal.sig.repository.GlossaryRepository;
+import space.pal.sig.repository.LaunchRepository;
 import space.pal.sig.repository.SpaceFlightRepository;
 
 @Module
@@ -70,6 +74,12 @@ public class ApiServiceModule {
 
     @Provides
     @Singleton
+    LaunchService rocketService(LaunchClient launchClient) {
+        return launchClient.buildLaunchClient().create(LaunchService.class);
+    }
+
+    @Provides
+    @Singleton
     SpaceFlightService spaceFlightService(SpaceFlightClient spaceFlightClient) {
         return spaceFlightClient.buildSpaceFlightClient().create(SpaceFlightService.class);
     }
@@ -97,6 +107,12 @@ public class ApiServiceModule {
     @Singleton
     FactRepository factRepository(FactDao factDao, FactService factService) {
         return new FactRepository(factDao, factService);
+    }
+
+    @Provides
+    @Singleton
+    LaunchRepository rocketRepository(LaunchService launchService, RocketDao rocketDao) {
+        return new LaunchRepository(launchService, rocketDao);
     }
 
     @Provides
@@ -143,6 +159,12 @@ public class ApiServiceModule {
     @Singleton
     SpaceClient spaceClient(OkHttpClient okHttpClient, Gson gson) {
         return new SpaceClient(okHttpClient, gson);
+    }
+
+    @Provides
+    @Singleton
+    LaunchClient launchClient(OkHttpClient okHttpClient, Gson gson) {
+        return new LaunchClient(okHttpClient, gson);
     }
 
     @Provides

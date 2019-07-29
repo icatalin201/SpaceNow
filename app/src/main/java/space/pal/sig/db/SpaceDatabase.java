@@ -12,19 +12,22 @@ import space.pal.sig.model.Apod;
 import space.pal.sig.model.Fact;
 import space.pal.sig.model.Feed;
 import space.pal.sig.model.Glossary;
+import space.pal.sig.model.Rocket;
 
 @Database(entities = {
         Apod.class,
         Glossary.class,
         Feed.class,
-        Fact.class
-}, version = 3, exportSchema = false)
+        Fact.class,
+        Rocket.class
+}, version = 4, exportSchema = false)
 public abstract class SpaceDatabase extends RoomDatabase {
 
     public abstract ApodDao apodDao();
     public abstract FeedDao feedDao();
     public abstract GlossaryDao glossaryDao();
     public abstract FactDao factDao();
+    public abstract RocketDao rocketDao();
 
     private static SpaceDatabase appDatabase;
 

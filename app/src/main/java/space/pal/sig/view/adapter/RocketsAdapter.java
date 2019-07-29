@@ -24,62 +24,62 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lombok.RequiredArgsConstructor;
 import space.pal.sig.R;
-import space.pal.sig.model.Apod;
+import space.pal.sig.model.Rocket;
+import space.pal.sig.model.dto.RocketDto;
 
-public class ApodAdapter extends RecyclerView.Adapter<ApodAdapter.ApodViewHolder> {
+@RequiredArgsConstructor
+public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.RocketViewHolder> {
 
-    public interface ApodClickListener {
-        void onClick(Apod apod);
+    public interface RocketClickListener {
+        void onRocketClick(Rocket rocket);
     }
 
-    private ApodClickListener apodClickListener;
-    private List<Apod> apodList = new ArrayList<>();
+    private final RocketClickListener rocketClickListener;
+    private List<Rocket> rockets = new ArrayList<>();
 
-    public ApodAdapter(ApodClickListener apodClickListener) {
-        this.apodClickListener = apodClickListener;
-    }
-
-    public void add(List<Apod> apods) {
-        Collections.shuffle(apods);
-        this.apodList.addAll(apods);
+    public void add(List<Rocket> rockets) {
+        Collections.shuffle(rockets);
+        this.rockets.addAll(rockets);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public ApodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RocketViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.apod_item, parent, false);
-        return new ApodViewHolder(view);
+                .inflate(R.layout.rocket_item, parent, false);
+        return new RocketViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ApodViewHolder holder, int position) {
-        holder.render(apodList.get(position));
+    public void onBindViewHolder(@NonNull RocketViewHolder holder, int position) {
+        holder.render(rockets.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return apodList.size();
+        return rockets.size();
     }
 
-    class ApodViewHolder extends RecyclerView.ViewHolder {
+    class RocketViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.apod_image) ImageView apodImage;
-        @BindView(R.id.apod_title) TextView apodTitle;
+        @BindView(R.id.name) TextView name;
+        @BindView(R.id.image) ImageView image;
         private Context context;
 
-        ApodViewHolder(@NonNull View itemView) {
+        RocketViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.context = itemView.getContext();
+            context = itemView.getContext();
         }
 
-        void render(Apod apod) {
+        void render(Rocket rocket) {
+            name.setText(rocket.getName());
             RequestManager manager = Glide.with(context);
-            manager.load(apod.getUrl())
+            manager.load(rocket.getImageURL())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .apply(new RequestOptions()
                             .centerCrop()
@@ -87,13 +87,12 @@ public class ApodAdapter extends RecyclerView.Adapter<ApodAdapter.ApodViewHolder
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .priority(Priority.HIGH))
                     .error(manager.load(R.drawable.ic_placeholder))
-                    .into(apodImage);
-            apodTitle.setText(apod.getTitle());
+                    .into(image);
         }
 
-        @OnClick(R.id.apod)
+        @OnClick(R.id.item)
         void onClick() {
-            apodClickListener.onClick(apodList.get(getAdapterPosition()));
+            rocketClickListener.onRocketClick(rockets.get(getAdapterPosition()));
         }
     }
 }

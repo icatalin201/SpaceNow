@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -72,14 +73,15 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ApodView
         }
 
         void render(Apod apod) {
-            Glide.with(context)
-                    .load(apod.getUrl())
+            RequestManager manager = Glide.with(context);
+            manager.load(apod.getUrl())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .apply(new RequestOptions()
                             .centerCrop()
                             .autoClone()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .priority(Priority.HIGH))
+                    .error(manager.load(R.drawable.ic_placeholder))
                     .into(apodImage);
         }
 

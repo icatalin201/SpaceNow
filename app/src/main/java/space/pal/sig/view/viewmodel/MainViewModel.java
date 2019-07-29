@@ -25,20 +25,25 @@ import space.pal.sig.model.Apod;
 import space.pal.sig.model.Fact;
 import space.pal.sig.model.Glossary;
 import space.pal.sig.model.NavigationItem;
+import space.pal.sig.model.Rocket;
 import space.pal.sig.model.dto.ApodDto;
 import space.pal.sig.model.dto.FeedDto;
+import space.pal.sig.model.dto.LaunchDto;
 import space.pal.sig.model.dto.NewsDto;
 import space.pal.sig.model.dto.NewsPreviewDto;
 import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.FeedRepository;
 import space.pal.sig.repository.GlossaryRepository;
+import space.pal.sig.repository.LaunchRepository;
 import space.pal.sig.view.fragment.ApodFragment;
 import space.pal.sig.view.fragment.EsaFeedFragment;
 import space.pal.sig.view.fragment.GlossaryFragment;
 import space.pal.sig.view.fragment.HubbleFeedFragment;
 import space.pal.sig.view.fragment.ImagesFragment;
 import space.pal.sig.view.fragment.JwstFeedFragment;
+import space.pal.sig.view.fragment.RocketLaunchesFragment;
+import space.pal.sig.view.fragment.RocketsFragment;
 import space.pal.sig.view.fragment.SpaceFragment;
 import space.pal.sig.view.fragment.StFeedFragment;
 
@@ -57,11 +62,15 @@ public class MainViewModel extends ViewModel {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final FeedRepository feedRepository;
+    private final LaunchRepository launchRepository;
 
     private final MediatorLiveData<Apod> apod = new MediatorLiveData<>();
     private final LiveData<List<Apod>> apods;
     private final LiveData<List<Glossary>> glossary;
     private final LiveData<List<Fact>> facts;
+    private final LiveData<List<Rocket>> rockets;
+
+    private final MutableLiveData<List<LaunchDto>> launches = new MutableLiveData<>();
 
     private final MutableLiveData<List<FeedDto>> esaFeed = new MutableLiveData<>();
     private final MutableLiveData<List<FeedDto>> jwstFeed = new MutableLiveData<>();
@@ -76,6 +85,7 @@ public class MainViewModel extends ViewModel {
     private Apod selectedApod;
     private FeedDto selectedFeed;
     private NewsDto selectedNews;
+    private LaunchDto selectedLaunch;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -83,18 +93,22 @@ public class MainViewModel extends ViewModel {
     MainViewModel(ApodRepository apodRepository,
                   FeedRepository feedRepository,
                   FactRepository factRepository,
+                  LaunchRepository launchRepository,
                   GlossaryRepository glossaryRepository) {
         setLoading(false);
         this.feedRepository = feedRepository;
+        this.launchRepository = launchRepository;
         navigation.setValue(navigationItems());
         glossary = glossaryRepository.findAll();
         apods = apodRepository.findAll();
         facts = factRepository.findAll();
+        rockets = launchRepository.findAllRockets();
         apod(apodRepository);
         downloadEsaFeed();
         downloadJwstFeed();
         downloadStFeed();
         downloadHubble();
+        downloadNextLaunches();
     }
 
     public void dispose() {
@@ -141,6 +155,10 @@ public class MainViewModel extends ViewModel {
         this.selectedNews = selectedNews;
     }
 
+    public void setSelectedLaunch(LaunchDto selectedLaunch) {
+        this.selectedLaunch = selectedLaunch;
+    }
+
     public void setLoading(boolean loading) {
         this.isLoading.setValue(loading);
     }
@@ -165,6 +183,12 @@ public class MainViewModel extends ViewModel {
                 R.drawable.icons8_satellites_48, SpaceFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
                 0, null, false));
+        navigationItems.add(createNavigationItem(MENU_ITEM, R.string.rockets,
+                R.drawable.icons8thruster48, RocketsFragment.getInstance(), false));
+        navigationItems.add(createNavigationItem(MENU_ITEM, R.string.rocket_launches,
+                R.drawable.icons8launch48, RocketLaunchesFragment.getInstance(), false));
+        navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
+                0, null, false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.news,
                 R.drawable.ic_baseline_library_books_24px, HubbleFeedFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.esa_feed,
@@ -179,8 +203,6 @@ public class MainViewModel extends ViewModel {
 //                R.drawable.ic_baseline_settings_20px, null, null));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.about,
                 R.drawable.ic_baseline_info_24px, null, true));
-        navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
-                0, null, false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.exit,
                 R.drawable.ic_baseline_close_24px, null, false));
         return navigationItems;
@@ -283,5 +305,10 @@ public class MainViewModel extends ViewModel {
         compositeDisposable.add(disposable);
     }
 
-
+    private void downloadNextLaunches() {
+        Disposable disposable = launchRepository
+                .findNextLaunches()
+                .subscribe(launches::setValue);
+        compositeDisposable.add(disposable);
+    }
 }

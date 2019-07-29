@@ -33,6 +33,9 @@
         <activity
             android:theme="@style/AppTheme"
             android:name=".view.activity.ApodActivity" />
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".view.activity.LaunchActivity" />
         <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
