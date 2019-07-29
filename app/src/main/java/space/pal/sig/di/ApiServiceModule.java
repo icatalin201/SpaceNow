@@ -17,6 +17,8 @@ import space.pal.sig.api.GlossaryService;
 import space.pal.sig.api.HubbleClient;
 import space.pal.sig.api.NasaClient;
 import space.pal.sig.api.SpaceClient;
+import space.pal.sig.api.SpaceFlightClient;
+import space.pal.sig.api.SpaceFlightService;
 import space.pal.sig.db.ApodDao;
 import space.pal.sig.db.FactDao;
 import space.pal.sig.db.FeedDao;
@@ -25,6 +27,7 @@ import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.FeedRepository;
 import space.pal.sig.repository.GlossaryRepository;
+import space.pal.sig.repository.SpaceFlightRepository;
 
 @Module
 public class ApiServiceModule {
@@ -67,6 +70,12 @@ public class ApiServiceModule {
 
     @Provides
     @Singleton
+    SpaceFlightService spaceFlightService(SpaceFlightClient spaceFlightClient) {
+        return spaceFlightClient.buildSpaceFlightClient().create(SpaceFlightService.class);
+    }
+
+    @Provides
+    @Singleton
     ApodRepository apodRepository(ApodDao apodDao, GalleryService galleryService,
                                   ApodService apodService, String apiKey) {
         return new ApodRepository(apodDao, galleryService, apodService, apiKey);
@@ -88,6 +97,12 @@ public class ApiServiceModule {
     @Singleton
     FactRepository factRepository(FactDao factDao, FactService factService) {
         return new FactRepository(factDao, factService);
+    }
+
+    @Provides
+    @Singleton
+    SpaceFlightRepository spaceFlightRepository(SpaceFlightService spaceFlightService) {
+        return new SpaceFlightRepository(spaceFlightService);
     }
 
     @Provides
@@ -128,6 +143,12 @@ public class ApiServiceModule {
     @Singleton
     SpaceClient spaceClient(OkHttpClient okHttpClient, Gson gson) {
         return new SpaceClient(okHttpClient, gson);
+    }
+
+    @Provides
+    @Singleton
+    SpaceFlightClient spaceFlightClient(OkHttpClient okHttpClient, Gson gson) {
+        return new SpaceFlightClient(okHttpClient, gson);
     }
 
 }
