@@ -30,6 +30,12 @@ public class RocketDto {
     private String wikiURL;
     @SerializedName("imageURL")
     private String imageURL;
+    @SerializedName("configuration")
+    private String configuration;
+    @SerializedName("defaultPads")
+    private String defaultPads;
+    @SerializedName("family")
+    private RocketFamilyDto family;
 //    @SerializedName("infoURLs")
 //    private String[] infoURLs;
 //    @SerializedName("imageSizes")

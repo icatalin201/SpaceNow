@@ -68,4 +68,13 @@ public class LaunchRepository {
                 .map(LaunchResponse::getLaunches);
     }
 
+    public Single<RocketDto> getRocket(int id) {
+        return launchService
+                .getRocket(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(RocketsResponse::getRockets)
+                .map(rocketDtos -> rocketDtos.get(0));
+    }
+
 }

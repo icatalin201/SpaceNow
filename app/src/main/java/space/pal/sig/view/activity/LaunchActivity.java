@@ -79,8 +79,11 @@ public class LaunchActivity extends AppCompatActivity
     @BindView(R.id.missions_recycler) RecyclerView missionsRecycler;
     @BindView(R.id.date) TextView launchDate;
     @BindView(R.id.location_name) TextView locationName;
-    @BindView(R.id.name) TextView launchName;
     @BindView(R.id.layout) ConstraintLayout layout;
+    @BindView(R.id.rocket_image_2) ImageView rocketImage2;
+    @BindView(R.id.rocket_name) TextView rocketName;
+    @BindView(R.id.rocket_configuration) TextView rocketConfiguration;
+    @BindView(R.id.rocket_family) TextView rocketFamily;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +107,11 @@ public class LaunchActivity extends AppCompatActivity
         missionsRecycler.setAdapter(missionsAdapter);
         LaunchDto launchDto = mainViewModel.getSelectedLaunch();
         setupView(launchDto);
-        appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if (appBarLayout.getTotalScrollRange() + verticalOffset == 0) {
-                collapsingToolbarLayout.setTitle(launchDto.getName());
-            } else {
-                collapsingToolbarLayout.setTitle("");
-            }
-        });
+        if (launchDto.getName().contains("|")) {
+            collapsingToolbarLayout.setTitle(launchDto.getName().split("\\|")[1]);
+        } else {
+            collapsingToolbarLayout.setTitle(launchDto.getName());
+        }
     }
 
     @Override
@@ -133,6 +134,7 @@ public class LaunchActivity extends AppCompatActivity
 
     private void setupView(LaunchDto launchDto) {
         RocketDto rocket = launchDto.getRocket();
+        mainViewModel.downloadRocket(rocket.getId());
         List<PadDto> padDtoList = launchDto.getLocation().getPads();
         List<MissionDto> missionDtos = launchDto.getMissions();
         Glide.with(this)
@@ -140,6 +142,11 @@ public class LaunchActivity extends AppCompatActivity
                 .apply(RequestOptions.centerCropTransform())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(rocketImage);
+        Glide.with(this)
+                .load(rocket.getImageURL())
+                .apply(RequestOptions.centerCropTransform())
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(rocketImage2);
         String status = "";
         int color = 0;
         switch (launchDto.getStatus()) {
@@ -205,7 +212,6 @@ public class LaunchActivity extends AppCompatActivity
             divider3.setVisibility(GONE);
         }
         launchDate.setText(launchDto.getNet());
-        launchName.setText(launchDto.getName());
         locationName.setText(padDtoList.get(0).getName());
         missionsAdapter.add(missionDtos);
         if (missionDtos != null && missionDtos.size() > 0) {
@@ -215,6 +221,15 @@ public class LaunchActivity extends AppCompatActivity
             missionsLabel.setVisibility(GONE);
             missionsRecycler.setVisibility(GONE);
         }
+        mainViewModel.getRocket().observe(this, rocketDto -> {
+            if (rocketDto != null) {
+                rocketName.setText(rocketDto.getName());
+                rocketConfiguration.setText(String.format("Configuration: %s", rocketDto.getConfiguration()));
+                if (rocketDto.getFamily() != null) {
+                    rocketFamily.setText(String.format("Family: %s", rocketDto.getFamily().getName()));
+                }
+            }
+        });
     }
 
     @Override
@@ -222,6 +237,15 @@ public class LaunchActivity extends AppCompatActivity
         Intent intent = new Intent(this, WebViewActivity.class);
         intent.putExtra(TITLE, missionDto.getName());
         intent.putExtra(URL, missionDto.getWikiURL());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.rocket_item)
+    public void onRocketClick() {
+        RocketDto rocketDto = mainViewModel.getSelectedLaunch().getRocket();
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra(TITLE, rocketDto.getName());
+        intent.putExtra(URL, rocketDto.getWikiURL());
         startActivity(intent);
     }
 

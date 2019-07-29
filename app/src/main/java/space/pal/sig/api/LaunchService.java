@@ -23,4 +23,7 @@ public interface LaunchService {
     @GET("/1.4/launch/next/{count}")
     Single<LaunchResponse> getNextLaunches(@Path("count") int count);
 
+    @GET("/1.4/rocket/{id}")
+    Single<RocketsResponse> getRocket(@Path("id") int id);
+
 }

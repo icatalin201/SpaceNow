@@ -31,6 +31,7 @@ import space.pal.sig.model.dto.FeedDto;
 import space.pal.sig.model.dto.LaunchDto;
 import space.pal.sig.model.dto.NewsDto;
 import space.pal.sig.model.dto.NewsPreviewDto;
+import space.pal.sig.model.dto.RocketDto;
 import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.FeedRepository;
@@ -70,6 +71,7 @@ public class MainViewModel extends ViewModel {
     private final LiveData<List<Fact>> facts;
     private final LiveData<List<Rocket>> rockets;
 
+    private final MutableLiveData<RocketDto> rocket = new MutableLiveData<>();
     private final MutableLiveData<List<LaunchDto>> launches = new MutableLiveData<>();
 
     private final MutableLiveData<List<FeedDto>> esaFeed = new MutableLiveData<>();
@@ -109,6 +111,13 @@ public class MainViewModel extends ViewModel {
         downloadStFeed();
         downloadHubble();
         downloadNextLaunches();
+    }
+
+    public void downloadRocket(int id) {
+        Disposable disposable = launchRepository
+                .getRocket(id)
+                .subscribe(rocket::setValue);
+        compositeDisposable.add(disposable);
     }
 
     public void dispose() {
