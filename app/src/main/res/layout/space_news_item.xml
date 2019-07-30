@@ -2,21 +2,19 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/item"
-    app:cardCornerRadius="@dimen/margin_8"
     android:layout_margin="@dimen/margin_8"
+    app:cardCornerRadius="@dimen/margin_8"
+    android:id="@+id/item"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:focusable="true">
+    android:focusable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UseCompoundDrawables">
+        android:layout_height="match_parent">
 
         <ImageView
             android:transitionName="image"
@@ -42,16 +40,16 @@
 
             <TextView
                 android:layout_below="@id/name"
-                android:id="@+id/agency"
+                android:id="@+id/categories"
                 android:layout_marginTop="@dimen/margin_4"
                 android:textColor="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_below="@id/agency"
+                android:layout_below="@id/categories"
                 android:layout_marginTop="@dimen/margin_4"
-                android:id="@+id/location"
+                android:id="@+id/tags"
                 android:textColor="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -59,8 +57,8 @@
             <TextView
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/margin_4"
-                android:layout_below="@id/location"
-                android:id="@+id/windowstart"
+                android:layout_below="@id/tags"
+                android:id="@+id/date"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

@@ -11,6 +11,12 @@ public class DateTimeUtil {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String DISPLAY_DATE_FORMAT = "dd-MMM-yyyy";
 
+    public static String formatTimestamp(long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        return dateToString(calendar, DISPLAY_DATE_FORMAT);
+    }
+
     public static String dateToString(Date date, String format) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.getDefault());
         return simpleDateFormat.format(date);
