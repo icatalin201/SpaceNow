@@ -1,7 +1,11 @@
 package space.pal.sig.view.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -35,12 +41,14 @@ import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.model.NavigationItem;
 import space.pal.sig.util.IntelViewModelFactory;
+import space.pal.sig.util.NetworkListener;
 import space.pal.sig.view.adapter.NavigationAdapter;
 import space.pal.sig.view.viewmodel.MainViewModel;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.view.GravityCompat.START;
+import static com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE;
 import static space.pal.sig.BuildConfig.VERSION_NAME;
 
 public class MainActivity extends AppCompatActivity
@@ -54,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.title) TextView title;
     @BindView(R.id.banner) ImageView banner;
     @BindView(R.id.progress_horizontal) SmoothProgressBar progressBar;
+    @BindView(R.id.coordinator) CoordinatorLayout coordinator;
     private ActionBarDrawerToggle toggle;
     private NavigationAdapter navigationAdapter;
     private MainViewModel mainViewModel;
@@ -91,6 +100,23 @@ public class MainActivity extends AppCompatActivity
         mainViewModel.getIsLoading().observe(this, isLoading -> {
             progressBar.setVisibility(isLoading ? VISIBLE : GONE);
         });
+        mainViewModel.getIsNetworkConnected().observe(this, isConnected -> {
+            if (!isConnected) notifyConnection();
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(networkChangeReceiver);
     }
 
     @Override
@@ -127,8 +153,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNavigateFragment(NavigationItem navigationItem) {
-        mainViewModel.setFragment(navigationItem.getFragment());
-        mainViewModel.setTitle(navigationItem.getTitle());
+        Boolean connected = mainViewModel.getIsNetworkConnected().getValue();
+        if (connected != null && !connected) {
+            notifyConnection();
+        } else {
+            mainViewModel.setFragment(navigationItem.getFragment());
+            mainViewModel.setTitle(navigationItem.getTitle());
+        }
         drawerLayout.closeDrawers();
     }
 
@@ -164,5 +195,18 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.container, fragment)
                     .commit();
         }
+    }
+
+    private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mainViewModel.setNetwork(NetworkListener.isNetworkConnected(context));
+        }
+    };
+
+    private void notifyConnection() {
+        Snackbar.make(coordinator, R.string.not_connected, LENGTH_INDEFINITE)
+                .setAction(R.string.ok, null)
+                .show();
     }
 }

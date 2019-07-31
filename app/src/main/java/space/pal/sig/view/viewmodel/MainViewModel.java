@@ -60,6 +60,7 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Integer> title = new MutableLiveData<>();
     private final MutableLiveData<List<NavigationItem>> navigation = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isNetworkConnected = new MutableLiveData<>();
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final FeedRepository feedRepository;
@@ -98,6 +99,7 @@ public class MainViewModel extends ViewModel {
                   LaunchRepository launchRepository,
                   GlossaryRepository glossaryRepository) {
         setLoading(false);
+        setNetwork(true);
         this.feedRepository = feedRepository;
         this.launchRepository = launchRepository;
         navigation.setValue(navigationItems());
@@ -178,6 +180,10 @@ public class MainViewModel extends ViewModel {
 
     public void setTitle(Integer t) {
         title.setValue(t);
+    }
+
+    public void setNetwork(boolean isConnected) {
+        isNetworkConnected.setValue(isConnected);
     }
 
     private List<NavigationItem> navigationItems() {

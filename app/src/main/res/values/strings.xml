@@ -4,6 +4,7 @@
     <string name="app_version">App version</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="not_connected">You are not connected to a network</string>
     <string name="images">Images</string>
     <string name="videos">Videos</string>
     <string name="facts">Space Facts</string>
