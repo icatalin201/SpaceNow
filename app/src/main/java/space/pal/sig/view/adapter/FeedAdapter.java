@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +25,11 @@ import butterknife.OnClick;
 import space.pal.sig.R;
 import space.pal.sig.model.dto.FeedDto;
 import space.pal.sig.util.GlideApp;
+
+import static space.pal.sig.util.DateTimeUtil.DATE_FORMAT;
+import static space.pal.sig.util.DateTimeUtil.DISPLAY_DATE_FORMAT;
+import static space.pal.sig.util.DateTimeUtil.dateToString;
+import static space.pal.sig.util.DateTimeUtil.stringToDate;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedDtoViewHolder> {
 
@@ -66,6 +72,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedDtoViewHol
 
         @BindView(R.id.image) ImageView image;
         @BindView(R.id.title) TextView title;
+        @BindView(R.id.date) TextView date;
         private Context context;
 
         FeedDtoViewHolder(@NonNull View itemView) {
@@ -94,6 +101,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedDtoViewHol
                     .error(R.drawable.ic_placeholder)
                     .into(this.image);
             title.setText(feedDto.getTitle());
+            Date d = stringToDate(feedDto.getPubDate().split("T")[0], DATE_FORMAT);
+            date.setText(dateToString(d, DISPLAY_DATE_FORMAT));
         }
 
         @OnClick(R.id.feed_item)

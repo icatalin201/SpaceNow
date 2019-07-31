@@ -27,7 +27,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout"
                 android:orientation="vertical"
-                app:layout_collapseMode="pin"
+                app:layout_collapseMode="parallax"
                 android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
                 android:layout_height="300dp">

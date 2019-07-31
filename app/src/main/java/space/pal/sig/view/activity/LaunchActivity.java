@@ -107,11 +107,14 @@ public class LaunchActivity extends AppCompatActivity
         missionsRecycler.setAdapter(missionsAdapter);
         LaunchDto launchDto = mainViewModel.getSelectedLaunch();
         setupView(launchDto);
-        if (launchDto.getName().contains("|")) {
-            collapsingToolbarLayout.setTitle(launchDto.getName().split("\\|")[1]);
-        } else {
-            collapsingToolbarLayout.setTitle(launchDto.getName());
-        }
+        String title = launchDto.getName().contains("|") ? launchDto.getName().split("\\|")[1] : launchDto.getName();
+        appBarLayout.addOnOffsetChangedListener((appBarLayout, i) -> {
+            if (appBarLayout.getTotalScrollRange() + i == 0) {
+                collapsingToolbarLayout.setTitle(title);
+            } else {
+                collapsingToolbarLayout.setTitle("");
+            }
+        });
     }
 
     @Override
@@ -234,6 +237,7 @@ public class LaunchActivity extends AppCompatActivity
 
     @Override
     public void onMissionClick(MissionDto missionDto) {
+        if (missionDto.getWikiURL() == null || missionDto.getWikiURL().equals("")) return;
         Intent intent = new Intent(this, WebViewActivity.class);
         intent.putExtra(TITLE, missionDto.getName());
         intent.putExtra(URL, missionDto.getWikiURL());

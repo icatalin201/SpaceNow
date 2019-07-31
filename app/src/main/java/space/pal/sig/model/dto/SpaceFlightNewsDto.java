@@ -2,6 +2,8 @@ package space.pal.sig.model.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +21,6 @@ public class SpaceFlightNewsDto {
     private String url;
     @SerializedName("featured_image")
     private String featuredImage;
-    @SerializedName("id")
-    private Long id;
     @SerializedName("_id")
     private String snapiId;
     @SerializedName("date_published")
@@ -28,14 +28,14 @@ public class SpaceFlightNewsDto {
     @SerializedName("date_added")
     private Long dateAdded;
     @SerializedName("categories")
-    private String[] categories;
+    private List<String> categories;
     @SerializedName("tags")
-    private String[] tags;
+    private List<String> tags;
     @SerializedName("launches")
-    private String[] launches;
+    private List<String> launches;
     @SerializedName("events")
-    private String[] events;
+    private List<String> events;
     @SerializedName("ll")
-    private String[] launchLibraryIds;
+    private List<String> launchLibraryIds;
 
 }

@@ -54,7 +54,6 @@ public class NewsActivity extends AppCompatActivity {
     @BindView(R.id.credits) TextView credits;
     @BindView(R.id.description) TextView description;
     @BindView(R.id.layout) ConstraintLayout layout;
-    @BindView(R.id.mission) TextView mission;
     private Unbinder unbinder;
     private MainViewModel mainViewModel;
     @Inject IntelViewModelFactory factory;
@@ -131,7 +130,6 @@ public class NewsActivity extends AppCompatActivity {
             credits.setText(String.format("Credits: %s", Html.fromHtml(newsDto.getCredits())));
         }
         name.setText(newsDto.getName());
-        mission.setText(newsDto.getMission());
         String keyStoneImage2x = newsDto.getKeystoneImage2x();
         String thumbnail = newsDto.getThumbnailRetina();
         String url = "";

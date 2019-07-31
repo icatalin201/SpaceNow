@@ -1,5 +1,6 @@
 package space.pal.sig.util;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,9 +13,7 @@ public class DateTimeUtil {
     public static final String DISPLAY_DATE_FORMAT = "dd-MMM-yyyy";
 
     public static String formatTimestamp(long timestamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp);
-        return dateToString(calendar, DISPLAY_DATE_FORMAT);
+        return dateToString(new Date(timestamp * 1000), DISPLAY_DATE_FORMAT);
     }
 
     public static String dateToString(Date date, String format) {

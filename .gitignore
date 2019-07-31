@@ -19,3 +19,5 @@ gradle/
 app/release/
 
 app/src/main/assets/
+
+*.pepk

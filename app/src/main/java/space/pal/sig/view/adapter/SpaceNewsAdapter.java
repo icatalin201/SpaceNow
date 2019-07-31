@@ -83,7 +83,7 @@ public class SpaceNewsAdapter extends RecyclerView.Adapter<SpaceNewsAdapter.Spac
                     .apply(RequestOptions.centerCropTransform())
                     .into(imageView);
             name.setText(newsDto.getTitle());
-            date.setText(formatTimestamp(newsDto.getDateAdded()));
+            date.setText(formatTimestamp(newsDto.getDatePublished()));
             String tagsString = TextUtils.join(", ", newsDto.getTags());
             String categoriesString = TextUtils.join(", ", newsDto.getCategories());
             categories.setText(categoriesString);

@@ -32,11 +32,13 @@ import space.pal.sig.model.dto.LaunchDto;
 import space.pal.sig.model.dto.NewsDto;
 import space.pal.sig.model.dto.NewsPreviewDto;
 import space.pal.sig.model.dto.RocketDto;
+import space.pal.sig.model.dto.SpaceFlightNewsDto;
 import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.FeedRepository;
 import space.pal.sig.repository.GlossaryRepository;
 import space.pal.sig.repository.LaunchRepository;
+import space.pal.sig.repository.SpaceFlightRepository;
 import space.pal.sig.view.fragment.ApodFragment;
 import space.pal.sig.view.fragment.EsaFeedFragment;
 import space.pal.sig.view.fragment.GlossaryFragment;
@@ -44,8 +46,10 @@ import space.pal.sig.view.fragment.HubbleFeedFragment;
 import space.pal.sig.view.fragment.ImagesFragment;
 import space.pal.sig.view.fragment.JwstFeedFragment;
 import space.pal.sig.view.fragment.RocketLaunchesFragment;
+import space.pal.sig.view.fragment.RocketPastLaunchesFragment;
 import space.pal.sig.view.fragment.RocketsFragment;
 import space.pal.sig.view.fragment.SpaceFragment;
+import space.pal.sig.view.fragment.SpaceNewsFragment;
 import space.pal.sig.view.fragment.StFeedFragment;
 
 import static space.pal.sig.model.NavigationItem.MENU_DIVIDER;
@@ -65,6 +69,7 @@ public class MainViewModel extends ViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final FeedRepository feedRepository;
     private final LaunchRepository launchRepository;
+    private final SpaceFlightRepository spaceFlightRepository;
 
     private final MediatorLiveData<Apod> apod = new MediatorLiveData<>();
     private final LiveData<List<Apod>> apods;
@@ -74,16 +79,13 @@ public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<RocketDto> rocket = new MutableLiveData<>();
     private final MutableLiveData<List<LaunchDto>> launches = new MutableLiveData<>();
+    private final MutableLiveData<List<LaunchDto>> pastLaunches = new MutableLiveData<>();
+    private final MutableLiveData<List<SpaceFlightNewsDto>> spaceFlightNews = new MutableLiveData<>();
 
     private final MutableLiveData<List<FeedDto>> esaFeed = new MutableLiveData<>();
     private final MutableLiveData<List<FeedDto>> jwstFeed = new MutableLiveData<>();
     private final MutableLiveData<List<FeedDto>> stFeed = new MutableLiveData<>();
     private final MutableLiveData<List<NewsDto>> hubbleFeed = new MutableLiveData<>();
-
-    private final MutableLiveData<List<FeedDto>> moreEsaFeed = new MutableLiveData<>();
-    private final MutableLiveData<List<FeedDto>> moreJwstFeed = new MutableLiveData<>();
-    private final MutableLiveData<List<FeedDto>> moreStFeed = new MutableLiveData<>();
-    private final MutableLiveData<List<NewsDto>> moreHubbleFeed = new MutableLiveData<>();
 
     private Apod selectedApod;
     private FeedDto selectedFeed;
@@ -96,23 +98,27 @@ public class MainViewModel extends ViewModel {
     MainViewModel(ApodRepository apodRepository,
                   FeedRepository feedRepository,
                   FactRepository factRepository,
+                  SpaceFlightRepository spaceFlightRepository,
                   LaunchRepository launchRepository,
                   GlossaryRepository glossaryRepository) {
         setLoading(false);
         setNetwork(true);
         this.feedRepository = feedRepository;
         this.launchRepository = launchRepository;
+        this.spaceFlightRepository = spaceFlightRepository;
         navigation.setValue(navigationItems());
         glossary = glossaryRepository.findAll();
         apods = apodRepository.findAll();
         facts = factRepository.findAll();
         rockets = launchRepository.findAllRockets();
         apod(apodRepository);
-        downloadEsaFeed();
-        downloadJwstFeed();
-        downloadStFeed();
-        downloadHubble();
+        downloadEsaFeed(1);
+        downloadJwstFeed(1);
+        downloadStFeed(1);
+        downloadHubble(1);
         downloadNextLaunches();
+        downloadPastLaunches();
+//        downloadSpaceFlightNews(1);
     }
 
     public void downloadRocket(int id) {
@@ -129,28 +135,35 @@ public class MainViewModel extends ViewModel {
     public void downloadEsaFeed(int page) {
         Disposable disposable = feedRepository
                 .esaFeed(page)
-                .subscribe(moreEsaFeed::setValue);
+                .subscribe(esaFeed::setValue, Throwable::printStackTrace);
         compositeDisposable.add(disposable);
     }
 
     public void downloadJwstFeed(int page) {
         Disposable disposable = feedRepository
                 .jwstFeed(page)
-                .subscribe(moreJwstFeed::setValue);
+                .subscribe(jwstFeed::setValue, Throwable::printStackTrace);
         compositeDisposable.add(disposable);
     }
 
     public void downloadStFeed(int page) {
         Disposable disposable = feedRepository
                 .spaceTelescopeFeed(page)
-                .subscribe(moreStFeed::setValue);
+                .subscribe(stFeed::setValue, Throwable::printStackTrace);
         compositeDisposable.add(disposable);
     }
 
     public void downloadHubble(int page) {
         Disposable disposable = feedRepository
                 .hubbleFeed(page)
-                .subscribe(this::downloadMoreHubble);
+                .subscribe(this::downloadHubble, Throwable::printStackTrace);
+        compositeDisposable.add(disposable);
+    }
+
+    public void downloadSpaceFlightNews(int page) {
+        Disposable disposable = spaceFlightRepository
+                .getArticles(page, 50)
+                .subscribe(spaceFlightNews::setValue, Throwable::printStackTrace);
         compositeDisposable.add(disposable);
     }
 
@@ -202,8 +215,12 @@ public class MainViewModel extends ViewModel {
                 R.drawable.icons8thruster48, RocketsFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.rocket_launches,
                 R.drawable.icons8launch48, RocketLaunchesFragment.getInstance(), false));
+        navigationItems.add(createNavigationItem(MENU_ITEM, R.string.past_launches,
+                R.drawable.icons8launch48, RocketPastLaunchesFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_DIVIDER, 0,
                 0, null, false));
+//        navigationItems.add(createNavigationItem(MENU_ITEM, R.string.space_news,
+//                R.drawable.icons8_planet_48, SpaceNewsFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.news,
                 R.drawable.ic_baseline_library_books_24px, HubbleFeedFragment.getInstance(), false));
         navigationItems.add(createNavigationItem(MENU_ITEM, R.string.esa_feed,
@@ -237,11 +254,6 @@ public class MainViewModel extends ViewModel {
     private void downloadHubble(List<NewsPreviewDto> newsPreviewDtos) {
         List<NewsDto> newsDtos = buildNews(newsPreviewDtos);
         handler.post(() -> hubbleFeed.setValue(newsDtos));
-    }
-
-    private void downloadMoreHubble(List<NewsPreviewDto> newsPreviewDtos) {
-        List<NewsDto> newsDtos = buildNews(newsPreviewDtos);
-        handler.post(() -> moreHubbleFeed.setValue(newsDtos));
     }
 
     private List<NewsDto> buildNews(List<NewsPreviewDto> newsPreviewDtos) {
@@ -292,38 +304,18 @@ public class MainViewModel extends ViewModel {
             });
     }
 
-    private void downloadEsaFeed() {
-        Disposable disposable = feedRepository
-                .esaFeed(1)
-                .subscribe(esaFeed::setValue);
-        compositeDisposable.add(disposable);
-    }
-
-    private void downloadJwstFeed() {
-        Disposable disposable = feedRepository
-                .jwstFeed(1)
-                .subscribe(jwstFeed::setValue);
-        compositeDisposable.add(disposable);
-    }
-
-    private void downloadStFeed() {
-        Disposable disposable = feedRepository
-                .spaceTelescopeFeed(1)
-                .subscribe(stFeed::setValue);
-        compositeDisposable.add(disposable);
-    }
-
-    private void downloadHubble() {
-        Disposable disposable = feedRepository
-                .hubbleFeed(1)
-                .subscribe(this::downloadHubble);
-        compositeDisposable.add(disposable);
-    }
-
     private void downloadNextLaunches() {
         Disposable disposable = launchRepository
                 .findNextLaunches()
-                .subscribe(launches::setValue);
+                .subscribe(launches::setValue, Throwable::printStackTrace);
+        compositeDisposable.add(disposable);
+    }
+
+    private void downloadPastLaunches() {
+        String endDate = dateToString(Calendar.getInstance(), DATE_FORMAT);
+        Disposable disposable = launchRepository
+                .findLaunches(0, 100, "desc", "2015-01-01", endDate)
+                .subscribe(pastLaunches::setValue, Throwable::printStackTrace);
         compositeDisposable.add(disposable);
     }
 }

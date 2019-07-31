@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +16,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import space.pal.sig.R;
 import space.pal.sig.model.dto.FeedDto;
-import space.pal.sig.util.GlideApp;
 import space.pal.sig.view.activity.FeedActivity;
 import space.pal.sig.view.adapter.FeedAdapter;
 import space.pal.sig.view.viewmodel.MainViewModel;
@@ -41,12 +32,8 @@ public class JwstFeedFragment extends Fragment implements FeedAdapter.FeedClickL
     private MainViewModel mainViewModel;
     private FeedAdapter feedAdapter;
     @BindView(R.id.feeds) RecyclerView feeds;
-    @BindView(R.id.title) TextView title;
-    @BindView(R.id.description) TextView description;
-    @BindView(R.id.image) ImageView image;
-    private FeedDto feedDto;
 
-    private int page = 1;
+    private int page;
     private boolean loading = true;
     private int previousTotal = 0;
 
@@ -71,21 +58,13 @@ public class JwstFeedFragment extends Fragment implements FeedAdapter.FeedClickL
         unbinder = ButterKnife.bind(this, view);
         mainViewModel = ViewModelProviders.of(appCompatActivity).get(MainViewModel.class);
         mainViewModel.setLoading(true);
+        page = 1;
         feedAdapter = new FeedAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
         feeds.setLayoutManager(linearLayoutManager);
         feeds.setItemAnimator(new DefaultItemAnimator());
         feeds.setAdapter(feedAdapter);
         mainViewModel.getJwstFeed().observe(this, feedDtos -> {
-            if (feedDtos != null) {
-                mainViewModel.setLoading(false);
-                setupBigFeed(feedDtos.get(0));
-                feedDtos.remove(0);
-                feedAdapter.addItems(feedDtos);
-                page++;
-            }
-        });
-        mainViewModel.getMoreJwstFeed().observe(this, feedDtos -> {
             if (feedDtos != null) {
                 mainViewModel.setLoading(false);
                 feedAdapter.addItems(feedDtos);
@@ -123,13 +102,9 @@ public class JwstFeedFragment extends Fragment implements FeedAdapter.FeedClickL
         unbinder.unbind();
     }
 
-    @OnClick(R.id.card)
-    void onClickBig() {
-        onClick(this.feedDto);
-    }
-
     @Override
     public void onDetach() {
+        mainViewModel.downloadJwstFeed(1);
         super.onDetach();
     }
 
@@ -137,29 +112,5 @@ public class JwstFeedFragment extends Fragment implements FeedAdapter.FeedClickL
     public void onClick(FeedDto feedDto) {
         mainViewModel.setSelectedFeed(feedDto);
         startActivity(new Intent(appCompatActivity, FeedActivity.class));
-    }
-
-    private void setupBigFeed(FeedDto feedDto) {
-        this.feedDto = feedDto;
-        String thumbnail = feedDto.getThumbnail();
-        String image = feedDto.getImage();
-        String url = "";
-        if (thumbnail != null && !thumbnail.contains("https:")) {
-            url = "https:" + thumbnail;
-        } else if (image != null && !image.contains("https:")) {
-            url = "https:" + image;
-        }
-        GlideApp.with(appCompatActivity)
-                .load(url)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .apply(new RequestOptions()
-                        .centerCrop()
-                        .autoClone()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .priority(Priority.HIGH))
-                .error(R.drawable.ic_placeholder)
-                .into(this.image);
-        title.setText(feedDto.getTitle());
-        description.setText(feedDto.getDescription());
     }
 }

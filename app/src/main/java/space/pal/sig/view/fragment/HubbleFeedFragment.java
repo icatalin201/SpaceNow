@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +16,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import space.pal.sig.R;
 import space.pal.sig.model.dto.NewsDto;
-import space.pal.sig.util.GlideApp;
 import space.pal.sig.view.activity.NewsActivity;
 import space.pal.sig.view.adapter.NewsAdapter;
 import space.pal.sig.view.viewmodel.MainViewModel;
@@ -41,12 +32,8 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
     private MainViewModel mainViewModel;
     private NewsAdapter newsAdapter;
     @BindView(R.id.feeds) RecyclerView feeds;
-    @BindView(R.id.title) TextView title;
-    @BindView(R.id.description) TextView description;
-    @BindView(R.id.image) ImageView image;
-    private NewsDto newsDto;
 
-    private int page = 1;
+    private int page;
     private boolean loading = true;
     private int previousTotal = 0;
 
@@ -71,21 +58,13 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
         unbinder = ButterKnife.bind(this, view);
         mainViewModel = ViewModelProviders.of(appCompatActivity).get(MainViewModel.class);
         mainViewModel.setLoading(true);
+        page = 1;
         newsAdapter = new NewsAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(appCompatActivity);
         feeds.setLayoutManager(linearLayoutManager);
         feeds.setItemAnimator(new DefaultItemAnimator());
         feeds.setAdapter(newsAdapter);
         mainViewModel.getHubbleFeed().observe(this, newsDtos -> {
-            if (newsDtos != null) {
-                mainViewModel.setLoading(false);
-                setupBigFeed(newsDtos.get(0));
-                newsDtos.remove(0);
-                newsAdapter.addItems(newsDtos);
-                page++;
-            }
-        });
-        mainViewModel.getMoreHubbleFeed().observe(this, newsDtos -> {
             if (newsDtos != null) {
                 mainViewModel.setLoading(false);
                 newsAdapter.addItems(newsDtos);
@@ -125,6 +104,7 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
 
     @Override
     public void onDetach() {
+        mainViewModel.downloadHubble(1);
         super.onDetach();
     }
 
@@ -132,31 +112,5 @@ public class HubbleFeedFragment extends Fragment implements NewsAdapter.NewsClic
     public void onClick(NewsDto newsDto) {
         mainViewModel.setSelectedNews(newsDto);
         startActivity(new Intent(appCompatActivity, NewsActivity.class));
-    }
-
-    @OnClick(R.id.card)
-    void onClickBig() {
-        onClick(this.newsDto);
-    }
-
-    private void setupBigFeed(NewsDto newsDto) {
-        this.newsDto = newsDto;
-        String thumbnail = newsDto.getThumbnail();
-        String url = "";
-        if (thumbnail != null && !thumbnail.contains("https:")) {
-            url = "https:" + thumbnail;
-        }
-        GlideApp.with(appCompatActivity)
-                .load(url)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .apply(new RequestOptions()
-                        .centerCrop()
-                        .autoClone()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .priority(Priority.HIGH))
-                .error(R.drawable.ic_placeholder)
-                .into(this.image);
-        title.setText(newsDto.getName());
-        description.setText(newsDto.getAbstractText());
     }
 }

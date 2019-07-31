@@ -71,6 +71,7 @@ public class MediaLinkDialog extends DialogFragment {
                 intent.putExtra(TITLE, title);
                 intent.putExtra(URL, url);
                 startActivity(intent);
+                onClose();
             });
             layout.addView(button);
         }

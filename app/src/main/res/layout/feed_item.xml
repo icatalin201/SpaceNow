@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/margin_8"
+    android:layout_margin="@dimen/margin_8"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -10,44 +13,49 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:background="@color/colorWhite"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/image"
-            android:layout_weight="1"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_placeholder"
             android:background="@color/colorSmokeWhite"
             android:contentDescription="@string/other_news"
-            android:layout_width="0dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
+        <RelativeLayout
+            android:padding="@dimen/padding_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/title"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                android:maxLines="2"
-                android:ellipsize="end"
+                android:textSize="@dimen/size_16"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:layout_height="69.5dp" />
+                android:layout_height="wrap_content" />
 
-            <View
-                android:background="@color/colorGray"
+            <TextView
+                android:layout_below="@id/title"
+                android:id="@+id/mission"
+                android:layout_marginTop="@dimen/margin_4"
+                android:textColor="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp" />
+                android:layout_height="wrap_content" />
 
-        </LinearLayout>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_4"
+                android:layout_below="@id/mission"
+                android:id="@+id/date"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
+        </RelativeLayout>
 
     </LinearLayout>
 

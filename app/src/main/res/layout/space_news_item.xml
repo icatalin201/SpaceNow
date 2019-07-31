@@ -17,7 +17,6 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:transitionName="image"
             android:contentDescription="@string/images"
             android:id="@+id/image"
             android:scaleType="centerCrop"
