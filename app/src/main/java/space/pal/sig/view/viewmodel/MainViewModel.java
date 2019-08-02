@@ -49,7 +49,6 @@ import space.pal.sig.view.fragment.RocketLaunchesFragment;
 import space.pal.sig.view.fragment.RocketPastLaunchesFragment;
 import space.pal.sig.view.fragment.RocketsFragment;
 import space.pal.sig.view.fragment.SpaceFragment;
-import space.pal.sig.view.fragment.SpaceNewsFragment;
 import space.pal.sig.view.fragment.StFeedFragment;
 
 import static space.pal.sig.model.NavigationItem.MENU_DIVIDER;

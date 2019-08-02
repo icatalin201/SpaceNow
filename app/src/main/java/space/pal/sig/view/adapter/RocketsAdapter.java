@@ -27,7 +27,6 @@ import butterknife.OnClick;
 import lombok.RequiredArgsConstructor;
 import space.pal.sig.R;
 import space.pal.sig.model.Rocket;
-import space.pal.sig.model.dto.RocketDto;
 
 @RequiredArgsConstructor
 public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.RocketViewHolder> {

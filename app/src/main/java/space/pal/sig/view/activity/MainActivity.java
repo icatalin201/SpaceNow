@@ -9,13 +9,13 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -49,7 +48,6 @@ import space.pal.sig.view.viewmodel.MainViewModel;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static androidx.core.view.GravityCompat.START;
-import static com.google.android.material.snackbar.Snackbar.LENGTH_LONG;
 import static space.pal.sig.BuildConfig.VERSION_NAME;
 
 public class MainActivity extends AppCompatActivity
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle toggle;
     private NavigationAdapter navigationAdapter;
     private MainViewModel mainViewModel;
-    private Snackbar snackbar;
     @Inject IntelViewModelFactory factory;
 
     @Override
@@ -83,8 +80,6 @@ public class MainActivity extends AppCompatActivity
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        snackbar = Snackbar.make(coordinator, R.string.not_connected, LENGTH_LONG);
-        snackbar.setAction(R.string.ok, v -> snackbar.dismiss());
         navigationAdapter = new NavigationAdapter(this);
         menuItems.setHasFixedSize(true);
         menuItems.setLayoutManager(new LinearLayoutManager(this));
@@ -105,8 +100,18 @@ public class MainActivity extends AppCompatActivity
             progressBar.setVisibility(isLoading ? VISIBLE : GONE);
         });
         mainViewModel.getIsNetworkConnected().observe(this, isConnected -> {
-            if (!isConnected) snackbar.show();
-            else if (snackbar.isShown()) snackbar.dismiss();
+            if (!isConnected) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.app_name);
+                builder.setMessage(R.string.not_connected);
+                builder.setPositiveButton(R.string.retry, (dialog, which) -> {
+                    dialog.dismiss();
+                    mainViewModel
+                            .getIsNetworkConnected()
+                            .setValue(mainViewModel.getIsNetworkConnected().getValue());
+                });
+                builder.create().show();
+            }
         });
     }
 
@@ -158,13 +163,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNavigateFragment(NavigationItem navigationItem) {
-        Boolean connected = mainViewModel.getIsNetworkConnected().getValue();
-        if (connected != null && !connected) {
-            snackbar.show();
-        } else {
-            mainViewModel.setFragment(navigationItem.getFragment());
-            mainViewModel.setTitle(navigationItem.getTitle());
-        }
+        mainViewModel.setFragment(navigationItem.getFragment());
+        mainViewModel.setTitle(navigationItem.getTitle());
         drawerLayout.closeDrawers();
     }
 

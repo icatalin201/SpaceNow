@@ -58,4 +58,5 @@
     <string name="rocket">Rocket</string>
     <string name="space_news">Space news</string>
     <string name="past_launches">Past launches</string>
+    <string name="retry">Retry</string>
 </resources>
