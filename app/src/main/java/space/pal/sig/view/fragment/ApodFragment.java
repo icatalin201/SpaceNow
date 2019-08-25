@@ -44,6 +44,7 @@ public class ApodFragment extends Fragment implements ApodAdapter.ApodClickListe
     @BindView(R.id.apod_image) ImageView apodImage;
     @BindView(R.id.apod_title) TextView apodTitle;
     @BindView(R.id.apods) RecyclerView apods;
+    private boolean apodClickable = false;
 
     public ApodFragment() { }
 
@@ -72,6 +73,7 @@ public class ApodFragment extends Fragment implements ApodAdapter.ApodClickListe
                 GridLayoutManager.HORIZONTAL, false));
         mainViewModel.getApod().observe(this, apod -> {
             if (apod != null) {
+                apodClickable = true;
                 RequestManager manager = Glide.with(appCompatActivity);
                 manager.load(apod.getUrl())
                         .transition(DrawableTransitionOptions.withCrossFade())
@@ -102,7 +104,7 @@ public class ApodFragment extends Fragment implements ApodAdapter.ApodClickListe
 
     @OnClick(R.id.apod)
     void onApodClick() {
-        onClick(mainViewModel.getApod().getValue());
+        if (apodClickable) onClick(mainViewModel.getApod().getValue());
     }
 
     @Override
