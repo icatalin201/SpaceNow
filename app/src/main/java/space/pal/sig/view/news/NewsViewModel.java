@@ -5,9 +5,12 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
 import space.pal.sig.model.News;
+import space.pal.sig.model.NewsSource;
 import space.pal.sig.repository.NewsRepository;
 
 /**
@@ -16,16 +19,42 @@ import space.pal.sig.repository.NewsRepository;
  **/
 public class NewsViewModel extends AndroidViewModel {
 
+    private final String[] newsSources = new String[]{
+            "Hubble",
+            "James Webb",
+            "European Space Agency",
+            "Space Telescope"
+    };
     private final NewsRepository newsRepository;
-    private final LiveData<PagedList<News>> newsList;
+    private final MutableLiveData<NewsSource> selectedSource = new MutableLiveData<>();
+    private final MediatorLiveData<PagedList<News>> newsList = new MediatorLiveData<>();
+    private LiveData<PagedList<News>> newsLiveData;
 
     public NewsViewModel(@NonNull Application application, NewsRepository newsRepository) {
         super(application);
         this.newsRepository = newsRepository;
-        this.newsList = newsRepository.findAll(30);
+        setSource("Hubble");
+    }
+
+    public void setSource(String source) {
+        selectedSource.setValue(NewsSource.fromText(source));
+    }
+
+    public void findNewsBySource(NewsSource source) {
+        newsList.removeSource(newsLiveData);
+        newsLiveData = newsRepository.findAllBySource(source, 50);
+        newsList.addSource(newsLiveData, newsList::setValue);
     }
 
     public LiveData<PagedList<News>> getNewsList() {
         return newsList;
+    }
+
+    public LiveData<NewsSource> getSelectedSource() {
+        return selectedSource;
+    }
+
+    public String[] getNewsSources() {
+        return newsSources;
     }
 }

@@ -45,6 +45,7 @@ public class Space extends Application {
                 .databaseModule(new DatabaseModule())
                 .build();
         registerAlarmReceiver();
+        setupDownloadManager();
     }
 
     public static ApplicationComponent getApplicationComponent() {
@@ -79,6 +80,7 @@ public class Space extends Application {
                 1, TimeUnit.DAYS)
                 .setConstraints(constraints)
                 .build();
-        manager.enqueue(Arrays.asList(launchesWork, newsWork));
+        manager.enqueue(launchesWork);
+        manager.enqueue(newsWork);
     }
 }

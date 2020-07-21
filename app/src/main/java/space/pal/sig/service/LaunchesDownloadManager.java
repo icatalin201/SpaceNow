@@ -43,7 +43,7 @@ public class LaunchesDownloadManager extends Worker {
             e.printStackTrace();
             return Result.retry();
         }
-        return Result.success();
+        return Result.Success.success();
     }
 
     private void downloadPastLaunches(LaunchService service,

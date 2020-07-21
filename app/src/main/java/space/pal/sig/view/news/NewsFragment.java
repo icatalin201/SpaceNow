@@ -2,11 +2,15 @@ package space.pal.sig.view.news;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +22,7 @@ import butterknife.BindView;
 import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.model.News;
+import space.pal.sig.model.NewsSource;
 import space.pal.sig.view.SpaceBaseFragment;
 
 /**
@@ -40,6 +45,7 @@ public class NewsFragment extends SpaceBaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news,
                 container, false);
+        setHasOptionsMenu(true);
         setupBinding(this, view);
         Space.getApplicationComponent().inject(this);
         newsViewModel = new ViewModelProvider(this, factory)
@@ -49,7 +55,35 @@ public class NewsFragment extends SpaceBaseFragment {
         newsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         newsViewModel.getNewsList()
                 .observe(getViewLifecycleOwner(), this::consumeNewsList);
+        newsViewModel.getSelectedSource().observe(getViewLifecycleOwner(), this::onSelectSource);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.filter_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.filter) {
+            String[] sources = newsViewModel.getNewsSources();
+            AlertDialog dialog = new AlertDialog
+                    .Builder(getParentActivity())
+                    .setTitle(R.string.news_sources)
+                    .setItems(sources, (d, w) -> {
+                        newsViewModel.setSource(sources[w]);
+                        d.dismiss();
+                    })
+                    .create();
+            dialog.show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onSelectSource(NewsSource source) {
+        newsViewModel.findNewsBySource(source);
     }
 
     private void consumeNewsList(PagedList<News> newsPagedList) {

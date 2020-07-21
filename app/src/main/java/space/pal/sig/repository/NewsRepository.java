@@ -9,6 +9,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import lombok.RequiredArgsConstructor;
 import space.pal.sig.model.News;
+import space.pal.sig.model.NewsSource;
 import space.pal.sig.model.database.NewsDao;
 
 /**
@@ -28,8 +29,8 @@ public class NewsRepository {
         return newsDao.insert(news);
     }
 
-    public LiveData<PagedList<News>> findAll(int pageSize) {
-        return new LivePagedListBuilder<>(newsDao.findAll(), pageSize).build();
+    public LiveData<PagedList<News>> findAllBySource(NewsSource source, int pageSize) {
+        return new LivePagedListBuilder<>(newsDao.findAllBySource(source), pageSize).build();
     }
 
 }

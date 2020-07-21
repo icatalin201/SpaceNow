@@ -8,6 +8,7 @@ import androidx.room.Query;
 
 import io.reactivex.Completable;
 import space.pal.sig.model.News;
+import space.pal.sig.model.NewsSource;
 
 /**
  * SpaceNow
@@ -25,7 +26,7 @@ public interface NewsDao {
     @Query("delete from news")
     Completable delete();
 
-    @Query("select * from news order by date desc")
-    DataSource.Factory<Integer, News> findAll();
+    @Query("select * from news where source = :source order by date desc")
+    DataSource.Factory<Integer, News> findAllBySource(NewsSource source);
 
 }
