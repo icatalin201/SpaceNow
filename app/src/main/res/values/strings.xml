@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Space Now</string>
     <string name="app_name_extended">Space Images, Facts, News &amp; Glossary</string>
+    <string name="news">Space News</string>
+    <string name="launches">Space Launches</string>
+
     <string name="app_version">App version</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -8,7 +11,7 @@
     <string name="images">Images</string>
     <string name="videos">Videos</string>
     <string name="facts">Space Facts</string>
-    <string name="news">Hubble News</string>
+    <string name="newss">Hubble News</string>
     <string name="glossary">Glossary</string>
     <string name="esa_feed">European Space Agency</string>
     <string name="jwst_feed">James Webb Space Telescope</string>
@@ -59,4 +62,6 @@
     <string name="space_news">Space news</string>
     <string name="past_launches">Past launches</string>
     <string name="retry">Retry</string>
+    <string name="filter">Filter</string>
+    <string name="launch_year">Launch year</string>
 </resources>

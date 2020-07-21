@@ -1,129 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:id="@+id/coordinator"
-    tools:context=".view.activity.MainActivity">
+    tools:context=".view.main.MainActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:fitsSystemWindows="true"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:openDrawer="start">
+        android:fitsSystemWindows="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:elevation="4dp"
-                android:theme="@style/ToolbarTheme"
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/padding_16"
-                        android:paddingEnd="@dimen/padding_16"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/size_18" />
-
-                </RelativeLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-            <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:id="@+id/progress_horizontal"
-                android:layout_below="@id/toolbar"
-                app:spb_sections_count="4"
-                app:spb_colors="@array/progress_colors"
-                app:spb_speed="2.0"
-                app:spb_stroke_width="4dp"
-                app:spb_stroke_separator_length="4dp"
-                app:spb_reversed="true"
-                app:spb_mirror_mode="true"
-                app:spb_progressiveStart_activated="true"
-                app:spb_progressiveStart_speed="1.5"
-                app:spb_progressiveStop_speed="3.4" />
-
-            <FrameLayout
-                android:layout_below="@id/progress_horizontal"
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:fitsSystemWindows="true"
+        <LinearLayout
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/main_toolbar" />
+
+            <fragment
+                android:id="@+id/navigation_host"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:navGraph="@navigation/mobile_navigation"
+                tools:ignore="FragmentTagUsage" />
+
+        </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/colorPrimary">
-
-            <RelativeLayout
-                android:id="@+id/cover"
-                android:layout_alignParentTop="true"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/banner"
-                    android:contentDescription="@string/app_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:background="@drawable/gradient"
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/padding_16"
-                    android:text="@string/app_name"
-                    android:textAllCaps="true"
-                    android:gravity="center|bottom"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/size_20"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/menu_items"
-                android:layout_below="@id/cover"
-                android:layout_above="@id/appversion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/appversion"
-                android:layout_alignParentBottom="true"
-                android:textColor="@android:color/white"
-                android:padding="@dimen/padding_16"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+            android:background="@color/colorPrimaryLight"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/drawer_header"
+            app:itemTextColor="@color/colorPrimaryText"
+            app:menu="@menu/navigation_menu" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
