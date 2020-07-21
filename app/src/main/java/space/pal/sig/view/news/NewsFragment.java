@@ -87,6 +87,7 @@ public class NewsFragment extends SpaceBaseFragment {
     }
 
     private void consumeNewsList(PagedList<News> newsPagedList) {
+        newsRecycler.invalidate();
         newsAdapter.submitList(newsPagedList);
     }
 }

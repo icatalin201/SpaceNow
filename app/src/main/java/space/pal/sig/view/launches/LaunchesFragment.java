@@ -95,9 +95,8 @@ public class LaunchesFragment extends SpaceBaseFragment {
     }
 
     private void consumeLaunchList(PagedList<Launch> launches) {
-        launchesRecycler.removeAllViewsInLayout();
+        launchesRecycler.invalidate();
         launchesAdapter.submitList(launches);
-        launchesRecycler.scrollToPosition(0);
     }
 
 }
