@@ -17,4 +17,10 @@
         android:label="@string/launches"
         tools:layout="@layout/fragment_launches" />
 
+    <fragment
+        android:id="@+id/apod_fragment"
+        android:name="space.pal.sig.view.apod.ApodFragment"
+        android:label="@string/apod"
+        tools:layout="@layout/fragment_apod" />
+
 </navigation>

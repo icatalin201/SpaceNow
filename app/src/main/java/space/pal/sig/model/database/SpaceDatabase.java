@@ -14,6 +14,7 @@ import space.pal.sig.model.News;
 import space.pal.sig.model.database.converters.DateConverter;
 import space.pal.sig.model.database.converters.LaunchConverters;
 import space.pal.sig.model.database.converters.LaunchStatusConverter;
+import space.pal.sig.model.database.converters.MediaTypeConverter;
 import space.pal.sig.model.database.converters.NewsSourceConverter;
 
 /**
@@ -28,13 +29,16 @@ import space.pal.sig.model.database.converters.NewsSourceConverter;
         DateConverter.class,
         NewsSourceConverter.class,
         LaunchStatusConverter.class,
-        LaunchConverters.class
+        LaunchConverters.class,
+        MediaTypeConverter.class
 })
 public abstract class SpaceDatabase extends RoomDatabase {
 
     public abstract NewsDao newsDao();
 
     public abstract LaunchDao launchDao();
+
+    public abstract ApodDao apodDao();
 
     private static SpaceDatabase INSTANCE;
 

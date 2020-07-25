@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Space Now</string>
     <string name="app_name_extended">Space Images, Facts, News &amp; Glossary</string>
-    <string name="news">Space News</string>
-    <string name="launches">Space Launches</string>
+    <string name="news">Space news</string>
+    <string name="launches">Space launches</string>
+    <string name="apod">Astronomy picture of the day</string>
 
     <string name="app_version">App version</string>
     <string name="open">Open</string>
@@ -21,7 +22,7 @@
     <string name="share">Share</string>
     <string name="favorites">Favorites</string>
     <string name="rate">Give a rating</string>
-    <string name="apod">APOD</string>
+
     <string name="apod_long">Astronomy picture of the day</string>
     <string name="press_notification">Do you want to see more? Tap here</string>
     <string name="quality">Display High Quality Images</string>

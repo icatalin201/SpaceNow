@@ -26,6 +26,9 @@ public interface LaunchDao {
     Completable delete();
 
     @Query("select * from launches where timestamp < :timestamp order by timestamp desc")
-    DataSource.Factory<Integer, Launch> findAllByTimestampLowerThan(Long timestamp);
+    DataSource.Factory<Integer, Launch> findAllPast(Long timestamp);
+
+    @Query("select * from launches where timestamp > :timestamp order by timestamp asc")
+    DataSource.Factory<Integer, Launch> findAllFuture(Long timestamp);
 
 }

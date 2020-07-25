@@ -10,6 +10,7 @@ import space.pal.sig.repository.service.LaunchService;
 import space.pal.sig.view.launches.LaunchesFragment;
 import space.pal.sig.view.main.MainActivity;
 import space.pal.sig.view.news.NewsFragment;
+import space.pal.sig.view.splash.SplashActivity;
 
 @Singleton
 @Component(modules = {
@@ -34,4 +35,6 @@ public interface ApplicationComponent {
     void inject(LaunchesFragment launchesFragment);
 
     void inject(MainActivity mainActivity);
+
+    void inject(SplashActivity splashActivity);
 }

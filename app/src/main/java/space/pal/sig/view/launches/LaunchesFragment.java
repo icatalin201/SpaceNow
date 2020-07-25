@@ -16,6 +16,9 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -52,18 +55,22 @@ public class LaunchesFragment extends SpaceBaseFragment {
         launchesRecycler.setLayoutManager(manager);
         viewModel = new ViewModelProvider(this, factory).get(LaunchesViewModel.class);
         viewModel.getLaunchList().observe(getViewLifecycleOwner(), this::consumeLaunchList);
-        viewModel.getSelectedYear().observe(getViewLifecycleOwner(), this::onSelectYear);
-//        launchesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int position = manager.findFirstCompletelyVisibleItemPosition();
-//                Launch launch = launchesAdapter.getLaunch(position);
-//                Date date = new Date(launch.getTimestamp());
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTime(date);
-//            }
-//        });
+        viewModel.getSelectedFilter().observe(getViewLifecycleOwner(), this::onSelectFilter);
+        launchesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int position = manager.findFirstCompletelyVisibleItemPosition();
+                Launch launch = launchesAdapter.getLaunch(position);
+                Date date = new Date(launch.getTimestamp());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                String title = getParentActivity().getTitle().toString().split(":")[0];
+                title = title.concat(": ")
+                        .concat(String.valueOf(calendar.get(Calendar.YEAR)));
+                getParentActivity().setTitle(title);
+            }
+        });
         return view;
     }
 
@@ -76,12 +83,11 @@ public class LaunchesFragment extends SpaceBaseFragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.filter) {
-            String[] years = viewModel.getFilterYears();
+            String[] launches = viewModel.getFilterLaunches();
             AlertDialog dialog = new AlertDialog
                     .Builder(getParentActivity())
-                    .setTitle(R.string.launch_year)
-                    .setItems(years, (d, w) -> {
-                        viewModel.selectYear(years[w]);
+                    .setItems(launches, (d, w) -> {
+                        viewModel.selectFilter(w);
                         d.dismiss();
                     })
                     .create();
@@ -90,8 +96,15 @@ public class LaunchesFragment extends SpaceBaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void onSelectYear(String year) {
-        viewModel.filterByYear(year);
+    private void onSelectFilter(int pos) {
+        viewModel.filter(pos);
+        String title = "Future Launches";
+        if (pos != 0) {
+            title = "Past Launches";
+        }
+        title = title.concat(": ")
+                .concat(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        getParentActivity().setTitle(title);
     }
 
     private void consumeLaunchList(PagedList<Launch> launches) {

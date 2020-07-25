@@ -28,9 +28,14 @@ public class LaunchesRepository {
         return launchDao.insert(launch);
     }
 
-    public LiveData<PagedList<Launch>> findAllLaunchesByTimestampLowerThan(long timestamp, int pageSize) {
+    public LiveData<PagedList<Launch>> findAllPastLaunches(int pageSize) {
         return new LivePagedListBuilder<>(launchDao
-                .findAllByTimestampLowerThan(timestamp), pageSize).build();
+                .findAllPast(System.currentTimeMillis()), pageSize).build();
+    }
+
+    public LiveData<PagedList<Launch>> findAllFutureLaunches(int pageSize) {
+        return new LivePagedListBuilder<>(launchDao
+                .findAllFuture(System.currentTimeMillis()), pageSize).build();
     }
 
 }

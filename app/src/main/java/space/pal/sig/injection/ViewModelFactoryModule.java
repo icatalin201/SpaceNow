@@ -8,9 +8,11 @@ import dagger.Module;
 import dagger.Provides;
 import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.NewsRepository;
+import space.pal.sig.util.SharedPreferencesUtil;
 import space.pal.sig.view.launches.LaunchesViewModelFactory;
 import space.pal.sig.view.main.MainViewModelFactory;
 import space.pal.sig.view.news.NewsViewModelFactory;
+import space.pal.sig.view.splash.SplashViewModelFactory;
 
 /**
  * SpaceNow
@@ -37,6 +39,13 @@ public class ViewModelFactoryModule {
     @Singleton
     MainViewModelFactory mainViewModelFactory(Application application) {
         return new MainViewModelFactory(application);
+    }
+
+    @Provides
+    @Singleton
+    SplashViewModelFactory splashViewModelFactory(Application application,
+                                                  SharedPreferencesUtil sharedPreferencesUtil) {
+        return new SplashViewModelFactory(application, sharedPreferencesUtil);
     }
 
 }

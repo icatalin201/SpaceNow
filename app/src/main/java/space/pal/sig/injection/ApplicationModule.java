@@ -3,11 +3,14 @@ package space.pal.sig.injection;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import lombok.RequiredArgsConstructor;
+import space.pal.sig.util.SharedPreferencesUtil;
 
 @Module
 @RequiredArgsConstructor
@@ -25,5 +28,11 @@ public class ApplicationModule {
     @Singleton
     Context context() {
         return application.getApplicationContext();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferencesUtil sharedPreferencesUtil(Context context, Gson gson) {
+        return new SharedPreferencesUtil(context, gson);
     }
 }

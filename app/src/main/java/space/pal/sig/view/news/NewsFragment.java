@@ -84,6 +84,7 @@ public class NewsFragment extends SpaceBaseFragment {
 
     private void onSelectSource(NewsSource source) {
         newsViewModel.findNewsBySource(source);
+        getParentActivity().setTitle(source.getText());
     }
 
     private void consumeNewsList(PagedList<News> newsPagedList) {

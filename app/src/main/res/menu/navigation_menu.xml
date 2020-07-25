@@ -3,6 +3,9 @@
 
     <group android:id="@+id/primary">
         <item
+            android:id="@+id/apod_fragment"
+            android:title="@string/apod" />
+        <item
             android:id="@+id/launches_fragment"
             android:title="@string/launches" />
 

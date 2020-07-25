@@ -17,23 +17,19 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.news.NewsActivity" />
-        <activity android:name=".view.main.MainActivity">
+        <activity android:name=".view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".service.DownloadService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <activity android:name=".view.news.NewsActivity" />
+        <activity android:name=".view.main.MainActivity" />
 
         <receiver
-            android:name=".service.SpaceAlarmReceiver"
+            android:name=".service.notification.SpaceAlarmReceiver"
             android:process=":remote" />
-
     </application>
 
 </manifest>
