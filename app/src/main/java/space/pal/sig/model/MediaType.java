@@ -5,6 +5,6 @@ package space.pal.sig.model;
  * Created by Catalin on 7/24/2020
  **/
 public enum MediaType {
-    PHOTO,
+    IMAGE,
     VIDEO
 }

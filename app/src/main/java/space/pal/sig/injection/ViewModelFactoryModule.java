@@ -6,9 +6,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.NewsRepository;
 import space.pal.sig.util.SharedPreferencesUtil;
+import space.pal.sig.view.apod.ApodViewModelFactory;
 import space.pal.sig.view.launches.LaunchesViewModelFactory;
 import space.pal.sig.view.main.MainViewModelFactory;
 import space.pal.sig.view.news.NewsViewModelFactory;
@@ -46,6 +48,13 @@ public class ViewModelFactoryModule {
     SplashViewModelFactory splashViewModelFactory(Application application,
                                                   SharedPreferencesUtil sharedPreferencesUtil) {
         return new SplashViewModelFactory(application, sharedPreferencesUtil);
+    }
+
+    @Provides
+    @Singleton
+    ApodViewModelFactory apodViewModelFactory(Application application,
+                                              ApodRepository apodRepository) {
+        return new ApodViewModelFactory(application, apodRepository);
     }
 
 }

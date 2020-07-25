@@ -3,11 +3,11 @@ package space.pal.sig.view.news;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,11 +59,11 @@ public class NewsAdapter extends PagedListAdapter<News, NewsAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.news_image)
-        ImageView image;
+        AppCompatImageView image;
         @BindView(R.id.news_title)
-        TextView title;
+        AppCompatTextView title;
         @BindView(R.id.news_description)
-        TextView description;
+        AppCompatTextView description;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,8 +77,9 @@ public class NewsAdapter extends PagedListAdapter<News, NewsAdapter.ViewHolder> 
                 imageUrl = "https:".concat(imageUrl);
             }
             Picasso.get().load(imageUrl)
-                    .resize(100, 100)
-                    .centerCrop().into(image);
+                    .centerCrop()
+                    .fit()
+                    .into(image);
             image.setContentDescription(news.getTitle());
             title.setText(news.getTitle());
             title.setContentDescription(news.getTitle());

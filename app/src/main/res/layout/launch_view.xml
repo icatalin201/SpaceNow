@@ -10,10 +10,10 @@
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/launch_image"
         android:layout_width="130dp"
-        android:layout_height="170dp"
+        android:layout_height="200dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@color/colorPrimary"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toEndOf="@id/launch_image"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/launch_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toEndOf="@id/line"
         app:layout_constraintTop_toTopOf="@id/launch_image" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/launch_agency"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         app:layout_constraintStart_toEndOf="@id/line"
         app:layout_constraintTop_toBottomOf="@id/launch_name" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/launch_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         app:layout_constraintStart_toEndOf="@id/line"
         app:layout_constraintTop_toBottomOf="@id/launch_agency" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/launch_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

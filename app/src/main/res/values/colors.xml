@@ -6,4 +6,5 @@
     <color name="colorPrimaryLight">#ffffff</color>
     <color name="colorPrimaryText">#000000</color>
     <color name="colorSecondaryText">#303030</color>
+    <color name="colorSemiTransparentBlack">#99000000</color>
 </resources>

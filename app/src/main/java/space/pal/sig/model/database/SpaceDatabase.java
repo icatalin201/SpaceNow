@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import space.pal.sig.model.Apod;
 import space.pal.sig.model.Launch;
 import space.pal.sig.model.News;
 import space.pal.sig.model.database.converters.DateConverter;
@@ -23,7 +24,8 @@ import space.pal.sig.model.database.converters.NewsSourceConverter;
  **/
 @Database(entities = {
         News.class,
-        Launch.class
+        Launch.class,
+        Apod.class,
 }, version = 1, exportSchema = false)
 @TypeConverters({
         DateConverter.class,

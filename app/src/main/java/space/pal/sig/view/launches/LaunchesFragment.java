@@ -49,8 +49,6 @@ public class LaunchesFragment extends SpaceBaseFragment {
         setHasOptionsMenu(true);
         setupBinding(this, view);
         Space.getApplicationComponent().inject(this);
-        launchesAdapter = new LaunchesAdapter();
-        launchesRecycler.setAdapter(launchesAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         launchesRecycler.setLayoutManager(manager);
         viewModel = new ViewModelProvider(this, factory).get(LaunchesViewModel.class);
@@ -108,7 +106,8 @@ public class LaunchesFragment extends SpaceBaseFragment {
     }
 
     private void consumeLaunchList(PagedList<Launch> launches) {
-        launchesRecycler.invalidate();
+        launchesAdapter = new LaunchesAdapter();
+        launchesRecycler.setAdapter(launchesAdapter);
         launchesAdapter.submitList(launches);
     }
 

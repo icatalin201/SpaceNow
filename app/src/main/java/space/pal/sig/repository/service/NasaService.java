@@ -3,7 +3,7 @@ package space.pal.sig.repository.service;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import space.pal.sig.old.model.dto.ApodDto;
+import space.pal.sig.repository.dto.ApodDto;
 
 /**
  * SpaceNow

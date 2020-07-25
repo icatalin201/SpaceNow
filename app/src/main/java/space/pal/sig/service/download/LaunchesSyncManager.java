@@ -21,9 +21,9 @@ import space.pal.sig.service.notification.SpaceNotificationManager;
  * SpaceNow
  * Created by Catalin on 7/19/2020
  **/
-public class LaunchesDownloadManager extends Worker {
+public class LaunchesSyncManager extends Worker {
 
-    public LaunchesDownloadManager(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public LaunchesSyncManager(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
@@ -46,7 +46,7 @@ public class LaunchesDownloadManager extends Worker {
 
     private void downloadNextLaunches(LaunchService service, LaunchesRepository repository) throws IOException {
         Response<LaunchResponse> response = service
-                .getNextLaunches(100).execute();
+                .getNextLaunches(30).execute();
         LaunchResponse launchResponse = response.body();
         assert launchResponse != null;
         for (LaunchDto launchDto : launchResponse.getLaunches()) {

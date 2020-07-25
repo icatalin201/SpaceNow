@@ -39,11 +39,19 @@ public class Apod {
     @NonNull
     @ColumnInfo
     private String title;
-    @NonNull
     @ColumnInfo
     private String copyright;
     @NonNull
     @ColumnInfo
     private MediaType type;
+    @NonNull
+    @ColumnInfo
+    private Integer year;
+    @NonNull
+    @ColumnInfo
+    private Integer month;
+    @NonNull
+    @ColumnInfo
+    private Integer day;
 
 }

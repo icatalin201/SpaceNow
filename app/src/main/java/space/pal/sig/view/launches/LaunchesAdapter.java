@@ -3,10 +3,10 @@ package space.pal.sig.view.launches;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
@@ -80,15 +80,15 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.launch_image)
-        ImageView image;
+        AppCompatImageView image;
         @BindView(R.id.launch_name)
-        TextView name;
+        AppCompatTextView name;
         @BindView(R.id.launch_agency)
-        TextView agency;
+        AppCompatTextView agency;
         @BindView(R.id.launch_location)
-        TextView location;
+        AppCompatTextView location;
         @BindView(R.id.launch_date)
-        TextView date;
+        AppCompatTextView date;
         @BindView(R.id.line)
         View line;
         @BindView(R.id.launch_layout)
@@ -120,8 +120,8 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
             }
             layout.setLayoutParams(params);
             Picasso.get().load(rocketDto.getImageURL())
-                    .resize(130, 170)
                     .centerCrop()
+                    .fit()
                     .into(image);
             image.setContentDescription(launch.getName());
             name.setText(launch.getName());

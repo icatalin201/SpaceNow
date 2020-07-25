@@ -2,7 +2,7 @@ package space.pal.sig.repository.service;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import space.pal.sig.old.model.dto.ApodDto;
+import space.pal.sig.repository.dto.ApodDto;
 import space.pal.sig.old.model.dto.FactDto;
 import space.pal.sig.old.model.dto.SpaceResponse;
 

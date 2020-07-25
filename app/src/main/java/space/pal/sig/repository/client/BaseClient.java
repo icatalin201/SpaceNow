@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @RequiredArgsConstructor
 public abstract class BaseClient {
 
-    private static Retrofit CLIENT;
+    private Retrofit CLIENT;
     private final OkHttpClient okHttpClient;
     private final Gson gson;
 

@@ -49,6 +49,7 @@ public class SpaceNotificationManager {
                 .setContentTitle(title)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .build();
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(NOTIFICATION_SERVICE);

@@ -50,8 +50,6 @@ public class NewsFragment extends SpaceBaseFragment {
         Space.getApplicationComponent().inject(this);
         newsViewModel = new ViewModelProvider(this, factory)
                 .get(NewsViewModel.class);
-        newsAdapter = new NewsAdapter();
-        newsRecycler.setAdapter(newsAdapter);
         newsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         newsViewModel.getNewsList()
                 .observe(getViewLifecycleOwner(), this::consumeNewsList);
@@ -88,7 +86,8 @@ public class NewsFragment extends SpaceBaseFragment {
     }
 
     private void consumeNewsList(PagedList<News> newsPagedList) {
-        newsRecycler.invalidate();
+        newsAdapter = new NewsAdapter();
+        newsRecycler.setAdapter(newsAdapter);
         newsAdapter.submitList(newsPagedList);
     }
 }
