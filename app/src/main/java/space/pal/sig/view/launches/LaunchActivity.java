@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -18,6 +19,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,6 +28,7 @@ import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.model.Launch;
 import space.pal.sig.repository.dto.LocationDto;
+import space.pal.sig.repository.dto.MissionDto;
 import space.pal.sig.repository.dto.RocketDto;
 import space.pal.sig.view.SpaceBaseActivity;
 
@@ -83,6 +86,7 @@ public class LaunchActivity extends SpaceBaseActivity {
     private ActionBar actionBar;
     private String title;
     private CountDownTimer countDownTimer;
+    private LaunchMissionsAdapter launchMissionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,10 @@ public class LaunchActivity extends SpaceBaseActivity {
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_white_24);
             }
         });
+        launchMissionsAdapter = new LaunchMissionsAdapter();
+        missionsRecycler.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        missionsRecycler.setAdapter(launchMissionsAdapter);
     }
 
     @Override
@@ -134,7 +142,16 @@ public class LaunchActivity extends SpaceBaseActivity {
         title = launch.getName();
         RocketDto rocketDto = launch.getRocket();
         LocationDto locationDto = launch.getLocation();
+        List<MissionDto> missionDtoList = launch.getMissions();
         if (rocketDto == null) return;
+        if (missionDtoList == null || missionDtoList.size() == 0) {
+            missionsLabel.setVisibility(View.GONE);
+            missionsRecycler.setVisibility(View.GONE);
+        } else {
+            launchMissionsAdapter.submitList(missionDtoList);
+            missionsLabel.setVisibility(View.VISIBLE);
+            missionsRecycler.setVisibility(View.VISIBLE);
+        }
         launchDate.setText(launch.getDate());
         if (locationDto != null && locationDto.getPads().size() > 0) {
             locationName.setText(locationDto.getPads().get(0).getName());
@@ -184,7 +201,8 @@ public class LaunchActivity extends SpaceBaseActivity {
                     public void onFinish() {
 
                     }
-                }.start();
+                };
+                countDownTimer.start();
                 clockLayout.setVisibility(View.VISIBLE);
                 divider2.setVisibility(View.VISIBLE);
                 launchStatus.setBackgroundResource(R.drawable.launch_status_success);
