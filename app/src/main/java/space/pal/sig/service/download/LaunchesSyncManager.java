@@ -15,7 +15,6 @@ import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.dto.LaunchDto;
 import space.pal.sig.repository.dto.LaunchResponse;
 import space.pal.sig.repository.service.LaunchService;
-import space.pal.sig.service.notification.SpaceNotificationManager;
 
 /**
  * SpaceNow
@@ -35,8 +34,6 @@ public class LaunchesSyncManager extends Worker {
         LaunchesRepository repository = component.launchesRepository();
         try {
             downloadNextLaunches(service, repository);
-            SpaceNotificationManager.createNotification(getApplicationContext(),
-                    "Launches Sync Complete");
         } catch (IOException e) {
             e.printStackTrace();
             return Result.retry();

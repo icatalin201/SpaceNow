@@ -36,6 +36,8 @@ public class Apod {
     @NonNull
     @ColumnInfo
     private String url;
+    @ColumnInfo
+    private String hdUrl;
     @NonNull
     @ColumnInfo
     private String title;
@@ -44,14 +46,5 @@ public class Apod {
     @NonNull
     @ColumnInfo
     private MediaType type;
-    @NonNull
-    @ColumnInfo
-    private Integer year;
-    @NonNull
-    @ColumnInfo
-    private Integer month;
-    @NonNull
-    @ColumnInfo
-    private Integer day;
 
 }

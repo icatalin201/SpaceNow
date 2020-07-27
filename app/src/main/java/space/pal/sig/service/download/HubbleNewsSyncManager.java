@@ -16,7 +16,6 @@ import space.pal.sig.repository.NewsRepository;
 import space.pal.sig.repository.dto.NewsDto;
 import space.pal.sig.repository.dto.NewsPreviewDto;
 import space.pal.sig.repository.service.HubbleService;
-import space.pal.sig.service.notification.SpaceNotificationManager;
 
 /**
  * SpaceNow
@@ -36,8 +35,6 @@ public class HubbleNewsSyncManager extends Worker {
         NewsRepository repository = component.newsRepository();
         try {
             downloadHubbleNews(service, repository);
-            SpaceNotificationManager.createNotification(getApplicationContext(),
-                    "News Sync Complete");
         } catch (IOException e) {
             e.printStackTrace();
             return Result.retry();

@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import space.pal.sig.R;
 import space.pal.sig.model.Launch;
 import space.pal.sig.repository.dto.LocationDto;
@@ -43,9 +44,11 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
     private static final int TOP = 1;
     private static final int MIDDLE = 2;
     private static final int BOTTOM = 3;
+    private final SelectLaunchListener listener;
 
-    public LaunchesAdapter() {
+    public LaunchesAdapter(SelectLaunchListener listener) {
         super(launchItemCallback);
+        this.listener = listener;
     }
 
     public Launch getLaunch(int position) {
@@ -77,7 +80,7 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
         holder.render(getItem(position), getItemViewType(position));
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.launch_image)
         AppCompatImageView image;
@@ -136,6 +139,11 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
                 location.setText("");
             }
             date.setText(launch.getDate());
+        }
+
+        @OnClick(R.id.launch_layout)
+        void onClick() {
+            listener.onClick(getLaunch(getLayoutPosition()), image);
         }
     }
 }

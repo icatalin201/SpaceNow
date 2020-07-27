@@ -1,5 +1,6 @@
 package space.pal.sig.view.launches;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,11 +29,13 @@ import space.pal.sig.Space;
 import space.pal.sig.model.Launch;
 import space.pal.sig.view.SpaceBaseFragment;
 
+import static space.pal.sig.view.launches.LaunchActivity.LAUNCH_ID;
+
 /**
  * SpaceNow
  * Created by Catalin on 7/18/2020
  **/
-public class LaunchesFragment extends SpaceBaseFragment {
+public class LaunchesFragment extends SpaceBaseFragment implements SelectLaunchListener {
 
     @BindView(R.id.launches_recycler)
     RecyclerView launchesRecycler;
@@ -94,6 +98,15 @@ public class LaunchesFragment extends SpaceBaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(Launch launch, View imageView) {
+        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(getParentActivity(), imageView, "launchImage");
+        Intent intent = new Intent(getParentActivity(), LaunchActivity.class);
+        intent.putExtra(LAUNCH_ID, launch.getId());
+        startActivity(intent, activityOptionsCompat.toBundle());
+    }
+
     private void onSelectFilter(int pos) {
         viewModel.filter(pos);
         String title = "Future Launches";
@@ -106,9 +119,8 @@ public class LaunchesFragment extends SpaceBaseFragment {
     }
 
     private void consumeLaunchList(PagedList<Launch> launches) {
-        launchesAdapter = new LaunchesAdapter();
+        launchesAdapter = new LaunchesAdapter(this);
         launchesRecycler.setAdapter(launchesAdapter);
         launchesAdapter.submitList(launches);
     }
-
 }

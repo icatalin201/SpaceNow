@@ -10,6 +10,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import space.pal.sig.service.download.DownloadManager;
 import space.pal.sig.util.SharedPreferencesUtil;
 
 /**
@@ -32,6 +33,8 @@ public class SplashViewModel extends AndroidViewModel {
         boolean isFirstTime = isFirstTime();
         if (isFirstTime) {
             setupWork();
+        } else {
+            DownloadManager.createSyncQueue(application);
         }
         this.safeForStart.setValue(!isFirstTime);
     }

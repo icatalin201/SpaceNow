@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -34,17 +32,8 @@ public class ApodRepository {
         return new LivePagedListBuilder<>(apodDao.findAll(), pageSize).build();
     }
 
-    public LiveData<Apod> findByDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return apodDao.findByDate(year, month, day);
-    }
-
-    public LiveData<List<Apod>> findAllBeforeOfDateWithLimit(Date date, int limit) {
-        return apodDao.findAllBeforeOfDateWithLimit(date, limit);
+    public LiveData<List<Apod>> findAllWithLimit(int limit) {
+        return apodDao.findAllWithLimit(limit);
     }
 
 }

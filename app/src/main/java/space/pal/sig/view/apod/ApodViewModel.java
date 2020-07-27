@@ -5,8 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import java.util.Date;
 import java.util.List;
 
 import space.pal.sig.model.Apod;
@@ -19,14 +20,18 @@ import space.pal.sig.repository.ApodRepository;
 public class ApodViewModel extends AndroidViewModel {
 
     private final ApodRepository apodRepository;
-    private final LiveData<Apod> todayApod;
-    private final LiveData<List<Apod>> apodList;
+    private final MutableLiveData<Apod> todayApod = new MutableLiveData<>();
+    private final MediatorLiveData<List<Apod>> apodList = new MediatorLiveData<>();
 
     public ApodViewModel(@NonNull Application application, ApodRepository apodRepository) {
         super(application);
         this.apodRepository = apodRepository;
-        todayApod = apodRepository.findByDate(new Date());
-        apodList = apodRepository.findAllBeforeOfDateWithLimit(new Date(), 30);
+        apodList.addSource(apodRepository.findAllWithLimit(31), apodList -> {
+            Apod apod = apodList.get(0);
+            apodList.remove(0);
+            this.todayApod.setValue(apod);
+            this.apodList.setValue(apodList);
+        });
     }
 
     public LiveData<Apod> getTodayApod() {

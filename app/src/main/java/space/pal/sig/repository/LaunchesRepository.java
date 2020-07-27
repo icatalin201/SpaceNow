@@ -28,6 +28,10 @@ public class LaunchesRepository {
         return launchDao.insert(launch);
     }
 
+    public LiveData<Launch> findById(long id) {
+        return launchDao.findById(id);
+    }
+
     public LiveData<PagedList<Launch>> findAllPastLaunches(int pageSize) {
         return new LivePagedListBuilder<>(launchDao
                 .findAllPast(System.currentTimeMillis()), pageSize).build();

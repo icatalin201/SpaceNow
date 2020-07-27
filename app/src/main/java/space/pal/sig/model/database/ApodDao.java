@@ -7,7 +7,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -29,12 +28,10 @@ public interface ApodDao {
     @Query("delete from apod")
     Completable delete();
 
-    @Query("select * from apod")
+    @Query("select * from apod order by date desc")
     DataSource.Factory<Integer, Apod> findAll();
 
-    @Query("select * from apod where year = :year and month = :month and day = :day")
-    LiveData<Apod> findByDate(int year, int month, int day);
+    @Query("select * from apod order by date desc limit :limit")
+    LiveData<List<Apod>> findAllWithLimit(int limit);
 
-    @Query("select * from apod where date < :date order by date desc limit :limit")
-    LiveData<List<Apod>> findAllBeforeOfDateWithLimit(Date date, int limit);
 }

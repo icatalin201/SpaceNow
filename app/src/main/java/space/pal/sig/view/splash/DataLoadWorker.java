@@ -22,11 +22,14 @@ import java.util.List;
 import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.injection.ApplicationComponent;
+import space.pal.sig.model.Apod;
 import space.pal.sig.model.Launch;
 import space.pal.sig.model.News;
 import space.pal.sig.model.NewsSource;
+import space.pal.sig.repository.ApodRepository;
 import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.NewsRepository;
+import space.pal.sig.repository.dto.ApodDto;
 import space.pal.sig.repository.dto.FeedDto;
 import space.pal.sig.repository.dto.LaunchDto;
 import space.pal.sig.repository.dto.NewsDto;
@@ -52,7 +55,9 @@ public class DataLoadWorker extends Worker {
         ApplicationComponent applicationComponent = Space.getApplicationComponent();
         LaunchesRepository launchesRepository = applicationComponent.launchesRepository();
         NewsRepository newsRepository = applicationComponent.newsRepository();
+        ApodRepository apodRepository = applicationComponent.apodRepository();
         try {
+            loadApod(apodRepository);
             loadEsaFeed(newsRepository);
             loadHubbleFeed(newsRepository);
             loadJwStFeed(newsRepository);
@@ -63,6 +68,16 @@ public class DataLoadWorker extends Worker {
             return Result.retry();
         }
         return Result.success();
+    }
+
+    private void loadApod(ApodRepository repository) throws IOException {
+        String apod = readJsonFromResource(R.raw.apod);
+        ApodDto[] apodDtoList = gson.fromJson(apod, ApodDto[].class);
+        List<Apod> apodList = new ArrayList<>();
+        for (ApodDto apodDto : apodDtoList) {
+            apodList.add(apodDto.toApod());
+        }
+        repository.insertOrUpdate(apodList).subscribe();
     }
 
     private void loadEsaFeed(NewsRepository repository) throws IOException {

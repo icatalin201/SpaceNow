@@ -8,7 +8,6 @@ import space.pal.sig.injection.ApplicationComponent;
 import space.pal.sig.injection.ApplicationModule;
 import space.pal.sig.injection.DaggerApplicationComponent;
 import space.pal.sig.injection.DatabaseModule;
-import space.pal.sig.service.download.DownloadManager;
 import space.pal.sig.service.notification.SpaceAlarmReceiver;
 import space.pal.sig.service.notification.SpaceNotificationManager;
 
@@ -32,7 +31,6 @@ public class Space extends Application {
                 .databaseModule(new DatabaseModule())
                 .build();
         registerAlarmReceiver();
-        DownloadManager.createSyncQueue(this);
     }
 
     public static ApplicationComponent getApplicationComponent() {

@@ -2,9 +2,6 @@ package space.pal.sig.repository.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import space.pal.sig.model.Apod;
@@ -34,20 +31,15 @@ public class ApodDto {
     private String hdUrl;
 
     public Apod toApod() {
-        Date d = parseDate(date, "yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(d);
         Apod apod = new Apod();
         apod.setCopyright(copyright);
         apod.setExplanation(explanation);
         apod.setTitle(title);
-        apod.setUrl(hdUrl != null ? hdUrl : url);
+        apod.setUrl(url);
+        apod.setHdUrl(hdUrl);
         apod.setType(MediaType.valueOf(mediaType.toUpperCase()));
-        apod.setDate(d);
+        apod.setDate(parseDate(date, "yyyy-MM-dd"));
         apod.setId(date + title);
-        apod.setYear(calendar.get(Calendar.YEAR));
-        apod.setMonth(calendar.get(Calendar.MONTH));
-        apod.setDay(calendar.get(Calendar.DAY_OF_MONTH));
         return apod;
     }
 

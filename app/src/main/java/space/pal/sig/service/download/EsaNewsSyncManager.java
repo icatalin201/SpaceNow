@@ -16,7 +16,6 @@ import space.pal.sig.model.NewsSource;
 import space.pal.sig.repository.NewsRepository;
 import space.pal.sig.repository.dto.FeedDto;
 import space.pal.sig.repository.service.HubbleService;
-import space.pal.sig.service.notification.SpaceNotificationManager;
 
 /**
  * SpaceNow
@@ -36,8 +35,6 @@ public class EsaNewsSyncManager extends Worker {
         NewsRepository repository = component.newsRepository();
         try {
             downloadEsaNews(service, repository);
-            SpaceNotificationManager.createNotification(getApplicationContext(),
-                    "News Sync Complete");
         } catch (IOException e) {
             e.printStackTrace();
             return Result.retry();

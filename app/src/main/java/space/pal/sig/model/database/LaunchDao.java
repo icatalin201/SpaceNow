@@ -1,5 +1,6 @@
 package space.pal.sig.model.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -24,6 +25,9 @@ public interface LaunchDao {
 
     @Query("delete from launches")
     Completable delete();
+
+    @Query("select * from launches where id = :id")
+    LiveData<Launch> findById(long id);
 
     @Query("select * from launches where timestamp < :timestamp order by timestamp desc")
     DataSource.Factory<Integer, Launch> findAllPast(Long timestamp);

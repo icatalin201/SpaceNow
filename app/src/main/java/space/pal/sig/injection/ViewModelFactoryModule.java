@@ -11,6 +11,7 @@ import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.NewsRepository;
 import space.pal.sig.util.SharedPreferencesUtil;
 import space.pal.sig.view.apod.ApodViewModelFactory;
+import space.pal.sig.view.launches.LaunchViewModelFactory;
 import space.pal.sig.view.launches.LaunchesViewModelFactory;
 import space.pal.sig.view.main.MainViewModelFactory;
 import space.pal.sig.view.news.NewsViewModelFactory;
@@ -35,6 +36,13 @@ public class ViewModelFactoryModule {
     LaunchesViewModelFactory launchesViewModelFactory(Application application,
                                                       LaunchesRepository launchesRepository) {
         return new LaunchesViewModelFactory(application, launchesRepository);
+    }
+
+    @Provides
+    @Singleton
+    LaunchViewModelFactory launchViewModelFactory(Application application,
+                                                  LaunchesRepository launchesRepository) {
+        return new LaunchViewModelFactory(application, launchesRepository);
     }
 
     @Provides

@@ -8,10 +8,18 @@
         <item
             android:id="@+id/launches_fragment"
             android:title="@string/launches" />
-
         <item
             android:id="@+id/news_fragment"
             android:title="@string/news" />
+        <item
+            android:id="@+id/facts_fragment"
+            android:title="@string/facts" />
+    </group>
+
+    <group android:id="@+id/secondary">
+        <item
+            android:id="@+id/settings_fragment"
+            android:title="@string/settings" />
     </group>
 
 </menu>
