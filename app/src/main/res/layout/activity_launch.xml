@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     android:fitsSystemWindows="true"
     tools:context=".view.launches.LaunchActivity">
 
@@ -18,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.Toolbar"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -33,13 +35,47 @@
                     android:id="@+id/launch_rocket_image_cover"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:background="@color/colorPrimary"
                     android:fitsSystemWindows="true"
                     android:transitionName="launchImage"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/colorSemiTransparentDark"
+                    android:fitsSystemWindows="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/launch_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginBottom="16dp"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:translationZ="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/launch_favorite"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/launch_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="16dp"
+                    android:translationZ="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_favorite_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -48,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
+                android:theme="@style/AppTheme.Toolbar"
                 app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -58,36 +95,31 @@
         android:id="@+id/launch_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:padding="16dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/launch_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
+                    android:layout_height="match_parent">
 
                     <RelativeLayout
                         android:id="@+id/launch_status_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -99,14 +131,14 @@
                             android:layout_centerHorizontal="true"
                             android:background="@drawable/launch_status_success"
                             android:padding="8dp"
-                            android:textColor="@color/colorPrimaryLight"
+                            android:textColor="@color/colorWhite"
                             android:textStyle="bold" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
                             android:layout_centerInParent="true"
-                            android:alpha="0.3"
+                            android:alpha="0.5"
                             android:background="@color/colorPrimaryDark"
                             android:translationZ="-1dp" />
 
@@ -116,6 +148,7 @@
                         android:id="@+id/launch_clock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -264,8 +297,8 @@
                         android:id="@+id/divider2"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginTop="8dp"
-                        android:alpha="0.3"
+                        android:layout_marginTop="16dp"
+                        android:alpha="0.5"
                         android:background="@color/colorPrimaryDark"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -275,7 +308,7 @@
                         android:id="@+id/launch_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:padding="16dp"
                         android:textAlignment="center"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -309,7 +342,7 @@
                 android:id="@+id/launch_rocket_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/rocket"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -324,6 +357,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:cardBackgroundColor="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/launch_rocket_label">
@@ -336,10 +370,9 @@
                         android:id="@+id/launch_rocket_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="4dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toStartOf="@id/launch_rocket_image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -348,10 +381,8 @@
                         android:id="@+id/launch_rocket_configuration"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="4dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
                         app:layout_constraintEnd_toStartOf="@id/launch_rocket_image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/launch_rocket_name" />
@@ -360,10 +391,8 @@
                         android:id="@+id/launch_rocket_family"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="4dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
                         app:layout_constraintEnd_toStartOf="@id/launch_rocket_image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/launch_rocket_configuration" />
@@ -398,15 +427,40 @@
                 android:id="@+id/launch_location_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/launch_location_label">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/launch_location_name"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp" />
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/launch_location_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textAlignment="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/view_location"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/view_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/view_location"
+                        android:padding="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
 

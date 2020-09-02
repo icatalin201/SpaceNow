@@ -32,6 +32,10 @@ public class LaunchesRepository {
         return launchDao.findById(id);
     }
 
+    public Launch findLaunchById(long id) {
+        return launchDao.findByIdSync(id);
+    }
+
     public LiveData<PagedList<Launch>> findAllPastLaunches(int pageSize) {
         return new LivePagedListBuilder<>(launchDao
                 .findAllPast(System.currentTimeMillis()), pageSize).build();
@@ -40,6 +44,11 @@ public class LaunchesRepository {
     public LiveData<PagedList<Launch>> findAllFutureLaunches(int pageSize) {
         return new LivePagedListBuilder<>(launchDao
                 .findAllFuture(System.currentTimeMillis()), pageSize).build();
+    }
+
+    public LiveData<PagedList<Launch>> findAllFavoriteLaunches(boolean favorite, int pageSize) {
+        return new LivePagedListBuilder<>(launchDao
+                .findAllFavorite(favorite), pageSize).build();
     }
 
 }

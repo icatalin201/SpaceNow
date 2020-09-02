@@ -1,67 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/apod_image"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/apod_video"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/apod_image"
+            android:layout_width="match_parent"
+            android:layout_height="550dp"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/apod_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorSemiTransparentBlack"
-        android:padding="16dp"
-        android:textAlignment="textEnd"
-        android:textColor="@color/colorPrimaryLight"
-        app:layout_constraintBottom_toBottomOf="@id/apod_image"
-        app:layout_constraintEnd_toEndOf="@id/apod_image"
-        app:layout_constraintStart_toStartOf="@id/apod_image" />
-
-    <LinearLayout
-        android:id="@+id/last_apods_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/apod_image">
+        <WebView
+            android:id="@+id/apod_video"
+            android:layout_width="match_parent"
+            android:layout_height="550dp"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/apod_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorSemiTransparentDark"
             android:padding="16dp"
-            android:text="@string/last_apods" />
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="@id/apod_image"
+            app:layout_constraintEnd_toEndOf="@id/apod_image"
+            app:layout_constraintStart_toStartOf="@id/apod_image" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/apod_recycler"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/last_apods_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/apod_horizontal_card_view" />
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/apod_image">
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/last_apods_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/last_apods"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/see_all_apods"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/apod_recycler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/apod_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/last_apods_label"
+                tools:listitem="@layout/apod_horizontal_card_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

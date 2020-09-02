@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import space.pal.sig.model.Apod;
+import space.pal.sig.model.Fact;
 import space.pal.sig.model.Launch;
 import space.pal.sig.model.News;
 import space.pal.sig.model.database.converters.DateConverter;
@@ -26,6 +27,7 @@ import space.pal.sig.model.database.converters.NewsSourceConverter;
         News.class,
         Launch.class,
         Apod.class,
+        Fact.class
 }, version = 1, exportSchema = false)
 @TypeConverters({
         DateConverter.class,
@@ -41,6 +43,8 @@ public abstract class SpaceDatabase extends RoomDatabase {
     public abstract LaunchDao launchDao();
 
     public abstract ApodDao apodDao();
+
+    public abstract FactDao factDao();
 
     private static SpaceDatabase INSTANCE;
 

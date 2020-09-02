@@ -1,17 +1,20 @@
 package space.pal.sig;
 
 import android.app.Application;
-import android.content.IntentFilter;
 
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 import space.pal.sig.injection.ApiServiceModule;
 import space.pal.sig.injection.ApplicationComponent;
 import space.pal.sig.injection.ApplicationModule;
 import space.pal.sig.injection.DaggerApplicationComponent;
 import space.pal.sig.injection.DatabaseModule;
-import space.pal.sig.service.notification.SpaceAlarmReceiver;
 import space.pal.sig.service.notification.SpaceNotificationManager;
 
-import static space.pal.sig.service.notification.SpaceAlarmReceiver.SPACE_ALARM_ACTION;
+import static space.pal.sig.util.PicassoHelper.createBuilderWithTrustManager;
 
 /**
  * SpaceNow
@@ -30,14 +33,22 @@ public class Space extends Application {
                 .apiServiceModule(new ApiServiceModule())
                 .databaseModule(new DatabaseModule())
                 .build();
-        registerAlarmReceiver();
+        setupPicasso();
     }
 
     public static ApplicationComponent getApplicationComponent() {
         return applicationComponent;
     }
 
-    private void registerAlarmReceiver() {
-        registerReceiver(new SpaceAlarmReceiver(), new IntentFilter(SPACE_ALARM_ACTION));
+    private void setupPicasso() {
+        OkHttpClient okHttpClient = createBuilderWithTrustManager()
+                .cache(new Cache(getCacheDir(), Integer.MAX_VALUE))
+                .build();
+        OkHttp3Downloader okHttpDownloader = new OkHttp3Downloader(okHttpClient);
+        Picasso picasso = new Picasso.Builder(this)
+                .downloader(okHttpDownloader)
+                .loggingEnabled(true)
+                .build();
+        Picasso.setSingletonInstance(picasso);
     }
 }

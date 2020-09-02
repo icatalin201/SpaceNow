@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import space.pal.sig.R;
 import space.pal.sig.model.News;
 
@@ -38,8 +39,11 @@ public class NewsAdapter extends PagedListAdapter<News, NewsAdapter.ViewHolder> 
                 }
             };
 
-    public NewsAdapter() {
+    private final SelectNewsListener listener;
+
+    public NewsAdapter(SelectNewsListener listener) {
         super(newsItemCallback);
+        this.listener = listener;
     }
 
     @NonNull
@@ -56,7 +60,7 @@ public class NewsAdapter extends PagedListAdapter<News, NewsAdapter.ViewHolder> 
         holder.render(getItem(position));
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.news_image)
         AppCompatImageView image;
@@ -70,7 +74,7 @@ public class NewsAdapter extends PagedListAdapter<News, NewsAdapter.ViewHolder> 
             ButterKnife.bind(this, itemView);
         }
 
-        public void render(@Nullable News news) {
+        void render(@Nullable News news) {
             if (news == null) return;
             String imageUrl = news.getImage();
             if (!imageUrl.contains("https:") || !imageUrl.contains("http:")) {
@@ -85,6 +89,11 @@ public class NewsAdapter extends PagedListAdapter<News, NewsAdapter.ViewHolder> 
             title.setContentDescription(news.getTitle());
             description.setText(news.getDescription());
             description.setContentDescription(news.getDescription());
+        }
+
+        @OnClick(R.id.news_card_view)
+        void onClickNews() {
+            listener.onClick(getItem(getBindingAdapterPosition()));
         }
     }
 }

@@ -3,8 +3,13 @@ package space.pal.sig.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * SpaceNow
@@ -17,7 +22,7 @@ public class SharedPreferencesUtil {
     private final Gson gson;
 
     public SharedPreferencesUtil(Context context, Gson gson) {
-        this.preferences = context.getSharedPreferences(SPACE_PREFERENCES, Context.MODE_PRIVATE);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.gson = gson;
     }
 
@@ -48,6 +53,12 @@ public class SharedPreferencesUtil {
     public void storeString(String key, String value) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
+        editor.apply();
+    }
+
+    public void storeSet(String key, Set<String> items) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putStringSet(key, items);
         editor.apply();
     }
 
@@ -82,6 +93,10 @@ public class SharedPreferencesUtil {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public Set<String> getSet(String key) {
+        return preferences.getStringSet(key, new HashSet<>());
     }
 
 }

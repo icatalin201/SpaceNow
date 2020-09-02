@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".view.apod.ImagesActivity">
+
+    <include layout="@layout/main_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apods_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="vertical"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb"
+        app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_track"
+        app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb"
+        app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_track"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/apod_vertical_card_view" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

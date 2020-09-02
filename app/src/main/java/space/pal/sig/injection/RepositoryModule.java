@@ -5,9 +5,11 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import space.pal.sig.model.database.ApodDao;
+import space.pal.sig.model.database.FactDao;
 import space.pal.sig.model.database.LaunchDao;
 import space.pal.sig.model.database.NewsDao;
 import space.pal.sig.repository.ApodRepository;
+import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.NewsRepository;
 
@@ -34,6 +36,12 @@ public class RepositoryModule {
     @Singleton
     ApodRepository apodRepository(ApodDao apodDao) {
         return new ApodRepository(apodDao);
+    }
+
+    @Provides
+    @Singleton
+    FactRepository factRepository(FactDao factDao) {
+        return new FactRepository(factDao);
     }
 
 }

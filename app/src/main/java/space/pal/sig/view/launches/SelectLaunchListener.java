@@ -9,5 +9,5 @@ import space.pal.sig.model.Launch;
  * Created by Catalin on 7/26/2020
  **/
 public interface SelectLaunchListener {
-    void onClick(Launch launch, View imageView);
+    void onClick(Launch launch);
 }

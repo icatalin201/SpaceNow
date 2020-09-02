@@ -11,7 +11,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    app:cardCornerRadius="4dp">
+    app:cardBackgroundColor="@color/colorPrimary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,8 +22,7 @@
             android:id="@+id/news_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@color/colorPrimary"
-            android:contentDescription="@string/news"
+            android:background="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

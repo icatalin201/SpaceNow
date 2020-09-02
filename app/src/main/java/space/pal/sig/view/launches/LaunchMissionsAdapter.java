@@ -14,7 +14,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import space.pal.sig.R;
-import space.pal.sig.repository.dto.AgencyDto;
 import space.pal.sig.repository.dto.MissionDto;
 
 /**
@@ -57,8 +56,6 @@ public class LaunchMissionsAdapter extends RecyclerView.Adapter<LaunchMissionsAd
         AppCompatTextView description;
         @BindView(R.id.mission_payloads)
         AppCompatTextView payloads;
-        @BindView(R.id.mission_agencies)
-        AppCompatTextView agencies;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,14 +66,6 @@ public class LaunchMissionsAdapter extends RecyclerView.Adapter<LaunchMissionsAd
             name.setText(missionDto.getName());
             description.setText(missionDto.getDescription());
             payloads.setText(String.format("Payloads: %s", missionDto.getPayloads().size()));
-            List<AgencyDto> agencies = missionDto.getAgencies();
-            if (agencies != null && agencies.size() > 0) {
-                this.agencies.setText(String.format("#%s",
-                        agencies.get(0).getName().replace(" ", "")));
-                this.agencies.setVisibility(View.VISIBLE);
-            } else {
-                this.agencies.setVisibility(View.GONE);
-            }
         }
     }
 }

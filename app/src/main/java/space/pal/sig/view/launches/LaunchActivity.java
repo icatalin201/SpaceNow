@@ -1,11 +1,19 @@
 package space.pal.sig.view.launches;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -20,10 +28,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.model.Launch;
@@ -42,6 +52,10 @@ public class LaunchActivity extends SpaceBaseActivity {
 
     @BindView(R.id.launch_rocket_image_cover)
     AppCompatImageView coverImage;
+    @BindView(R.id.launch_title)
+    AppCompatTextView title;
+    @BindView(R.id.launch_favorite)
+    AppCompatImageButton favorite;
     @BindView(R.id.launch_cover_layout)
     ConstraintLayout coverLayout;
     @BindView(R.id.launch_appbar)
@@ -83,10 +97,11 @@ public class LaunchActivity extends SpaceBaseActivity {
     @BindView(R.id.launch_toolbar)
     Toolbar toolbar;
     private LaunchViewModel launchViewModel;
-    private ActionBar actionBar;
-    private String title;
     private CountDownTimer countDownTimer;
     private LaunchMissionsAdapter launchMissionsAdapter;
+    private Launch launch;
+    private Menu menu;
+    private long launchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,25 +114,16 @@ public class LaunchActivity extends SpaceBaseActivity {
         params.bottomMargin = -titleBarHeight;
         coverLayout.setLayoutParams(params);
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
+        setTitle("");
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_white_24);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        long launchId = getIntent().getLongExtra(LAUNCH_ID, 0);
+        launchId = getIntent().getLongExtra(LAUNCH_ID, 0);
         launchViewModel = new ViewModelProvider(this, factory).get(LaunchViewModel.class);
         launchViewModel.getLaunch().observe(this, this::consumeLaunch);
         launchViewModel.loadLaunch(launchId);
-        setTitle("");
-        appBarLayout.addOnOffsetChangedListener((appBarLayout, i) -> {
-            if (appBarLayout.getTotalScrollRange() + i == 0) {
-                collapsingToolbarLayout.setTitle(title);
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24);
-            } else {
-                collapsingToolbarLayout.setTitle("");
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_white_24);
-            }
-        });
         launchMissionsAdapter = new LaunchMissionsAdapter();
         missionsRecycler.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
@@ -131,6 +137,71 @@ public class LaunchActivity extends SpaceBaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        boolean hasNotifications = launchViewModel
+                .hasNotifications(launchId);
+        int menuId = hasNotifications ? R.menu.menu_launch_notification : R.menu.menu_launch;
+        getMenuInflater().inflate(menuId, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.watch:
+                if (launch.getVideoUrls() != null) {
+                    final String[] videoUrls = launch.getVideoUrls().split(",");
+                    Dialog dialog = new AlertDialog
+                            .Builder(this, R.style.AppTheme_Dialog)
+                            .setTitle(R.string.watch)
+                            .setItems(videoUrls, (dialogInterface, i) -> {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(videoUrls[i]));
+                                if (intent.resolveActivity(getPackageManager()) != null) {
+                                    startActivity(intent);
+                                }
+                                dialogInterface.dismiss();
+                            })
+                            .create();
+                    dialog.show();
+                }
+                break;
+            case R.id.notification:
+                final String[] options = new String[]{"On", "Off"};
+                Dialog dialog = new AlertDialog
+                        .Builder(this, R.style.AppTheme_Dialog)
+                        .setTitle(R.string.notification)
+                        .setItems(options, (dialogInterface, i) -> {
+                            launchViewModel.toggleNotifications(i == 0, launchId);
+                            dialogInterface.dismiss();
+                            supportInvalidateOptionsMenu();
+                            onCreateOptionsMenu(menu);
+                        })
+                        .create();
+                dialog.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.view_location)
+    public void viewLocation() {
+        LocationDto locationDto = launch.getLocation();
+        if (locationDto == null) return;
+        double latitude = Double.parseDouble(locationDto.getPads().get(0).getLatitude());
+        double longitude = Double.parseDouble(locationDto.getPads().get(0).getLongitude());
+        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.launch_favorite)
+    public void toggleFavorite() {
+        launchViewModel.toggleFavorite(launch);
+    }
+
+    @Override
     protected void onDestroy() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
@@ -139,11 +210,17 @@ public class LaunchActivity extends SpaceBaseActivity {
     }
 
     private void consumeLaunch(Launch launch) {
-        title = launch.getName();
+        this.launch = launch;
         RocketDto rocketDto = launch.getRocket();
         LocationDto locationDto = launch.getLocation();
         List<MissionDto> missionDtoList = launch.getMissions();
         if (rocketDto == null) return;
+        if (launch.getFavorite()) {
+            favorite.setImageResource(R.drawable.ic_baseline_favorite_24);
+        } else {
+            favorite.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+        }
+        title.setText(launch.getName());
         if (missionDtoList == null || missionDtoList.size() == 0) {
             missionsLabel.setVisibility(View.GONE);
             missionsRecycler.setVisibility(View.GONE);
@@ -191,6 +268,8 @@ public class LaunchActivity extends SpaceBaseActivity {
                         String hString = formatNumber(h);
                         String mString = formatNumber(m);
                         String sString = formatNumber(s);
+                        if (days == null || hours == null || minutes == null || seconds == null)
+                            return;
                         days.setText(dString);
                         hours.setText(hString);
                         minutes.setText(mString);

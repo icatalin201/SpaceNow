@@ -6,7 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import space.pal.sig.old.model.Glossary;
 import space.pal.sig.repository.dto.FeedDto;
 import space.pal.sig.repository.dto.NewsDto;
 import space.pal.sig.repository.dto.NewsPreviewDto;
@@ -43,11 +42,5 @@ public interface HubbleService {
 
     @GET("/api/v3/external_feed/st_live?page=all")
     Call<List<FeedDto>> getSpaceTelescopeLiveFeed();
-
-    @GET("/api/v3/glossary/")
-    Call<List<Glossary>> getGlossary(@Query("page") String page);
-
-    @GET("/api/v3/glossary?page=all")
-    Call<List<Glossary>> getGlossary();
 
 }

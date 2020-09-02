@@ -1,13 +1,14 @@
 package space.pal.sig.view.apod;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,17 +26,20 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.model.Apod;
 import space.pal.sig.model.MediaType;
 import space.pal.sig.view.SpaceBaseFragment;
 
+import static space.pal.sig.view.apod.ImageActivity.IMAGE_ID;
+
 /**
  * SpaceNow
  * Created by Catalin on 7/24/2020
  **/
-public class ApodFragment extends SpaceBaseFragment {
+public class ApodFragment extends SpaceBaseFragment implements SelectApodListener {
 
     @BindView(R.id.apod_image)
     AppCompatImageView image;
@@ -46,11 +50,12 @@ public class ApodFragment extends SpaceBaseFragment {
     @BindView(R.id.apod_recycler)
     RecyclerView apodRecycler;
     @BindView(R.id.last_apods_layout)
-    LinearLayout layout;
+    ConstraintLayout layout;
     @Inject
     ApodViewModelFactory factory;
     private ApodViewModel apodViewModel;
     private ApodHorizontalAdapter apodHorizontalAdapter;
+    private Apod todayApod;
 
     @Nullable
     @Override
@@ -60,7 +65,8 @@ public class ApodFragment extends SpaceBaseFragment {
         View view = inflater.inflate(R.layout.fragment_apod, container, false);
         Space.getApplicationComponent().inject(this);
         setupBinding(this, view);
-        apodHorizontalAdapter = new ApodHorizontalAdapter();
+        setupHeight();
+        apodHorizontalAdapter = new ApodHorizontalAdapter(this);
         apodRecycler.setAdapter(apodHorizontalAdapter);
         apodRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.HORIZONTAL, false));
@@ -70,8 +76,27 @@ public class ApodFragment extends SpaceBaseFragment {
         return view;
     }
 
+    @Override
+    public void onClick(Apod apod) {
+        Intent intent = new Intent(getParentActivity(), ImageActivity.class);
+        intent.putExtra(IMAGE_ID, apod.getId());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.apod_image)
+    public void onClickImage() {
+        onClick(todayApod);
+    }
+
+    @OnClick(R.id.see_all_apods)
+    public void onClickSeeAll() {
+        Intent intent = new Intent(getParentActivity(), ImagesActivity.class);
+        startActivity(intent);
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     private void consumeApod(Apod apod) {
+        this.todayApod = apod;
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)
                 layout.getLayoutParams();
         if (apod.getType() == MediaType.IMAGE) {
@@ -99,5 +124,13 @@ public class ApodFragment extends SpaceBaseFragment {
 
     private void consumeApodList(List<Apod> apodList) {
         apodHorizontalAdapter.submitList(apodList);
+    }
+
+    private void setupHeight() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getParentActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = (int) (displayMetrics.heightPixels * 0.7);
+        image.getLayoutParams().height = height;
+        video.getLayoutParams().height = height;
     }
 }

@@ -1,5 +1,6 @@
 package space.pal.sig.view.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,11 +26,13 @@ import space.pal.sig.model.News;
 import space.pal.sig.model.NewsSource;
 import space.pal.sig.view.SpaceBaseFragment;
 
+import static space.pal.sig.view.news.NewsActivity.NEWS_ID;
+
 /**
  * SpaceNow
  * Created by Catalin on 7/17/2020
  **/
-public class NewsFragment extends SpaceBaseFragment {
+public class NewsFragment extends SpaceBaseFragment implements SelectNewsListener {
 
     @BindView(R.id.news_recycler)
     RecyclerView newsRecycler;
@@ -60,7 +63,7 @@ public class NewsFragment extends SpaceBaseFragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.filter_menu, menu);
+        inflater.inflate(R.menu.menu_filter, menu);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class NewsFragment extends SpaceBaseFragment {
         if (item.getItemId() == R.id.filter) {
             String[] sources = newsViewModel.getNewsSources();
             AlertDialog dialog = new AlertDialog
-                    .Builder(getParentActivity())
+                    .Builder(getParentActivity(), R.style.AppTheme_Dialog)
                     .setTitle(R.string.news_sources)
                     .setItems(sources, (d, w) -> {
                         newsViewModel.setSource(sources[w]);
@@ -80,13 +83,20 @@ public class NewsFragment extends SpaceBaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(News news) {
+        Intent intent = new Intent(getParentActivity(), NewsActivity.class);
+        intent.putExtra(NEWS_ID, news.getId());
+        startActivity(intent);
+    }
+
     private void onSelectSource(NewsSource source) {
         newsViewModel.findNewsBySource(source);
         getParentActivity().setTitle(source.getText());
     }
 
     private void consumeNewsList(PagedList<News> newsPagedList) {
-        newsAdapter = new NewsAdapter();
+        newsAdapter = new NewsAdapter(this);
         newsRecycler.setAdapter(newsAdapter);
         newsAdapter.submitList(newsPagedList);
     }

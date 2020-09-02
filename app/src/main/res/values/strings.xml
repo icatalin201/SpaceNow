@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Space Now</string>
     <string name="app_name_extended">Space Images, Facts, News &amp; Glossary</string>
-    <string name="news">Space news</string>
-    <string name="launches">Space launches</string>
+    <string name="news">News</string>
+    <string name="launches">Launches</string>
     <string name="apod">Astronomy picture of the day</string>
     <string name="settings">Settings</string>
-    <string name="facts">Space facts</string>
+    <string name="about">About</string>
+    <string name="facts">Facts</string>
     <string name="filter">Filter</string>
-    <string name="launch_year">Launch year</string>
     <string name="news_sources">News source</string>
-    <string name="last_apods">Last 30 astronomical days</string>
+    <string name="last_apods">Last astronomy pictures</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="days">days</string>
     <string name="clock_dots">:</string>
@@ -21,4 +21,44 @@
     <string name="missions">Missions</string>
     <string name="location">Location</string>
     <string name="rocket">Rocket</string>
+    <string name="notification">Notifications</string>
+    <string name="download">Download</string>
+    <string name="description">Description</string>
+    <string name="ok">OK</string>
+    <string name="see_all">See all</string>
+    <string name="read_more">Read more</string>
+    <string name="view_location">View location</string>
+    <string name="next_fact">Give me another one</string>
+    <string name="share">Share</string>
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string name="pref_title_launch_notification">Launch notification</string>
+    <string name="rate">Rate us</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+    <string-array name="pref_launch_notification_titles">
+        <item>15 minutes before</item>
+        <item>30 minutes before</item>
+        <item>1 hour before</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_launch_notification_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>-1</item>
+    </string-array>
 </resources>

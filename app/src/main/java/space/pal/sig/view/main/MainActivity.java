@@ -64,8 +64,13 @@ public class MainActivity extends SpaceBaseActivity {
 
     private void setupNavigation() {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration
-                .Builder(R.id.news_fragment, R.id.launches_fragment, R.id.apod_fragment)
-                .setOpenableLayout(drawerLayout).build();
+                .Builder(R.id.news_fragment,
+                R.id.launches_fragment,
+                R.id.apod_fragment,
+                R.id.facts_fragment,
+                R.id.settings_fragment,
+                R.id.about_fragment
+        ).setOpenableLayout(drawerLayout).build();
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
     }

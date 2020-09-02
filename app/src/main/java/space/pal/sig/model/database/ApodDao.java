@@ -28,10 +28,16 @@ public interface ApodDao {
     @Query("delete from apod")
     Completable delete();
 
-    @Query("select * from apod order by date desc")
-    DataSource.Factory<Integer, Apod> findAll();
+    @Query("select * from apod where type = 'IMAGE' order by date desc")
+    DataSource.Factory<Integer, Apod> findAllImages();
 
     @Query("select * from apod order by date desc limit :limit")
     LiveData<List<Apod>> findAllWithLimit(int limit);
+
+    @Query("select * from apod where id = :id")
+    LiveData<Apod> findById(String id);
+
+    @Query("select * from apod where id = :id")
+    Apod findByIdSync(String id);
 
 }

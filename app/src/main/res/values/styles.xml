@@ -1,13 +1,35 @@
 <resources>
 
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/background</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryText</item>
+        <item name="android:textColorTertiary">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryText</item>
+        <item name="android:background">@color/colorBackground</item>
+        <item name="textColorAlertDialogListItem">@color/colorPrimaryText</item>
     </style>
 
 </resources>

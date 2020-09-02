@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group>
+        <item
+            android:id="@+id/watch"
+            android:icon="@drawable/ic_baseline_remove_red_eye_24"
+            android:title="@string/watch"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/notification"
+            android:icon="@drawable/ic_baseline_notifications_active_24"
+            android:title="@string/notification"
+            app:showAsAction="ifRoom" />
+    </group>
+
+</menu>

@@ -4,11 +4,11 @@
     android:id="@+id/mission_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginBottom="8dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    app:cardCornerRadius="10dp">
+    app:cardBackgroundColor="@color/colorPrimary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,11 +18,8 @@
             android:id="@+id/mission_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            android:textSize="14sp"
+            android:padding="16dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +28,7 @@
             android:id="@+id/mission_divider"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:alpha="0.3"
+            android:alpha="0.5"
             android:background="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +38,7 @@
             android:id="@+id/mission_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
+            android:padding="16dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +48,7 @@
             android:id="@+id/mission_divider2"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:alpha="0.3"
+            android:alpha="0.5"
             android:background="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,25 +58,10 @@
             android:id="@+id/mission_payloads"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mission_divider2" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mission_agencies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mission_payloads" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

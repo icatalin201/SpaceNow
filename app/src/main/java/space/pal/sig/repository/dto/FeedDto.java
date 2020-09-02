@@ -40,7 +40,7 @@ public class FeedDto {
         news.setTitle(title);
         news.setUrl(link);
         news.setDate(parseDate(pubDate, HUBBLE_DATE_FORMAT));
-        news.setImage(imageSquareLarge);
+        news.setImage(imageSquareLarge == null ? imageSquare : imageSquareLarge);
         news.setSource(source);
         news.setThumbnail(thumbnailLarge);
         return news;

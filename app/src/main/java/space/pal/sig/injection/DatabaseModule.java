@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import space.pal.sig.model.database.ApodDao;
+import space.pal.sig.model.database.FactDao;
 import space.pal.sig.model.database.LaunchDao;
 import space.pal.sig.model.database.NewsDao;
 import space.pal.sig.model.database.SpaceDatabase;
@@ -36,6 +37,12 @@ public class DatabaseModule {
     @Singleton
     ApodDao apodDao(SpaceDatabase spaceDatabase) {
         return spaceDatabase.apodDao();
+    }
+
+    @Provides
+    @Singleton
+    FactDao factDao(SpaceDatabase spaceDatabase) {
+        return spaceDatabase.factDao();
     }
 
 }

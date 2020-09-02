@@ -26,7 +26,7 @@ public class ApodViewModel extends AndroidViewModel {
     public ApodViewModel(@NonNull Application application, ApodRepository apodRepository) {
         super(application);
         this.apodRepository = apodRepository;
-        apodList.addSource(apodRepository.findAllWithLimit(31), apodList -> {
+        apodList.addSource(apodRepository.findAllWithLimit(11), apodList -> {
             Apod apod = apodList.get(0);
             apodList.remove(0);
             this.todayApod.setValue(apod);

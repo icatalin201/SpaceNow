@@ -44,6 +44,7 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
     private static final int TOP = 1;
     private static final int MIDDLE = 2;
     private static final int BOTTOM = 3;
+    private static final int TOP_BOTTOM = 4;
     private final SelectLaunchListener listener;
 
     public LaunchesAdapter(SelectLaunchListener listener) {
@@ -57,7 +58,9 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        if (position == 0 && position == getItemCount() - 1) {
+            return TOP_BOTTOM;
+        } else if (position == 0) {
             return TOP;
         } else if (position == getItemCount() - 1) {
             return BOTTOM;
@@ -109,6 +112,10 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)
                     layout.getLayoutParams();
             switch (viewType) {
+                case TOP_BOTTOM:
+                    line.setBackgroundResource(R.drawable.launches_line_top_bottom);
+                    params.topMargin = 33;
+                    break;
                 case TOP:
                     line.setBackgroundResource(R.drawable.launches_line_top);
                     params.topMargin = 33;
@@ -143,7 +150,7 @@ public class LaunchesAdapter extends PagedListAdapter<Launch, LaunchesAdapter.Vi
 
         @OnClick(R.id.launch_layout)
         void onClick() {
-            listener.onClick(getLaunch(getLayoutPosition()), image);
+            listener.onClick(getLaunch(getLayoutPosition()));
         }
     }
 }

@@ -23,7 +23,8 @@ public class LaunchesViewModel extends AndroidViewModel {
     private final MutableLiveData<Integer> selectedFilter = new MutableLiveData<>();
     private final String[] filterLaunches = new String[]{
             "Future Launches",
-            "Past Launches"
+            "Past Launches",
+            "Favorite Launches"
     };
     private LiveData<PagedList<Launch>> launchesLiveData;
 
@@ -37,8 +38,10 @@ public class LaunchesViewModel extends AndroidViewModel {
     public void filter(int pos) {
         if (pos == 0) {
             findFutureLaunches();
-        } else {
+        } else if (pos == 1) {
             findPastLaunches();
+        } else {
+            findFavoriteLaunches();
         }
     }
 
@@ -67,6 +70,12 @@ public class LaunchesViewModel extends AndroidViewModel {
     private void findFutureLaunches() {
         launchList.removeSource(launchesLiveData);
         launchesLiveData = launchesRepository.findAllFutureLaunches(50);
+        launchList.addSource(launchesLiveData, launchList::setValue);
+    }
+
+    private void findFavoriteLaunches() {
+        launchList.removeSource(launchesLiveData);
+        launchesLiveData = launchesRepository.findAllFavoriteLaunches(true, 50);
         launchList.addSource(launchesLiveData, launchList::setValue);
     }
 }

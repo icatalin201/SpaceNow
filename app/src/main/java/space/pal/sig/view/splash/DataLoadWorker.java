@@ -17,16 +17,19 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import space.pal.sig.R;
 import space.pal.sig.Space;
 import space.pal.sig.injection.ApplicationComponent;
 import space.pal.sig.model.Apod;
+import space.pal.sig.model.Fact;
 import space.pal.sig.model.Launch;
 import space.pal.sig.model.News;
 import space.pal.sig.model.NewsSource;
 import space.pal.sig.repository.ApodRepository;
+import space.pal.sig.repository.FactRepository;
 import space.pal.sig.repository.LaunchesRepository;
 import space.pal.sig.repository.NewsRepository;
 import space.pal.sig.repository.dto.ApodDto;
@@ -56,7 +59,9 @@ public class DataLoadWorker extends Worker {
         LaunchesRepository launchesRepository = applicationComponent.launchesRepository();
         NewsRepository newsRepository = applicationComponent.newsRepository();
         ApodRepository apodRepository = applicationComponent.apodRepository();
+        FactRepository factRepository = applicationComponent.factRepository();
         try {
+            loadFacts(factRepository);
             loadApod(apodRepository);
             loadEsaFeed(newsRepository);
             loadHubbleFeed(newsRepository);
@@ -71,8 +76,8 @@ public class DataLoadWorker extends Worker {
     }
 
     private void loadApod(ApodRepository repository) throws IOException {
-        String apod = readJsonFromResource(R.raw.apod);
-        ApodDto[] apodDtoList = gson.fromJson(apod, ApodDto[].class);
+        String apodJson = readJsonFromResource(R.raw.apod);
+        ApodDto[] apodDtoList = gson.fromJson(apodJson, ApodDto[].class);
         List<Apod> apodList = new ArrayList<>();
         for (ApodDto apodDto : apodDtoList) {
             apodList.add(apodDto.toApod());
@@ -131,6 +136,12 @@ public class DataLoadWorker extends Worker {
             launchList.add(launchDto.toLaunchModel());
         }
         repository.insertOrUpdate(launchList).subscribe();
+    }
+
+    private void loadFacts(FactRepository repository) throws IOException {
+        String factsJson = readJsonFromResource(R.raw.facts);
+        Fact[] facts = gson.fromJson(factsJson, Fact[].class);
+        repository.insertOrUpdate(Arrays.asList(facts)).subscribe();
     }
 
     private String readJsonFromResource(int resource) throws IOException {

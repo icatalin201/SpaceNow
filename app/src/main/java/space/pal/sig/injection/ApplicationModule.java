@@ -11,6 +11,7 @@ import dagger.Module;
 import dagger.Provides;
 import lombok.RequiredArgsConstructor;
 import space.pal.sig.util.SharedPreferencesUtil;
+import space.pal.sig.util.SpaceExecutors;
 
 @Module
 @RequiredArgsConstructor
@@ -34,5 +35,11 @@ public class ApplicationModule {
     @Singleton
     SharedPreferencesUtil sharedPreferencesUtil(Context context, Gson gson) {
         return new SharedPreferencesUtil(context, gson);
+    }
+
+    @Provides
+    @Singleton
+    SpaceExecutors spaceExecutors() {
+        return new SpaceExecutors();
     }
 }

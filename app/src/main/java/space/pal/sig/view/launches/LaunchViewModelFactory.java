@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import lombok.RequiredArgsConstructor;
 import space.pal.sig.repository.LaunchesRepository;
+import space.pal.sig.util.SharedPreferencesUtil;
+import space.pal.sig.util.SpaceExecutors;
 
 /**
  * SpaceNow
@@ -18,11 +20,13 @@ public class LaunchViewModelFactory implements ViewModelProvider.Factory {
 
     private final Application application;
     private final LaunchesRepository launchesRepository;
+    private final SpaceExecutors spaceExecutors;
+    private final SharedPreferencesUtil sharedPreferencesUtil;
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new LaunchViewModel(application, launchesRepository);
+        return (T) new LaunchViewModel(application, launchesRepository, spaceExecutors, sharedPreferencesUtil);
     }
 }

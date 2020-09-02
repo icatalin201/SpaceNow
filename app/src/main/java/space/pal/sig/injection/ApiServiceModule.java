@@ -16,7 +16,6 @@ import space.pal.sig.repository.client.SpaceClient;
 import space.pal.sig.repository.service.HubbleService;
 import space.pal.sig.repository.service.LaunchService;
 import space.pal.sig.repository.service.NasaService;
-import space.pal.sig.repository.service.SpaceService;
 
 @Module
 public class ApiServiceModule {
@@ -31,12 +30,6 @@ public class ApiServiceModule {
     @Singleton
     HubbleService hubbleService(HubbleClient hubbleClient) {
         return hubbleClient.createService(HubbleService.class);
-    }
-
-    @Provides
-    @Singleton
-    SpaceService spaceService(SpaceClient spaceClient) {
-        return spaceClient.createService(SpaceService.class);
     }
 
     @Provides

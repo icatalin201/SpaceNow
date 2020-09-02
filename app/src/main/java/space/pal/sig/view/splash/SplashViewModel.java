@@ -10,8 +10,13 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import space.pal.sig.service.download.DownloadManager;
 import space.pal.sig.util.SharedPreferencesUtil;
+
+import static space.pal.sig.service.download.DataSyncManager.DATA_SYNC_WORKER_TAG;
+import static space.pal.sig.service.download.NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG;
+import static space.pal.sig.service.download.ScheduleManager.launchOneTimeSync;
+import static space.pal.sig.service.download.ScheduleManager.scheduleDataSync;
+import static space.pal.sig.service.download.ScheduleManager.scheduleLaunchNotification;
 
 /**
  * SpaceNow
@@ -34,7 +39,7 @@ public class SplashViewModel extends AndroidViewModel {
         if (isFirstTime) {
             setupWork();
         } else {
-            DownloadManager.createSyncQueue(application);
+            launchOneTimeSync(getApplication(), "sync");
         }
         this.safeForStart.setValue(!isFirstTime);
     }
@@ -50,6 +55,7 @@ public class SplashViewModel extends AndroidViewModel {
                     boolean finished = workInfo.getState().isFinished();
                     if (finished) {
                         sharedPreferencesUtil.storeBoolean(IS_FIRST_TIME, false);
+                        setupScheduling();
                     }
                     safeForStart.setValue(finished);
                 });
@@ -58,6 +64,13 @@ public class SplashViewModel extends AndroidViewModel {
                 .addTag(TAG_OUTPUT)
                 .build();
         manager.enqueue(worker);
+    }
+
+    private void setupScheduling() {
+        String dataSyncRepeatInterval = sharedPreferencesUtil
+                .getString(NOTIFICATION_LAUNCH_WORKER_TAG, "180");
+        scheduleLaunchNotification(getApplication(), 15, NOTIFICATION_LAUNCH_WORKER_TAG);
+        scheduleDataSync(getApplication(), Long.parseLong(dataSyncRepeatInterval), DATA_SYNC_WORKER_TAG);
     }
 
     private boolean isFirstTime() {

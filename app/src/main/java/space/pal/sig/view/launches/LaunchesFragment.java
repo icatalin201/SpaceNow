@@ -12,14 +12,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -58,28 +54,13 @@ public class LaunchesFragment extends SpaceBaseFragment implements SelectLaunchL
         viewModel = new ViewModelProvider(this, factory).get(LaunchesViewModel.class);
         viewModel.getLaunchList().observe(getViewLifecycleOwner(), this::consumeLaunchList);
         viewModel.getSelectedFilter().observe(getViewLifecycleOwner(), this::onSelectFilter);
-        launchesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int position = manager.findFirstCompletelyVisibleItemPosition();
-                Launch launch = launchesAdapter.getLaunch(position);
-                Date date = new Date(launch.getTimestamp());
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                String title = getParentActivity().getTitle().toString().split(":")[0];
-                title = title.concat(": ")
-                        .concat(String.valueOf(calendar.get(Calendar.YEAR)));
-                getParentActivity().setTitle(title);
-            }
-        });
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.filter_menu, menu);
+        inflater.inflate(R.menu.menu_filter, menu);
     }
 
     @Override
@@ -87,7 +68,7 @@ public class LaunchesFragment extends SpaceBaseFragment implements SelectLaunchL
         if (item.getItemId() == R.id.filter) {
             String[] launches = viewModel.getFilterLaunches();
             AlertDialog dialog = new AlertDialog
-                    .Builder(getParentActivity())
+                    .Builder(getParentActivity(), R.style.AppTheme_Dialog)
                     .setItems(launches, (d, w) -> {
                         viewModel.selectFilter(w);
                         d.dismiss();
@@ -99,22 +80,15 @@ public class LaunchesFragment extends SpaceBaseFragment implements SelectLaunchL
     }
 
     @Override
-    public void onClick(Launch launch, View imageView) {
-        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(getParentActivity(), imageView, "launchImage");
+    public void onClick(Launch launch) {
         Intent intent = new Intent(getParentActivity(), LaunchActivity.class);
         intent.putExtra(LAUNCH_ID, launch.getId());
-        startActivity(intent, activityOptionsCompat.toBundle());
+        startActivity(intent);
     }
 
     private void onSelectFilter(int pos) {
         viewModel.filter(pos);
-        String title = "Future Launches";
-        if (pos != 0) {
-            title = "Past Launches";
-        }
-        title = title.concat(": ")
-                .concat(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        String title = viewModel.getFilterLaunches()[pos];
         getParentActivity().setTitle(title);
     }
 

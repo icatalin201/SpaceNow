@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(tableName = "apod")
@@ -46,5 +48,8 @@ public class Apod {
     @NonNull
     @ColumnInfo
     private MediaType type;
+    @NonNull
+    @ColumnInfo
+    private Boolean favorite = false;
 
 }

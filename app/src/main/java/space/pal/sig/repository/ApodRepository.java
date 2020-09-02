@@ -28,8 +28,16 @@ public class ApodRepository {
         return apodDao.insert(apod);
     }
 
-    public LiveData<PagedList<Apod>> findAll(int pageSize) {
-        return new LivePagedListBuilder<>(apodDao.findAll(), pageSize).build();
+    public Apod findApodById(String id) {
+        return apodDao.findByIdSync(id);
+    }
+
+    public LiveData<Apod> findById(String id) {
+        return apodDao.findById(id);
+    }
+
+    public LiveData<PagedList<Apod>> findAllImages(int pageSize) {
+        return new LivePagedListBuilder<>(apodDao.findAllImages(), pageSize).build();
     }
 
     public LiveData<List<Apod>> findAllWithLimit(int limit) {

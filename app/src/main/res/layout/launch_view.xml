@@ -16,7 +16,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:contentDescription="@string/launches"
         android:transitionName="launchImage"
         app:layout_constraintBottom_toBottomOf="parent"

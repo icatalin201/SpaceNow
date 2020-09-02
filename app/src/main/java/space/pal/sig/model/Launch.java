@@ -70,4 +70,7 @@ public class Launch {
     @Nullable
     @ColumnInfo
     private SpaceProviderDto launchSpaceProvider;
+    @NonNull
+    @ColumnInfo
+    private Boolean favorite = false;
 }

@@ -33,4 +33,8 @@ public class NewsRepository {
         return new LivePagedListBuilder<>(newsDao.findAllBySource(source), pageSize).build();
     }
 
+    public LiveData<News> findById(String id) {
+        return newsDao.findById(id);
+    }
+
 }
