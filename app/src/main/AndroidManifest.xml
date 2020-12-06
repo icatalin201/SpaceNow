@@ -8,17 +8,17 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Space"
+        android:name=".SpaceNow"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Splash"
+        android:theme="@style/SpaceNow.Splash"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".view.splash.SplashActivity"
+            android:name=".old.view.splash.SplashActivity"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,29 +27,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.apod.ImagesActivity"
+            android:name=".old.view.apod.ImagesActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/SpaceNow" />
         <activity
-            android:name=".view.web.WebActivity"
+            android:name=".old.view.web.WebActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/SpaceNow" />
         <activity
-            android:name=".view.apod.ImageActivity"
+            android:name=".old.view.apod.ImageActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/SpaceNow" />
         <activity
-            android:name=".view.launches.LaunchActivity"
+            android:name=".old.view.launches.LaunchActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/SpaceNow" />
         <activity
-            android:name=".view.news.NewsActivity"
+            android:name=".old.view.news.NewsActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/SpaceNow" />
         <activity
-            android:name=".view.main.MainActivity"
+            android:name=".old.view.main.MainActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/SpaceNow" />
 
     </application>
 

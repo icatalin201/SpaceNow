@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fitsSystemWindows="true"
-    tools:context=".view.news.NewsActivity">
+    tools:context=".old.view.news.NewsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/news_appbar"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.Toolbar"
+            android:theme="@style/SpaceNow.Toolbar"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
-                android:theme="@style/AppTheme.Toolbar"
+                android:theme="@style/SpaceNow.Toolbar"
                 app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

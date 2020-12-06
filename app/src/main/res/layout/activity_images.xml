@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".view.apod.ImagesActivity">
+    tools:context=".old.view.apod.ImagesActivity">
 
     <include layout="@layout/main_toolbar" />
 

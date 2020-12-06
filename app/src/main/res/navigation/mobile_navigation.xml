@@ -7,36 +7,36 @@
 
     <fragment
         android:id="@+id/news_fragment"
-        android:name="space.pal.sig.view.news.NewsFragment"
+        android:name="space.pal.sig.old.view.news.NewsFragment"
         android:label="@string/news"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/launches_fragment"
-        android:name="space.pal.sig.view.launches.LaunchesFragment"
+        android:name="space.pal.sig.old.view.launches.LaunchesFragment"
         android:label="@string/launches"
         tools:layout="@layout/fragment_launches" />
 
     <fragment
         android:id="@+id/apod_fragment"
-        android:name="space.pal.sig.view.apod.ApodFragment"
+        android:name="space.pal.sig.old.view.apod.ApodFragment"
         android:label="@string/apod"
         tools:layout="@layout/fragment_apod" />
 
     <fragment
         android:id="@+id/facts_fragment"
-        android:name="space.pal.sig.view.facts.FactsFragment"
+        android:name="space.pal.sig.old.view.facts.FactsFragment"
         android:label="@string/facts"
         tools:layout="@layout/fragment_facts" />
 
     <fragment
         android:id="@+id/settings_fragment"
-        android:name="space.pal.sig.view.settings.SettingsFragment"
+        android:name="space.pal.sig.old.view.settings.SettingsFragment"
         android:label="@string/settings" />
 
     <fragment
         android:id="@+id/about_fragment"
-        android:name="space.pal.sig.view.about.AboutFragment"
+        android:name="space.pal.sig.old.view.about.AboutFragment"
         android:label="@string/about"
         tools:layout="@layout/fragment_about" />
 

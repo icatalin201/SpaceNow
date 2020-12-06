@@ -1,4 +1,8 @@
-apply plugin: "com.android.application"
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 android {
     compileSdkVersion 30
@@ -6,8 +10,8 @@ android {
         applicationId "space.pal.sig"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 32
-        versionName "3.0.2"
+        versionCode 40
+        versionName "4.0.0"
     }
     buildTypes {
         release {
@@ -15,62 +19,65 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    flavorDimensions "default"
+
     compileOptions {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    productFlavors {
+        production {
+            applicationId "space.pal.sig"
+            buildConfigField 'String', 'SPACE_X_API_URL', '"https://api.spacexdata.com/v3/"'
+            buildConfigField 'String', 'NASA_API_URL', '"https://api.nasa.gov/"'
+            buildConfigField 'String', 'NASA_API_KEY', '"BST2Npgb7FKgBIVzIW2Dd3qARcQbwgk1jdY5Hc28"'
+        }
     }
 }
 
 dependencies {
 
-    def archVersion = '2.2.0'
-    def roomVersion = '2.2.5'
-    def squareUpVersion = '2.9.0'
-    def daggerVersion = '2.28.3'
-    def butterKnifeVersion = '10.2.1'
-    def lombokVersion = '1.18.12'
-    def navigationVersion = '2.3.0'
-    def paging_version = '2.1.2'
-    def picassoVersion = '2.71828'
-    def workVersion = '2.4.0'
-
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation "androidx.paging:paging-runtime:$paging_version"
-    testImplementation "androidx.paging:paging-common:$paging_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    implementation "org.projectlombok:lombok:$lombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.cardview:cardview:$card_view_version"
+    implementation "androidx.recyclerview:recyclerview:$recycler_view_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.preference:preference-ktx:$preference_version"
 
-    implementation "androidx.navigation:navigation-fragment:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui:$navigationVersion"
+    implementation "com.google.android.material:material:$material_version"
 
-    implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation "androidx.cardview:cardview:1.0.0"
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha05'
-    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-rxjava2:$roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.work:work-runtime:$workVersion"
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
-    implementation "androidx.lifecycle:lifecycle-extensions:$archVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:$archVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata:$archVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$archVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
-    implementation "com.google.android.material:material:1.1.0"
-
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "com.squareup.retrofit2:retrofit:$squareUpVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$squareUpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
-    implementation "com.squareup.picasso:picasso:$picassoVersion"
-
-    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    implementation "org.koin:koin-androidx-workmanager:$koin_version"
+    implementation "org.koin:koin-androidx-compose:$koin_version"
 
 }
