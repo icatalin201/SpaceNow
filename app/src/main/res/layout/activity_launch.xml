@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/background"
     android:fitsSystemWindows="true"
     tools:context=".old.view.launches.LaunchActivity">
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:theme="@style/SpaceNow.Toolbar"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/colorSemiTransparentDark"
+                    android:background="@color/primaryDarkSemiTransparent"
                     android:fitsSystemWindows="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
                 android:id="@+id/launch_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardBackgroundColor="@color/primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -131,7 +131,7 @@
                             android:layout_centerHorizontal="true"
                             android:background="@drawable/launch_status_success"
                             android:padding="8dp"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/white"
                             android:textStyle="bold" />
 
                         <View
@@ -139,7 +139,7 @@
                             android:layout_height="0.5dp"
                             android:layout_centerInParent="true"
                             android:alpha="0.5"
-                            android:background="@color/colorPrimaryDark"
+                            android:background="@color/primaryDark"
                             android:translationZ="-1dp" />
 
                     </RelativeLayout>
@@ -299,7 +299,7 @@
                         android:layout_height="0.5dp"
                         android:layout_marginTop="16dp"
                         android:alpha="0.5"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/primaryDark"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/launch_clock" />
@@ -357,7 +357,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardBackgroundColor="@color/primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/launch_rocket_label">
@@ -401,7 +401,7 @@
                         android:id="@+id/launch_rocket_image"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/primaryDark"
                         android:contentDescription="@string/rocket"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -427,7 +427,7 @@
                 android:id="@+id/launch_location_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardBackgroundColor="@color/primary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

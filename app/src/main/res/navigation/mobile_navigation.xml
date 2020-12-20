@@ -23,21 +23,4 @@
         android:label="@string/apod"
         tools:layout="@layout/fragment_apod" />
 
-    <fragment
-        android:id="@+id/facts_fragment"
-        android:name="space.pal.sig.old.view.facts.FactsFragment"
-        android:label="@string/facts"
-        tools:layout="@layout/fragment_facts" />
-
-    <fragment
-        android:id="@+id/settings_fragment"
-        android:name="space.pal.sig.old.view.settings.SettingsFragment"
-        android:label="@string/settings" />
-
-    <fragment
-        android:id="@+id/about_fragment"
-        android:name="space.pal.sig.old.view.about.AboutFragment"
-        android:label="@string/about"
-        tools:layout="@layout/fragment_about" />
-
 </navigation>

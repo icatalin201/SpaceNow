@@ -17,6 +17,8 @@
         android:theme="@style/SpaceNow.Splash"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".view.main.MainActivity"></activity>
+        <activity android:name=".view.splash.SplashActivity" />
         <activity
             android:name=".old.view.splash.SplashActivity"
             android:screenOrientation="sensorPortrait">
@@ -50,7 +52,6 @@
             android:name=".old.view.main.MainActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/SpaceNow" />
-
     </application>
 
 </manifest>

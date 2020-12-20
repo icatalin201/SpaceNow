@@ -20,7 +20,7 @@ data class AstronomyPictureOfTheDay(
         @SerializedName("service_version")
         val serviceVersion: String,
         @SerializedName("media_type")
-        val mediaType: String,
+        val mediaType: MediaType,
         @SerializedName(value = "hdurl", alternate = ["hd_image"])
         val hdUrl: String
 )

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/background"
     android:fitsSystemWindows="true"
     tools:context=".old.view.news.NewsActivity">
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:theme="@style/SpaceNow.Toolbar"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
                     android:id="@+id/news_title"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/colorSemiTransparentDark"
+                    android:background="@color/primaryDarkSemiTransparent"
                     android:fitsSystemWindows="true"
                     android:gravity="bottom|center_horizontal"
                     android:padding="16dp"
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/read_more"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/accent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/news_text" />
