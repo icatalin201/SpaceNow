@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration.Builder(
                 R.id.news_fragment,
                 R.id.launches_fragment,
-                R.id.apod_fragment
+                R.id.main_fragment
         ).build()
         NavigationUI.setupWithNavController(binding.mainToolbar,
                 navController, appBarConfiguration)

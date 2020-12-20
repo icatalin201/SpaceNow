@@ -13,10 +13,10 @@ import space.pal.sig.old.model.Apod;
 import space.pal.sig.old.model.Fact;
 import space.pal.sig.old.model.Launch;
 import space.pal.sig.old.model.News;
-import space.pal.sig.old.model.database.converters.DateConverter;
+import space.pal.sig.database.converters.DateConverter;
 import space.pal.sig.old.model.database.converters.LaunchConverters;
 import space.pal.sig.old.model.database.converters.LaunchStatusConverter;
-import space.pal.sig.old.model.database.converters.MediaTypeConverter;
+import space.pal.sig.database.converters.MediaTypeConverter;
 import space.pal.sig.old.model.database.converters.NewsSourceConverter;
 
 /**

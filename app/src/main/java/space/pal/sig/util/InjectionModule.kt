@@ -2,8 +2,14 @@ package space.pal.sig.util
 
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
+import space.pal.sig.database.SpaceNowDatabase
+import space.pal.sig.network.NasaApiService
+import space.pal.sig.network.SpaceXApiService
 import space.pal.sig.network.client.NasaClient
 import space.pal.sig.network.client.SpaceXClient
+import space.pal.sig.repository.ApodRepository
+import space.pal.sig.repository.LaunchRepository
+import space.pal.sig.repository.RoadsterRepository
 
 /**
 SpaceNow
@@ -15,8 +21,18 @@ object InjectionModule {
 
         single { SharedPreferencesUtil(androidApplication()) }
 
+        single { SpaceNowDatabase.getInstance(androidApplication()) }
+        single { get<SpaceNowDatabase>().apodDao() }
+
         single { NasaClient() }
         single { SpaceXClient() }
+
+        single { get<NasaClient>().createService(NasaApiService::class.java) }
+        single { get<SpaceXClient>().createService(SpaceXApiService::class.java) }
+
+        single { ApodRepository(get(), get()) }
+        single { RoadsterRepository(get()) }
+        single { LaunchRepository(get()) }
 
     }
 

@@ -1,23 +1,20 @@
-package space.pal.sig.old.model.database.converters;
+package space.pal.sig.database.converters
 
-import androidx.room.TypeConverter;
-
-import java.util.Date;
+import androidx.room.TypeConverter
+import java.util.*
 
 /**
  * SpaceNow
  * Created by Catalin on 7/19/2020
- **/
-public class DateConverter {
-
+ */
+object DateConverter {
     @TypeConverter
-    public static Date fromTimestamp(Long time) {
-        return time == null ? null : new Date(time);
+    fun fromTimestamp(time: Long?): Date? {
+        return if (time == null) null else Date(time)
     }
 
     @TypeConverter
-    public static Long toTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+    fun toTimestamp(date: Date?): Long? {
+        return date?.time
     }
-
 }

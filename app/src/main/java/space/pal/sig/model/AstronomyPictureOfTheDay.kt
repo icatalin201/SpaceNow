@@ -1,14 +1,19 @@
 package space.pal.sig.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /**
 SpaceNow
 Created by Catalin on 12/6/2020
  **/
+@Entity(tableName = "astronomy_pictures_of_the_day")
 data class AstronomyPictureOfTheDay(
+        @PrimaryKey(autoGenerate = false)
         @SerializedName(value = "date", alternate = ["date_created"])
-        val date: String,
+        val date: Date,
         @SerializedName(value = "explanation", alternate = ["description"])
         val explanation: String,
         @SerializedName(value = "url", alternate = ["image"])

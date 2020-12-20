@@ -1,23 +1,20 @@
-package space.pal.sig.old.model.database.converters;
+package space.pal.sig.database.converters
 
-import androidx.room.TypeConverter;
-
-import space.pal.sig.old.model.MediaType;
+import androidx.room.TypeConverter
+import space.pal.sig.old.model.MediaType
 
 /**
  * SpaceNow
  * Created by Catalin on 7/24/2020
- **/
-public class MediaTypeConverter {
-
+ */
+object MediaTypeConverter {
     @TypeConverter
-    public static MediaType fromString(String type) {
-        return type == null ? null : MediaType.valueOf(type);
+    fun fromString(type: String?): MediaType? {
+        return if (type == null) null else MediaType.valueOf(type)
     }
 
     @TypeConverter
-    public static String toString(MediaType type) {
-        return type == null ? null : type.name();
+    fun toString(type: MediaType?): String? {
+        return type?.name
     }
-
 }

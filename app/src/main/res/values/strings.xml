@@ -33,6 +33,7 @@
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="pref_title_launch_notification">Launch notification</string>
     <string name="rate">Rate us</string>
+    <string name="home">Home</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>
