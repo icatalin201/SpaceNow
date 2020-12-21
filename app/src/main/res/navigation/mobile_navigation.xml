@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/news_fragment"
-        android:name="space.pal.sig.old.view.news.NewsFragment"
+        android:name="space.pal.sig.view.news.NewsFragment"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/launches_fragment"
-        android:name="space.pal.sig.old.view.launches.LaunchesFragment"
+        android:name="space.pal.sig.view.launches.LaunchesFragment"
         tools:layout="@layout/fragment_launches" />
 
     <fragment

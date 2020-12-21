@@ -1,6 +1,8 @@
 package space.pal.sig.repository
 
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import space.pal.sig.model.Roadster
 import space.pal.sig.network.SpaceXApiService
 
@@ -13,7 +15,10 @@ class RoadsterRepository(
 ) {
 
     fun getRoadster(): Single<Roadster> {
-        return spaceXApiService.getRoadster()
+        return spaceXApiService
+                .getRoadster()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
 }

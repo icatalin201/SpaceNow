@@ -1,6 +1,7 @@
 package space.pal.sig.util
 
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import space.pal.sig.database.SpaceNowDatabase
 import space.pal.sig.network.NasaApiService
@@ -10,6 +11,9 @@ import space.pal.sig.network.client.SpaceXClient
 import space.pal.sig.repository.ApodRepository
 import space.pal.sig.repository.LaunchRepository
 import space.pal.sig.repository.RoadsterRepository
+import space.pal.sig.view.apod.ApodViewModel
+import space.pal.sig.view.main.MainViewModel
+import space.pal.sig.view.splash.SplashViewModel
 
 /**
 SpaceNow
@@ -33,6 +37,9 @@ object InjectionModule {
         single { ApodRepository(get(), get()) }
         single { RoadsterRepository(get()) }
         single { LaunchRepository(get()) }
+
+        viewModel { SplashViewModel() }
+        viewModel { MainViewModel(get(), get()) }
 
     }
 

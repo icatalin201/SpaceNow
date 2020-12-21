@@ -5,7 +5,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import space.pal.sig.old.repository.client.BaseClient
 
 /**
 SpaceNow
@@ -13,9 +12,7 @@ Created by Catalin on 12/6/2020
  **/
 abstract class BaseClient {
 
-    companion object {
-        private var CLIENT: Retrofit? = null
-    }
+    private var client: Retrofit? = null
 
     fun <T> createService(service: Class<T>): T {
         return getClient().create(service)
@@ -24,12 +21,12 @@ abstract class BaseClient {
     abstract fun getApiUrl(): String
 
     private fun getClient(): Retrofit {
-        if (CLIENT == null) {
+        if (client == null) {
             synchronized(BaseClient::class.java) {
-                CLIENT = build(getApiUrl())
+                client = build(getApiUrl())
             }
         }
-        return CLIENT!!
+        return client!!
     }
 
     private fun build(url: String): Retrofit {

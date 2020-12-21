@@ -3,11 +3,11 @@ package space.pal.sig.view.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import space.pal.sig.model.AstronomyPictureOfTheDay
 import space.pal.sig.model.Roadster
 import space.pal.sig.repository.ApodRepository
 import space.pal.sig.repository.RoadsterRepository
+import space.pal.sig.view.BaseViewModel
 
 /**
  * SpaceNow
@@ -16,7 +16,7 @@ import space.pal.sig.repository.RoadsterRepository
 class MainViewModel(
         apodRepository: ApodRepository,
         roadsterRepository: RoadsterRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val astronomyPictureOfTheDay = MediatorLiveData<AstronomyPictureOfTheDay>()
     private val roadster = MutableLiveData<Roadster>()

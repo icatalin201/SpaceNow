@@ -1,6 +1,8 @@
 package space.pal.sig.repository
 
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import space.pal.sig.model.Launch
 import space.pal.sig.network.SpaceXApiService
 
@@ -13,27 +15,45 @@ class LaunchRepository(
 ) {
 
     fun getAllLaunches(): Single<MutableList<Launch>> {
-        return spaceXApiService.getAllLaunches()
+        return spaceXApiService
+                .getAllLaunches()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
     fun getLaunch(flightNumber: Long): Single<Launch> {
-        return spaceXApiService.getLaunch(flightNumber)
+        return spaceXApiService
+                .getLaunch(flightNumber)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
     fun getPastLaunches(): Single<MutableList<Launch>> {
-        return spaceXApiService.getPastLaunches()
+        return spaceXApiService
+                .getPastLaunches()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
     fun getUpcomingLaunches(): Single<MutableList<Launch>> {
-        return spaceXApiService.getUpcomingLaunches()
+        return spaceXApiService
+                .getUpcomingLaunches()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
     fun getLatestLaunch(): Single<Launch> {
-        return spaceXApiService.getLatestLaunch()
+        return spaceXApiService
+                .getLatestLaunch()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
     fun getNextLaunch(): Single<Launch> {
-        return spaceXApiService.getNextLaunch()
+        return spaceXApiService
+                .getNextLaunch()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
 }

@@ -2,6 +2,8 @@ package space.pal.sig.repository
 
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import space.pal.sig.BuildConfig
 import space.pal.sig.database.dao.ApodDao
 import space.pal.sig.model.AstronomyPictureOfTheDay
@@ -29,10 +31,16 @@ class ApodRepository(
     }
 
     fun downloadCurrent(): Single<AstronomyPictureOfTheDay> {
-        return nasaService.getPictureOfTheDay(BuildConfig.NASA_API_KEY)
+        return nasaService
+                .getPictureOfTheDay(BuildConfig.NASA_API_KEY)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
     fun downloadByDate(date: String): Single<AstronomyPictureOfTheDay> {
-        return nasaService.getPictureOfTheDay(BuildConfig.NASA_API_KEY, date)
+        return nasaService
+                .getPictureOfTheDay(BuildConfig.NASA_API_KEY, date)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 }

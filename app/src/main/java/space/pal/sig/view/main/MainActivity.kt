@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.launches_fragment,
                 R.id.main_fragment
         ).build()
+        NavigationUI.setupWithNavController(binding.mainBottomNv, navController)
         NavigationUI.setupWithNavController(binding.mainToolbar,
                 navController, appBarConfiguration)
     }

@@ -7,7 +7,7 @@ import java.util.*
  * SpaceNow
  * Created by Catalin on 7/19/2020
  */
-object DateConverter {
+class DateConverter {
     @TypeConverter
     fun fromTimestamp(time: Long?): Date? {
         return if (time == null) null else Date(time)

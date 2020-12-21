@@ -1,70 +1,60 @@
-package space.pal.sig.old.view.settings;
+package space.pal.sig.view.settings
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
-
-import space.pal.sig.R;
-
-import static space.pal.sig.old.service.download.DataSyncManager.DATA_SYNC_WORKER_TAG;
-import static space.pal.sig.old.service.download.NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG;
-import static space.pal.sig.old.service.download.ScheduleManager.scheduleDataSync;
-import static space.pal.sig.old.service.download.ScheduleManager.scheduleLaunchNotification;
+import android.os.Bundle
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
+import space.pal.sig.R
+import space.pal.sig.service.download.DataSyncManager
+import space.pal.sig.service.download.NotificationLaunchManager
+import space.pal.sig.service.download.ScheduleManager
 
 /**
  * SpaceNow
  * Created by Catalin on 7/29/2020
- **/
-public class SettingsFragment extends PreferenceFragmentCompat {
+ */
+class SettingsFragment : PreferenceFragmentCompat() {
 
-    private Preference.OnPreferenceChangeListener
-            sBindPreferenceSummaryToValueListener =
-            (preference, value) -> {
-                String stringValue = value.toString();
-                if (preference instanceof ListPreference) {
-                    ListPreference listPreference = (ListPreference) preference;
-                    int index = listPreference.findIndexOfValue(stringValue);
+    private val sBindPreferenceSummaryToValueListener = Preference
+            .OnPreferenceChangeListener { preference: Preference, value: Any ->
+                val stringValue = value.toString()
+                if (preference is ListPreference) {
+                    val index = preference.findIndexOfValue(stringValue)
                     if (index >= 0) {
-                        CharSequence entry = listPreference.getEntries()[index];
-                        CharSequence entryValue = listPreference.getEntryValues()[index];
-                        preference.setSummary(entry);
-                        if (preference.getKey().equals(DATA_SYNC_WORKER_TAG)) {
-                            scheduleDataSync(getContext(),
-                                    Long.parseLong(entryValue.toString()),
-                                    DATA_SYNC_WORKER_TAG);
+                        val entry = preference.entries[index]
+                        val entryValue = preference.entryValues[index]
+                        preference.setSummary(entry)
+                        if (preference.getKey() == DataSyncManager.DATA_SYNC_WORKER_TAG) {
+                            ScheduleManager.scheduleDataSync(requireContext(),
+                                    entryValue.toString().toLong(),
+                                    DataSyncManager.DATA_SYNC_WORKER_TAG)
                         } else {
-                            scheduleLaunchNotification(getContext(),
+                            ScheduleManager.scheduleLaunchNotification(requireContext(),
                                     15,
-                                    NOTIFICATION_LAUNCH_WORKER_TAG);
+                                    NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG)
                         }
                     }
                 } else {
-                    preference.setSummary(stringValue);
+                    preference.summary = stringValue
                 }
-                return true;
-            };
+                true
+            }
 
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.settings, rootKey);
-        Preference syncPreference = findPreference(DATA_SYNC_WORKER_TAG);
-        Preference notificationPreference = findPreference(NOTIFICATION_LAUNCH_WORKER_TAG);
-        bindPreferenceSummaryToValue(syncPreference);
-        bindPreferenceSummaryToValue(notificationPreference);
+    override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+        setPreferencesFromResource(R.xml.settings, rootKey)
+        val syncPreference = findPreference<Preference>(DataSyncManager.DATA_SYNC_WORKER_TAG)
+        val notificationPreference = findPreference<Preference>(NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG)
+        bindPreferenceSummaryToValue(syncPreference)
+        bindPreferenceSummaryToValue(notificationPreference)
     }
 
-    private void bindPreferenceSummaryToValue(@Nullable Preference preference) {
-        if (preference == null) return;
-        preference.setOnPreferenceChangeListener(
-                sBindPreferenceSummaryToValueListener);
+    private fun bindPreferenceSummaryToValue(preference: Preference?) {
+        if (preference == null) return
+        preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
         sBindPreferenceSummaryToValueListener
                 .onPreferenceChange(preference, PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+                        .getDefaultSharedPreferences(preference.context)
+                        .getString(preference.key, ""))
     }
-
 }

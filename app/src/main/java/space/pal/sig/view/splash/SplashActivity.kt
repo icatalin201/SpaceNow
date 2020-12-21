@@ -7,8 +7,8 @@ import androidx.databinding.DataBindingUtil
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivitySplashBinding
-import space.pal.sig.old.view.main.MainActivity
 import space.pal.sig.view.BaseActivity
+import space.pal.sig.view.main.MainActivity
 
 class SplashActivity : BaseActivity() {
 

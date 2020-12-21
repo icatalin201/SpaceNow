@@ -25,7 +25,12 @@ data class AstronomyPictureOfTheDay(
         @SerializedName("service_version")
         val serviceVersion: String,
         @SerializedName("media_type")
-        val mediaType: MediaType,
+        val mediaType: String,
         @SerializedName(value = "hdurl", alternate = ["hd_image"])
         val hdUrl: String
-)
+) {
+    companion object {
+        const val IMAGE = "image"
+        const val VIDEO = "video"
+    }
+}

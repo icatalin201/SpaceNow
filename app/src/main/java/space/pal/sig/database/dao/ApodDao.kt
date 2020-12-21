@@ -1,7 +1,10 @@
 package space.pal.sig.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import space.pal.sig.model.AstronomyPictureOfTheDay
 
 /**
@@ -13,9 +16,6 @@ interface ApodDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(astronomyPictureOfTheDay: AstronomyPictureOfTheDay)
-
-    @Delete
-    fun delete()
 
     @Query("select * from astronomy_pictures_of_the_day where mediaType = 'IMAGE' order by date desc")
     fun findAllImages(): LiveData<MutableList<AstronomyPictureOfTheDay>>

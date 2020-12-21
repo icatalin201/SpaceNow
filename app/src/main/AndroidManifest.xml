@@ -17,10 +17,16 @@
         android:theme="@style/SpaceNow.Splash"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.main.MainActivity"></activity>
-        <activity android:name=".view.splash.SplashActivity" />
         <activity
-            android:name=".old.view.splash.SplashActivity"
+            android:name=".view.launch.LaunchActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SpaceNow" />
+        <activity
+            android:name=".view.main.MainActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SpaceNow" />
+        <activity
+            android:name=".view.splash.SplashActivity"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,30 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".old.view.apod.ImagesActivity"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/SpaceNow" />
-        <activity
-            android:name=".old.view.web.WebActivity"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/SpaceNow" />
-        <activity
-            android:name=".old.view.apod.ImageActivity"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/SpaceNow" />
-        <activity
-            android:name=".old.view.launches.LaunchActivity"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/SpaceNow" />
-        <activity
-            android:name=".old.view.news.NewsActivity"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/SpaceNow" />
-        <activity
-            android:name=".old.view.main.MainActivity"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/SpaceNow" />
     </application>
 
 </manifest>

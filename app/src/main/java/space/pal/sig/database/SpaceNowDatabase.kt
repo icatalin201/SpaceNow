@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import space.pal.sig.database.converters.DateConverter
-import space.pal.sig.database.converters.MediaTypeConverter
 import space.pal.sig.database.dao.ApodDao
 import space.pal.sig.model.AstronomyPictureOfTheDay
 
@@ -18,7 +17,6 @@ import space.pal.sig.model.AstronomyPictureOfTheDay
     AstronomyPictureOfTheDay::class
 ], version = 1, exportSchema = false)
 @TypeConverters(
-        MediaTypeConverter::class,
         DateConverter::class
 )
 abstract class SpaceNowDatabase : RoomDatabase() {
