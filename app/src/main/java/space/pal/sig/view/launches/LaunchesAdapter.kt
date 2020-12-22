@@ -1,5 +1,6 @@
 package space.pal.sig.view.launches
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -7,12 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import space.pal.sig.R
 import space.pal.sig.databinding.LaunchViewBinding
 import space.pal.sig.model.Launch
+import space.pal.sig.util.displayDatetime
+import java.util.*
 
 /**
  * SpaceNow
  * Created by Catalin on 12/21/2020
  **/
-class LaunchesAdapter : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
+class LaunchesAdapter(
+        private val context: Context
+) : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
 
     companion object {
         private const val TOP = 1
@@ -30,7 +35,7 @@ class LaunchesAdapter : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
+        val inflater = LayoutInflater.from(context)
         val binding: LaunchViewBinding = DataBindingUtil
                 .inflate(inflater, R.layout.launch_view, parent, false)
         return ViewHolder(binding)
@@ -56,7 +61,7 @@ class LaunchesAdapter : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
         }
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
             private val binding: LaunchViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -78,6 +83,9 @@ class LaunchesAdapter : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
                 else -> binding.line.setBackgroundResource(R.drawable.launches_line_middle)
             }
             binding.launchLayout.layoutParams = params
+            binding.launchName.text = launch.name
+            binding.launchDate.text = Date(launch.dateUnix * 1000).displayDatetime()
+            binding.launchAgency.text = context.getString(R.string.space_x_label)
         }
 
     }

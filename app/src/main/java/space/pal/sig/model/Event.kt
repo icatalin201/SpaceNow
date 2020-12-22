@@ -8,17 +8,15 @@ Created by Catalin on 12/6/2020
  **/
 data class Event(
         @SerializedName("id")
-        val id: Long,
+        val id: String,
         @SerializedName("title")
-        val title: String,
+        val title: String?,
         @SerializedName("event_date_utc")
-        val dateUtc: String,
+        val dateUtc: String?,
         @SerializedName("event_date_unix")
-        val dateUnix: Long,
-        @SerializedName("flight_number")
-        val flightNumber: Int,
+        val dateUnix: Long?,
         @SerializedName("details")
-        val details: String,
+        val details: String?,
         @SerializedName("links")
         val links: DataLinks
 )

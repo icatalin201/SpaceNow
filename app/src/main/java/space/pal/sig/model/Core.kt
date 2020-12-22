@@ -7,20 +7,14 @@ SpaceNow
 Created by Catalin on 12/6/2020
  **/
 data class Core(
+        @SerializedName("id")
+        val id: String,
         @SerializedName("block")
-        val block: Int?,
-        @SerializedName("core_serial")
+        val block: Long?,
+        @SerializedName("serial")
         val serial: String,
         @SerializedName("status")
         val status: String,
-        @SerializedName("original_launch")
-        val originalLaunch: String,
-        @SerializedName("original_launch_unix")
-        val originalLaunchUnix: Long,
-        @SerializedName("missions")
-        val missions: MutableList<PreviewMission>,
-        @SerializedName("details")
-        val details: String,
         @SerializedName("reuse_count")
         val reuseCount: Int,
         @SerializedName("rtls_attempts")
@@ -31,6 +25,8 @@ data class Core(
         val asdsAttempts: Int,
         @SerializedName("asds_landings")
         val asdsLandings: Int,
-        @SerializedName("water_landing")
-        val waterLanding: Boolean,
+        @SerializedName("last_update")
+        val lastUpdate: String?,
+        @SerializedName("launches")
+        val launches: List<String>
 )

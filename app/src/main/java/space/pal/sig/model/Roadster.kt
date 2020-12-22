@@ -54,5 +54,9 @@ data class Roadster(
         @SerializedName("wikipedia")
         val wikipedia: String,
         @SerializedName("details")
-        val details: String
+        val details: String,
+        @SerializedName("video")
+        val video: String,
+        @SerializedName("flickr_images")
+        val images: List<String>
 )

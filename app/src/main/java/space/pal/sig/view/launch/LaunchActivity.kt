@@ -34,7 +34,7 @@ class LaunchActivity : AppCompatActivity() {
         val rocket = launch.rocket
         if (launch.upcoming) {
             val now = Calendar.getInstance().timeInMillis
-            val countDown: Long = launch.launchDateUnix - now
+            val countDown: Long = launch.dateUnix - now
             countDownTimer = object : CountDownTimer(countDown, 1000) {
                 override fun onTick(l: Long) {
                     var millis = l

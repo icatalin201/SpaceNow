@@ -30,6 +30,7 @@
             android:layout_width="5dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_8"
+            android:background="@drawable/launches_line_middle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/launch_image"
             app:layout_constraintTop_toTopOf="parent" />

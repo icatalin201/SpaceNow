@@ -4,7 +4,8 @@
     <color name="primaryDark">#022c43</color>
     <color name="accent">#ffd700</color>
     <color name="primaryText">@color/white</color>
-    <color name="primaryDarkSemiTransparent">#99022c43</color>
+    <color name="primaryDarkSemiTransparent">#66022c43</color>
+    <color name="primarySemiTransparent">#66053f5e</color>
     <color name="background">#115173</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

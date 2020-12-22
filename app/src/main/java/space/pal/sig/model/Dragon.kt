@@ -26,17 +26,9 @@ data class Dragon(
         @SerializedName("dry_mass_lb")
         val dryMassLb: Double,
         @SerializedName("first_flight")
-        val firstFlight: String,
-        @SerializedName("wikipedia")
-        val wikipedia: String,
-        @SerializedName("description")
-        val description: String,
+        val firstFlight: String?,
         @SerializedName("heat_shield")
         val heatShield: HeatShield,
-        @SerializedName("diameter")
-        val diameter: Diameter,
-        @SerializedName("trunk")
-        val trunk: DragonTrunk,
         @SerializedName("launch_payload_mass")
         val launchPayloadMass: PayloadMass,
         @SerializedName("return_payload_mass")
@@ -45,6 +37,16 @@ data class Dragon(
         val launchPayloadVol: PayloadVol,
         @SerializedName("return_payload_vol")
         val returnPayloadVol: PayloadVol,
+        @SerializedName("diameter")
+        val diameter: Diameter,
+        @SerializedName("trunk")
+        val trunk: DragonTrunk,
+        @SerializedName("wikipedia")
+        val wikipedia: String?,
+        @SerializedName("description")
+        val description: String?,
+        @SerializedName("flickr_images")
+        val images: List<String>,
         @SerializedName("thrusters")
         val thrusters: MutableList<Thruster>
 )

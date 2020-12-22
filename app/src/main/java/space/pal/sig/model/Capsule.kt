@@ -7,24 +7,24 @@ SpaceNow
 Created by Catalin on 12/6/2020
  **/
 data class Capsule(
-        @SerializedName("capsule_id")
+        @SerializedName("id")
         val id: String,
-        @SerializedName("capsule_serial")
+        @SerializedName("serial")
         val serial: String,
         @SerializedName("status")
         val status: String,
-        @SerializedName("original_launch")
-        val originalLaunch: String,
-        @SerializedName("original_launch_unix")
-        val originalLaunchUnix: Long,
-        @SerializedName("landings")
-        val landings: Int,
         @SerializedName("type")
         val type: String,
-        @SerializedName("details")
-        val details: String,
+        @SerializedName("dragon")
+        val dragon: String,
         @SerializedName("reuse_count")
         val reuseCount: Int,
-        @SerializedName("missions")
-        val missions: MutableList<PreviewMission>
+        @SerializedName("water_landings")
+        val waterLandings: Int,
+        @SerializedName("land_landings")
+        val landLandings: Int,
+        @SerializedName("last_update")
+        val lastUpdate: String?,
+        @SerializedName("launches")
+        val launches: List<String>
 )

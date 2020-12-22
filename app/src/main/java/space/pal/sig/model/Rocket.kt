@@ -8,7 +8,11 @@ Created by Catalin on 12/6/2020
  **/
 data class Rocket(
         @SerializedName("id")
-        val id: Long,
+        val id: String,
+        @SerializedName("name")
+        val name: String,
+        @SerializedName("type")
+        val type: String,
         @SerializedName("active")
         val active: Boolean,
         @SerializedName("stages")
@@ -25,30 +29,26 @@ data class Rocket(
         val country: String,
         @SerializedName("company")
         val company: String,
+        @SerializedName("height")
+        val height: Diameter,
+        @SerializedName("diameter")
+        val diameter: Diameter,
+        @SerializedName("mass")
+        val mass: PayloadMass,
+        @SerializedName("payload_weights")
+        val payloadWeights: List<PayloadWeight>,
+        @SerializedName("first_stage")
+        val firstStage: RocketFirstStage,
+        @SerializedName("second_stage")
+        val secondStage: RocketSecondStage,
+        @SerializedName("engines")
+        val engines: RocketEngines,
+        @SerializedName("landing_legs")
+        val landingLegs: RocketLandingLegs,
         @SerializedName("wikipedia")
         val wikipedia: String,
         @SerializedName("description")
         val description: String,
-        @SerializedName("rocket_id")
-        val rocketId: String,
-        @SerializedName("rocket_name")
-        val name: String,
-        @SerializedName("rocket_type")
-        val type: String,
-        @SerializedName("payload_weights")
-        val payloadWeights: MutableList<PayloadWeight>,
-        @SerializedName("diameter")
-        val diameter: Diameter,
-        @SerializedName("height")
-        val height: Diameter,
-        @SerializedName("mass")
-        val mass: PayloadMass,
-        @SerializedName("landing_legs")
-        val landingLegs: RocketLandingLegs,
-        @SerializedName("engines")
-        val engines: RocketEngines,
-        @SerializedName("first_stage")
-        val firstStage: RocketFirstStage,
-        @SerializedName("second_stage")
-        val secondStage: RocketSecondStage
+        @SerializedName("flickr_images")
+        val images: List<String>
 )

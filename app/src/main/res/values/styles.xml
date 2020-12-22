@@ -21,6 +21,7 @@
     <style name="SpaceNow.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@color/primaryText</item>
         <item name="android:textColorSecondary">@color/primaryText</item>
+        <item name="android:colorBackground">@color/primaryDark</item>
     </style>
 
     <style name="SpaceNow.Dialog" parent="Theme.AppCompat.Light.Dialog">

@@ -12,7 +12,7 @@ data class HeatShield(
         @SerializedName("size_meters")
         val sizeMeters: Double,
         @SerializedName("temp_degrees")
-        val tempDegrees: Double,
+        val tempDegrees: Double?,
         @SerializedName("dev_partner")
-        val devPartner: String
+        val devPartner: String?
 )

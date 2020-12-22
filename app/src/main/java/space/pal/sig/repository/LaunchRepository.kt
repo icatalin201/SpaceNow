@@ -21,9 +21,9 @@ class LaunchRepository(
                 .subscribeOn(Schedulers.io())
     }
 
-    fun getLaunch(flightNumber: Long): Single<Launch> {
+    fun getLaunch(id: String): Single<Launch> {
         return spaceXApiService
-                .getLaunch(flightNumber)
+                .getLaunch(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
     }

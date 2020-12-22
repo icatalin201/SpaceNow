@@ -38,7 +38,7 @@ android {
     productFlavors {
         production {
             applicationId "space.pal.sig"
-            buildConfigField 'String', 'SPACE_X_API_URL', '"https://api.spacexdata.com/v3/"'
+            buildConfigField 'String', 'SPACE_X_API_URL', '"https://api.spacexdata.com/v4/"'
             buildConfigField 'String', 'NASA_API_URL', '"https://api.nasa.gov/"'
             buildConfigField 'String', 'NASA_API_KEY', '"BST2Npgb7FKgBIVzIW2Dd3qARcQbwgk1jdY5Hc28"'
         }

@@ -12,8 +12,11 @@ import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.FragmentMainBinding
 import space.pal.sig.model.AstronomyPictureOfTheDay
+import space.pal.sig.model.Launch
 import space.pal.sig.model.Roadster
+import space.pal.sig.util.displayDatetime
 import space.pal.sig.view.BaseFragment
+import java.util.*
 
 /**
  * SpaceNow
@@ -35,7 +38,18 @@ class MainFragment : BaseFragment() {
                 .observe(viewLifecycleOwner) { showApod(it) }
         viewModel.getRoadster()
                 .observe(viewLifecycleOwner) { showRoadster(it) }
+        viewModel.getNextLaunch()
+                .observe(viewLifecycleOwner) { showNextLaunch(it) }
         return binding.root
+    }
+
+    private fun showNextLaunch(launch: Launch) {
+        val date = Date(launch.dateUnix * 1000).displayDatetime()
+        binding.mainLaunchPreview.text = getString(
+                R.string.launch_upcoming_preview,
+                launch.name,
+                date
+        )
     }
 
     private fun showApod(apod: AstronomyPictureOfTheDay) {
@@ -47,23 +61,19 @@ class MainFragment : BaseFragment() {
                     .into(binding.mainApodImage)
             binding.mainApodVideo.isVisible = false
             binding.mainApodImage.isVisible = true
+            binding.mainApodTitle.isVisible = true
         } else {
             binding.mainApodVideo.settings.javaScriptEnabled = true
             binding.mainApodVideo.webChromeClient = WebChromeClient()
             binding.mainApodVideo.loadUrl(apod.url)
             binding.mainApodVideo.isVisible = true
             binding.mainApodImage.isVisible = false
+            binding.mainApodTitle.isVisible = false
         }
     }
 
     private fun showRoadster(roadster: Roadster) {
         binding.mainRoadsterName.text = roadster.name
-        binding.mainRoadsterEarthDistance.text = getString(
-                R.string.earth_distance,
-                roadster.earthDistanceKm)
-        binding.mainRoadsterMarsDistance.text = getString(
-                R.string.mars_distance,
-                roadster.marsDistanceKm)
         binding.mainRoadsterSpeed.text = getString(
                 R.string.roadster_speed,
                 roadster.speedKph)

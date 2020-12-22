@@ -7,6 +7,8 @@ SpaceNow
 Created by Catalin on 12/6/2020
  **/
 data class RocketSecondStage(
+        @SerializedName("reusable")
+        val reusable: Boolean,
         @SerializedName("engines")
         val engines: Int,
         @SerializedName("fuel_amount_tons")

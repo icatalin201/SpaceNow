@@ -9,8 +9,6 @@ Created by Catalin on 12/6/2020
 data class RocketPayload(
         @SerializedName("option_1")
         val option1: String,
-        @SerializedName("option_2")
-        val option2: String?,
         @SerializedName("composite_fairing")
         val compositeFairing: RocketPayloadCompositeFairing
 )

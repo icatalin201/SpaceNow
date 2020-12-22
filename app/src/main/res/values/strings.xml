@@ -37,6 +37,9 @@
     <string name="earth_distance">Earth distance: %1$.2f km</string>
     <string name="mars_distance">Mars distance: %1$.2f km</string>
     <string name="roadster_speed">Speed: %1$.2f km/h</string>
+    <string name="next_launch">Next launch</string>
+    <string name="launch_upcoming_preview">%1$s | %2$s UTC</string>
+    <string name="space_x_label">Space X</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

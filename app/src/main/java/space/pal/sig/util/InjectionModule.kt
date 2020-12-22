@@ -11,7 +11,7 @@ import space.pal.sig.network.client.SpaceXClient
 import space.pal.sig.repository.ApodRepository
 import space.pal.sig.repository.LaunchRepository
 import space.pal.sig.repository.RoadsterRepository
-import space.pal.sig.view.apod.ApodViewModel
+import space.pal.sig.view.launches.LaunchesViewModel
 import space.pal.sig.view.main.MainViewModel
 import space.pal.sig.view.splash.SplashViewModel
 
@@ -39,7 +39,8 @@ object InjectionModule {
         single { LaunchRepository(get()) }
 
         viewModel { SplashViewModel() }
-        viewModel { MainViewModel(get(), get()) }
+        viewModel { MainViewModel(get(), get(), get()) }
+        viewModel { LaunchesViewModel(get()) }
 
     }
 
