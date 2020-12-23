@@ -1,16 +1,19 @@
 package space.pal.sig.view
 
+import android.app.Application
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import io.reactivex.disposables.CompositeDisposable
 
 /**
 SpaceNow
 Created by Catalin on 12/13/2020
  **/
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel(
+        application: Application
+) : AndroidViewModel(application) {
 
     protected val handler: Handler
     protected val mainHandler = Handler(Looper.getMainLooper())

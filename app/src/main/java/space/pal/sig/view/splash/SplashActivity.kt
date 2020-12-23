@@ -24,8 +24,10 @@ class SplashActivity : BaseActivity() {
 
     private fun openMainActivity(canOpen: Boolean) {
         binding.splashProgressBar.isVisible = !canOpen
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        if (canOpen) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

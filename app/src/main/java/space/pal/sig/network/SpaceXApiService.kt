@@ -3,7 +3,7 @@ package space.pal.sig.network
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
-import space.pal.sig.model.*
+import space.pal.sig.model.dto.*
 
 /**
 SpaceNow
@@ -42,28 +42,28 @@ interface SpaceXApiService {
     fun getLandpad(@Path("id") id: String): Single<LandingPad>
 
     @GET("launches/past")
-    fun getPastLaunches(): Single<MutableList<Launch>>
+    fun getPastLaunches(): Single<MutableList<LaunchDto>>
 
     @GET("launches/upcoming")
-    fun getUpcomingLaunches(): Single<MutableList<Launch>>
+    fun getUpcomingLaunches(): Single<MutableList<LaunchDto>>
 
     @GET("launches/latest")
-    fun getLatestLaunch(): Single<Launch>
+    fun getLatestLaunch(): Single<LaunchDto>
 
     @GET("launches/next")
-    fun getNextLaunch(): Single<Launch>
+    fun getNextLaunch(): Single<LaunchDto>
 
     @GET("launches")
-    fun getAllLaunches(): Single<MutableList<Launch>>
+    fun getAllLaunches(): Single<MutableList<LaunchDto>>
 
     @GET("launches/{id}")
-    fun getLaunch(@Path("id") id: String): Single<Launch>
+    fun getLaunch(@Path("id") id: String): Single<LaunchDto>
 
     @GET("launchpads")
-    fun getAllLaunchpads(): Single<MutableList<LaunchPad>>
+    fun getAllLaunchpads(): Single<MutableList<LaunchPadDto>>
 
     @GET("launchpads/{id}")
-    fun getLaunchpad(@Path("id") id: String): Single<LaunchPad>
+    fun getLaunchpad(@Path("id") id: String): Single<LaunchPadDto>
 
     @GET("payloads")
     fun getAllPayloads(): Single<MutableList<Payload>>
@@ -72,13 +72,13 @@ interface SpaceXApiService {
     fun getPayload(@Path("id") id: String): Single<Payload>
 
     @GET("roadster")
-    fun getRoadster(): Single<Roadster>
+    fun getRoadster(): Single<RoadsterDto>
 
     @GET("rockets")
-    fun getAllRockets(): Single<MutableList<Rocket>>
+    fun getAllRockets(): Single<MutableList<RocketDto>>
 
     @GET("rockets/{id}")
-    fun getRocket(@Path("id") id: String): Single<Rocket>
+    fun getRocket(@Path("id") id: String): Single<RocketDto>
 
     @GET("ships")
     fun getAllShips(): Single<MutableList<Ship>>

@@ -39,6 +39,7 @@
     <string name="roadster_speed">Speed: %1$.2f km/h</string>
     <string name="next_launch">Next launch</string>
     <string name="launch_upcoming_preview">%1$s | %2$s UTC</string>
+    <string name="launch_date_label">%1$s UTC</string>
     <string name="space_x_label">Space X</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>

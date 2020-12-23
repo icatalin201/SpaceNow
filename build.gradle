@@ -1,7 +1,7 @@
 buildscript {
 
     ext.kotlin_version = "1.4.20"
-    ext.koin_version = "2.2.0-rc-3"
+    ext.koin_version = "2.2.0-rc-4"
     ext.rxjava_version = "2.2.12"
     ext.retrofit_version = "2.9.0"
     ext.rxandroid_version = "2.1.1"

@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityLaunchBinding
-import space.pal.sig.model.Launch
+import space.pal.sig.model.dto.LaunchDto
 import java.util.*
 
 class LaunchActivity : AppCompatActivity() {
@@ -30,7 +30,7 @@ class LaunchActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun showLaunch(launch: Launch) {
+    private fun showLaunch(launch: LaunchDto) {
         val rocket = launch.rocket
         if (launch.upcoming) {
             val now = Calendar.getInstance().timeInMillis

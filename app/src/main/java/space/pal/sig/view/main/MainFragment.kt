@@ -11,9 +11,10 @@ import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.FragmentMainBinding
-import space.pal.sig.model.AstronomyPictureOfTheDay
-import space.pal.sig.model.Launch
-import space.pal.sig.model.Roadster
+import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
+import space.pal.sig.model.entity.AstronomyPictureOfTheDay
+import space.pal.sig.model.entity.LaunchWithData
+import space.pal.sig.model.entity.Roadster
 import space.pal.sig.util.displayDatetime
 import space.pal.sig.view.BaseFragment
 import java.util.*
@@ -43,40 +44,60 @@ class MainFragment : BaseFragment() {
         return binding.root
     }
 
-    private fun showNextLaunch(launch: Launch) {
-        val date = Date(launch.dateUnix * 1000).displayDatetime()
-        binding.mainLaunchPreview.text = getString(
-                R.string.launch_upcoming_preview,
-                launch.name,
-                date
-        )
-    }
-
-    private fun showApod(apod: AstronomyPictureOfTheDay) {
-        if (apod.mediaType == AstronomyPictureOfTheDay.IMAGE) {
-            binding.mainApodImage.contentDescription = apod.title
-            Picasso.get().load(apod.url)
-                    .fit()
-                    .centerCrop()
-                    .into(binding.mainApodImage)
-            binding.mainApodVideo.isVisible = false
-            binding.mainApodImage.isVisible = true
-            binding.mainApodTitle.isVisible = true
-        } else {
-            binding.mainApodVideo.settings.javaScriptEnabled = true
-            binding.mainApodVideo.webChromeClient = WebChromeClient()
-            binding.mainApodVideo.loadUrl(apod.url)
-            binding.mainApodVideo.isVisible = true
-            binding.mainApodImage.isVisible = false
-            binding.mainApodTitle.isVisible = false
+    private fun showNextLaunch(launchWithData: LaunchWithData?) {
+        launchWithData?.let {
+            val launch = it.launch
+            val date = Date(launch.dateUnix * 1000).displayDatetime()
+            binding.mainLaunchPreview.text = getString(
+                    R.string.launch_upcoming_preview,
+                    launch.name,
+                    date
+            )
+            val rocket = launchWithData.rocket
+            val image: String? = when (rocket.images.size) {
+                0 -> null
+                else -> rocket.images[0]
+            }
+            image?.let {
+                Picasso.get()
+                        .load(image)
+                        .fit()
+                        .centerCrop()
+                        .placeholder(R.drawable.launch)
+                        .into(binding.mainLaunchImage)
+            }
         }
     }
 
-    private fun showRoadster(roadster: Roadster) {
-        binding.mainRoadsterName.text = roadster.name
-        binding.mainRoadsterSpeed.text = getString(
-                R.string.roadster_speed,
-                roadster.speedKph)
+    private fun showApod(apod: AstronomyPictureOfTheDay?) {
+        apod?.let {
+            if (apod.mediaType == AstronomyPictureOfTheDayDto.IMAGE) {
+                binding.mainApodImage.contentDescription = apod.title
+                Picasso.get().load(apod.url)
+                        .fit()
+                        .centerCrop()
+                        .into(binding.mainApodImage)
+                binding.mainApodVideo.isVisible = false
+                binding.mainApodImage.isVisible = true
+                binding.mainApodTitle.isVisible = true
+            } else {
+                binding.mainApodVideo.settings.javaScriptEnabled = true
+                binding.mainApodVideo.webChromeClient = WebChromeClient()
+                binding.mainApodVideo.loadUrl(apod.url)
+                binding.mainApodVideo.isVisible = true
+                binding.mainApodImage.isVisible = false
+                binding.mainApodTitle.isVisible = false
+            }
+        }
+    }
+
+    private fun showRoadster(roadster: Roadster?) {
+        roadster?.let {
+            binding.mainRoadsterName.text = roadster.name
+            binding.mainRoadsterSpeed.text = getString(
+                    R.string.roadster_speed,
+                    roadster.speedKph)
+        }
     }
 
 }

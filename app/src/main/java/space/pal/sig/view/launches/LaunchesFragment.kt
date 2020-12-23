@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.FragmentLaunchesBinding
-import space.pal.sig.model.Launch
+import space.pal.sig.model.dto.LaunchDto
+import space.pal.sig.model.entity.Launch
+import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.view.BaseFragment
 
 /**
@@ -38,7 +40,7 @@ class LaunchesFragment : BaseFragment() {
         return binding.root
     }
 
-    private fun showLaunches(launches: MutableList<Launch>) {
+    private fun showLaunches(launches: MutableList<LaunchWithData>) {
         adapter.submit(launches)
     }
 

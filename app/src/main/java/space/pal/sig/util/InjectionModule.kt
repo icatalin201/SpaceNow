@@ -8,9 +8,7 @@ import space.pal.sig.network.NasaApiService
 import space.pal.sig.network.SpaceXApiService
 import space.pal.sig.network.client.NasaClient
 import space.pal.sig.network.client.SpaceXClient
-import space.pal.sig.repository.ApodRepository
-import space.pal.sig.repository.LaunchRepository
-import space.pal.sig.repository.RoadsterRepository
+import space.pal.sig.repository.*
 import space.pal.sig.view.launches.LaunchesViewModel
 import space.pal.sig.view.main.MainViewModel
 import space.pal.sig.view.splash.SplashViewModel
@@ -27,6 +25,10 @@ object InjectionModule {
 
         single { SpaceNowDatabase.getInstance(androidApplication()) }
         single { get<SpaceNowDatabase>().apodDao() }
+        single { get<SpaceNowDatabase>().launchDao() }
+        single { get<SpaceNowDatabase>().roadsterDao() }
+        single { get<SpaceNowDatabase>().rocketDao() }
+        single { get<SpaceNowDatabase>().launchpadDao() }
 
         single { NasaClient() }
         single { SpaceXClient() }
@@ -35,12 +37,14 @@ object InjectionModule {
         single { get<SpaceXClient>().createService(SpaceXApiService::class.java) }
 
         single { ApodRepository(get(), get()) }
-        single { RoadsterRepository(get()) }
-        single { LaunchRepository(get()) }
+        single { RoadsterRepository(get(), get()) }
+        single { LaunchRepository(get(), get()) }
+        single { RocketRepository(get(), get()) }
+        single { LaunchPadRepository(get(), get()) }
 
-        viewModel { SplashViewModel() }
-        viewModel { MainViewModel(get(), get(), get()) }
-        viewModel { LaunchesViewModel(get()) }
+        viewModel { SplashViewModel(get()) }
+        viewModel { MainViewModel(get(), get(), get(), get()) }
+        viewModel { LaunchesViewModel(get(), get()) }
 
     }
 

@@ -1,9 +1,11 @@
 package space.pal.sig.repository
 
+import androidx.lifecycle.LiveData
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import space.pal.sig.model.Launch
+import space.pal.sig.database.dao.LaunchDao
+import space.pal.sig.model.dto.LaunchDto
+import space.pal.sig.model.entity.Launch
+import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.network.SpaceXApiService
 
 /**
@@ -11,49 +13,36 @@ import space.pal.sig.network.SpaceXApiService
  * Created by Catalin on 12/20/2020
  **/
 class LaunchRepository(
+        private val launchDao: LaunchDao,
         private val spaceXApiService: SpaceXApiService
 ) {
 
-    fun getAllLaunches(): Single<MutableList<Launch>> {
-        return spaceXApiService
-                .getAllLaunches()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    fun save(launch: Launch) {
+        launchDao.save(launch)
     }
 
-    fun getLaunch(id: String): Single<Launch> {
-        return spaceXApiService
-                .getLaunch(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    fun findAllLaunches(): LiveData<MutableList<LaunchWithData>> {
+        return launchDao.findAll()
     }
 
-    fun getPastLaunches(): Single<MutableList<Launch>> {
-        return spaceXApiService
-                .getPastLaunches()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    fun findLaunch(id: String): LiveData<LaunchWithData> {
+        return launchDao.findById(id)
     }
 
-    fun getUpcomingLaunches(): Single<MutableList<Launch>> {
-        return spaceXApiService
-                .getUpcomingLaunches()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    fun findPastLaunches(): LiveData<MutableList<LaunchWithData>> {
+        return launchDao.findPastLaunches()
     }
 
-    fun getLatestLaunch(): Single<Launch> {
-        return spaceXApiService
-                .getLatestLaunch()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    fun findUpcomingLaunches(): LiveData<MutableList<LaunchWithData>> {
+        return launchDao.findUpcomingLaunches()
     }
 
-    fun getNextLaunch(): Single<Launch> {
-        return spaceXApiService
-                .getNextLaunch()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    fun findNextLaunch(): LiveData<LaunchWithData> {
+        return launchDao.findNextLaunch()
+    }
+
+    fun downloadAllLaunches(): Single<MutableList<LaunchDto>> {
+        return spaceXApiService.getAllLaunches()
     }
 
 }

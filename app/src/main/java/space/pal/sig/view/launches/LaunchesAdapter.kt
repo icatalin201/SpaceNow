@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import space.pal.sig.R
 import space.pal.sig.databinding.LaunchViewBinding
-import space.pal.sig.model.Launch
+import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.util.displayDatetime
 import java.util.*
 
@@ -26,9 +27,9 @@ class LaunchesAdapter(
         private const val TOP_BOTTOM = 4
     }
 
-    private val launchesList = mutableListOf<Launch>()
+    private val launchesList = mutableListOf<LaunchWithData>()
 
-    fun submit(launches: List<Launch>) {
+    fun submit(launches: List<LaunchWithData>) {
         launchesList.clear()
         launchesList.addAll(launches)
         notifyDataSetChanged()
@@ -65,7 +66,7 @@ class LaunchesAdapter(
             private val binding: LaunchViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun render(launch: Launch, viewType: Int) {
+        fun render(launchWithData: LaunchWithData, viewType: Int) {
             val params = binding.launchLayout.layoutParams as RecyclerView.LayoutParams
             when (viewType) {
                 TOP_BOTTOM -> {
@@ -83,10 +84,26 @@ class LaunchesAdapter(
                 else -> binding.line.setBackgroundResource(R.drawable.launches_line_middle)
             }
             binding.launchLayout.layoutParams = params
+            val launch = launchWithData.launch
+            val rocket = launchWithData.rocket
+            val launchpad = launchWithData.launchpad
+            val date = Date(launch.dateUnix * 1000).displayDatetime()
             binding.launchName.text = launch.name
-            binding.launchDate.text = Date(launch.dateUnix * 1000).displayDatetime()
+            binding.launchDate.text = context.getString(R.string.launch_date_label, date)
             binding.launchAgency.text = context.getString(R.string.space_x_label)
+            binding.launchLocation.text = launchpad.fullName
+            binding.launchRocket.text = rocket.name
+            val image: String? = when (rocket.images.size) {
+                0 -> null
+                else -> rocket.images[0]
+            }
+            image?.let {
+                Picasso.get()
+                        .load(it)
+                        .fit()
+                        .centerCrop()
+                        .into(binding.launchImage)
+            }
         }
-
     }
 }

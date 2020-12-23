@@ -1,11 +1,11 @@
 package space.pal.sig.view.main
 
+import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import space.pal.sig.model.AstronomyPictureOfTheDay
-import space.pal.sig.model.Launch
-import space.pal.sig.model.Roadster
+import space.pal.sig.model.entity.AstronomyPictureOfTheDay
+import space.pal.sig.model.entity.Launch
+import space.pal.sig.model.entity.LaunchWithData
+import space.pal.sig.model.entity.Roadster
 import space.pal.sig.repository.ApodRepository
 import space.pal.sig.repository.LaunchRepository
 import space.pal.sig.repository.RoadsterRepository
@@ -18,33 +18,13 @@ import space.pal.sig.view.BaseViewModel
 class MainViewModel(
         apodRepository: ApodRepository,
         roadsterRepository: RoadsterRepository,
-        launchRepository: LaunchRepository
-) : BaseViewModel() {
+        launchRepository: LaunchRepository,
+        application: Application
+) : BaseViewModel(application) {
 
-    private val astronomyPictureOfTheDay = MediatorLiveData<AstronomyPictureOfTheDay>()
-    private val roadster = MutableLiveData<Roadster>()
-    private val nextLaunch = MutableLiveData<Launch>()
-
-    init {
-        val apodDisposable = apodRepository.downloadCurrent()
-                .subscribe(
-                        { astronomyPictureOfTheDay.value = it },
-                        { it.printStackTrace() }
-                )
-        val roadsterDisposable = roadsterRepository.getRoadster()
-                .subscribe(
-                        { roadster.value = it },
-                        { it.printStackTrace() }
-                )
-        val launchDisposable = launchRepository.getNextLaunch()
-                .subscribe(
-                        { nextLaunch.value = it },
-                        { it.printStackTrace() }
-                )
-        compositeDisposable.add(apodDisposable)
-        compositeDisposable.add(roadsterDisposable)
-        compositeDisposable.add(launchDisposable)
-    }
+    private val astronomyPictureOfTheDay = apodRepository.findLatest()
+    private val nextLaunch = launchRepository.findNextLaunch()
+    private val roadster = roadsterRepository.getRoadster()
 
     fun getAstronomyPictureOfTheDay(): LiveData<AstronomyPictureOfTheDay> {
         return astronomyPictureOfTheDay
@@ -54,7 +34,7 @@ class MainViewModel(
         return roadster
     }
 
-    fun getNextLaunch(): LiveData<Launch> {
+    fun getNextLaunch(): LiveData<LaunchWithData> {
         return nextLaunch
     }
 
