@@ -8,16 +8,25 @@
     <fragment
         android:id="@+id/news_fragment"
         android:name="space.pal.sig.view.news.NewsFragment"
+        android:label="@string/news"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/launches_fragment"
         android:name="space.pal.sig.view.launches.LaunchesFragment"
+        android:label="@string/launches"
         tools:layout="@layout/fragment_launches" />
 
     <fragment
         android:id="@+id/main_fragment"
         android:name="space.pal.sig.view.main.MainFragment"
+        android:label="@string/home"
         tools:layout="@layout/fragment_main" />
+
+    <fragment
+        android:id="@+id/facts_fragment"
+        android:name="space.pal.sig.view.facts.FactsFragment"
+        android:label="@string/facts"
+        tools:layout="@layout/fragment_facts" />
 
 </navigation>

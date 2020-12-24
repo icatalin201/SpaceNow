@@ -37,6 +37,10 @@ class LaunchRepository(
         return launchDao.findUpcomingLaunches()
     }
 
+    fun findLatestLaunch(): LiveData<LaunchWithData> {
+        return launchDao.findLatestLaunch()
+    }
+
     fun findNextLaunch(): LiveData<LaunchWithData> {
         return launchDao.findNextLaunch()
     }

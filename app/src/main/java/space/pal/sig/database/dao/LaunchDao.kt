@@ -33,6 +33,13 @@ interface LaunchDao {
 
     @Query("""
         SELECT * FROM launches 
+        WHERE dateUtc < DATETIME('now') 
+        ORDER BY dateUnix DESC LIMIT 1
+        """)
+    fun findLatestLaunch(): LiveData<LaunchWithData>
+
+    @Query("""
+        SELECT * FROM launches 
         WHERE dateUtc >= DATETIME('now') 
         ORDER BY dateUnix ASC
         """)

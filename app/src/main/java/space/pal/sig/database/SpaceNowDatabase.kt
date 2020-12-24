@@ -18,6 +18,8 @@ import space.pal.sig.model.entity.*
     Roadster::class,
     Rocket::class,
     LaunchPad::class,
+    Fact::class,
+    News::class,
     AstronomyPictureOfTheDay::class
 ], version = 1, exportSchema = false)
 @TypeConverters(
@@ -33,7 +35,8 @@ import space.pal.sig.model.entity.*
         RocketEnginesConverter::class,
         RocketLandingLegsConverter::class,
         RocketFirstStageConverter::class,
-        RocketSecondStageConverter::class
+        RocketSecondStageConverter::class,
+        NewsSourceConverter::class
 )
 abstract class SpaceNowDatabase : RoomDatabase() {
 
@@ -42,6 +45,8 @@ abstract class SpaceNowDatabase : RoomDatabase() {
     abstract fun roadsterDao(): RoadsterDao
     abstract fun rocketDao(): RocketDao
     abstract fun launchpadDao(): LaunchPadDao
+    abstract fun factDao(): FactDao
+    abstract fun newsDao(): NewsDao
 
     companion object {
         private lateinit var INSTANCE: SpaceNowDatabase

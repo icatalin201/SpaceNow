@@ -15,7 +15,7 @@ import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.model.entity.Roadster
-import space.pal.sig.util.displayDatetime
+import space.pal.sig.model.entity.Rocket
 import space.pal.sig.view.BaseFragment
 import java.util.*
 
@@ -41,30 +41,41 @@ class MainFragment : BaseFragment() {
                 .observe(viewLifecycleOwner) { showRoadster(it) }
         viewModel.getNextLaunch()
                 .observe(viewLifecycleOwner) { showNextLaunch(it) }
+        viewModel.getLatestLaunch()
+                .observe(viewLifecycleOwner) { showLastLaunch(it) }
         return binding.root
     }
 
     private fun showNextLaunch(launchWithData: LaunchWithData?) {
         launchWithData?.let {
             val launch = it.launch
-            val date = Date(launch.dateUnix * 1000).displayDatetime()
-            binding.mainLaunchPreview.text = getString(
-                    R.string.launch_upcoming_preview,
-                    launch.name,
-                    date
-            )
+            binding.mainNextLaunchPreview.text = launch.name
             val rocket = launchWithData.rocket
-            val image: String? = when (rocket.images.size) {
-                0 -> null
-                else -> rocket.images[0]
-            }
+            val image: String? = getRandomImage(rocket)
             image?.let {
                 Picasso.get()
                         .load(image)
                         .fit()
                         .centerCrop()
                         .placeholder(R.drawable.launch)
-                        .into(binding.mainLaunchImage)
+                        .into(binding.mainNextLaunchImage)
+            }
+        }
+    }
+
+    private fun showLastLaunch(launchWithData: LaunchWithData?) {
+        launchWithData?.let {
+            val launch = it.launch
+            binding.mainLastLaunchPreview.text = launch.name
+            val rocket = launchWithData.rocket
+            val image: String? = getRandomImage(rocket)
+            image?.let {
+                Picasso.get()
+                        .load(image)
+                        .fit()
+                        .centerCrop()
+                        .placeholder(R.drawable.launch)
+                        .into(binding.mainLastLaunchImage)
             }
         }
     }
@@ -97,6 +108,16 @@ class MainFragment : BaseFragment() {
             binding.mainRoadsterSpeed.text = getString(
                     R.string.roadster_speed,
                     roadster.speedKph)
+        }
+    }
+
+    private fun getRandomImage(rocket: Rocket): String? {
+        return when (val imagesSize = rocket.images.size) {
+            0 -> null
+            else -> {
+                val index = Random().nextInt(imagesSize)
+                rocket.images[index]
+            }
         }
     }
 

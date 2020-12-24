@@ -18,7 +18,7 @@
     <string name="seconds">seconds</string>
     <string name="zz">00</string>
     <string name="watch">Watch</string>
-    <string name="missions">Mission</string>
+    <string name="missions">Missions</string>
     <string name="location">Location</string>
     <string name="rocket">Rocket</string>
     <string name="notification">Notifications</string>
@@ -41,6 +41,9 @@
     <string name="launch_upcoming_preview">%1$s | %2$s UTC</string>
     <string name="launch_date_label">%1$s UTC</string>
     <string name="space_x_label">Space X</string>
+    <string name="upcoming_launches">Upcoming launches</string>
+    <string name="past_launches">Past launches</string>
+    <string name="latest_launch">Latest launch</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

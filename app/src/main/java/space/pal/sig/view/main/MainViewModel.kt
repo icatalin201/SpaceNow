@@ -3,7 +3,6 @@ package space.pal.sig.view.main
 import android.app.Application
 import androidx.lifecycle.LiveData
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
-import space.pal.sig.model.entity.Launch
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.model.entity.Roadster
 import space.pal.sig.repository.ApodRepository
@@ -24,6 +23,7 @@ class MainViewModel(
 
     private val astronomyPictureOfTheDay = apodRepository.findLatest()
     private val nextLaunch = launchRepository.findNextLaunch()
+    private val latestLaunch = launchRepository.findLatestLaunch()
     private val roadster = roadsterRepository.getRoadster()
 
     fun getAstronomyPictureOfTheDay(): LiveData<AstronomyPictureOfTheDay> {
@@ -36,6 +36,10 @@ class MainViewModel(
 
     fun getNextLaunch(): LiveData<LaunchWithData> {
         return nextLaunch
+    }
+
+    fun getLatestLaunch(): LiveData<LaunchWithData> {
+        return latestLaunch
     }
 
 }

@@ -9,6 +9,7 @@ import space.pal.sig.network.SpaceXApiService
 import space.pal.sig.network.client.NasaClient
 import space.pal.sig.network.client.SpaceXClient
 import space.pal.sig.repository.*
+import space.pal.sig.view.facts.FactsViewModel
 import space.pal.sig.view.launches.LaunchesViewModel
 import space.pal.sig.view.main.MainViewModel
 import space.pal.sig.view.splash.SplashViewModel
@@ -29,6 +30,8 @@ object InjectionModule {
         single { get<SpaceNowDatabase>().roadsterDao() }
         single { get<SpaceNowDatabase>().rocketDao() }
         single { get<SpaceNowDatabase>().launchpadDao() }
+        single { get<SpaceNowDatabase>().factDao() }
+        single { get<SpaceNowDatabase>().newsDao() }
 
         single { NasaClient() }
         single { SpaceXClient() }
@@ -41,10 +44,12 @@ object InjectionModule {
         single { LaunchRepository(get(), get()) }
         single { RocketRepository(get(), get()) }
         single { LaunchPadRepository(get(), get()) }
+        single { FactRepository(get()) }
 
         viewModel { SplashViewModel(get()) }
         viewModel { MainViewModel(get(), get(), get(), get()) }
         viewModel { LaunchesViewModel(get(), get()) }
+        viewModel { FactsViewModel(get(), get()) }
 
     }
 

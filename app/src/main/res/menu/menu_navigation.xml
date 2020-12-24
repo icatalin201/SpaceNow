@@ -13,5 +13,8 @@
         android:id="@+id/news_fragment"
         android:icon="@drawable/ic_satellite"
         android:title="@string/news" />
-
+    <item
+        android:id="@+id/facts_fragment"
+        android:icon="@drawable/ic_black_hole"
+        android:title="@string/facts" />
 </menu>

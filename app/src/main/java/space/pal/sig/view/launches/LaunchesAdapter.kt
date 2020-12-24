@@ -11,6 +11,7 @@ import space.pal.sig.databinding.LaunchViewBinding
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.util.displayDatetime
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * SpaceNow
@@ -28,10 +29,12 @@ class LaunchesAdapter(
     }
 
     private val launchesList = mutableListOf<LaunchWithData>()
+    private val imagesMap = HashMap<LaunchWithData, String?>()
 
     fun submit(launches: List<LaunchWithData>) {
         launchesList.clear()
         launchesList.addAll(launches)
+        setupImages(launches)
         notifyDataSetChanged()
     }
 
@@ -59,6 +62,20 @@ class LaunchesAdapter(
             BOTTOM
         } else {
             MIDDLE
+        }
+    }
+
+    private fun setupImages(launches: List<LaunchWithData>) {
+        launches.forEach { launch ->
+            val rocket = launch.rocket
+            val image: String? = when (val imagesSize = rocket.images.size) {
+                0 -> null
+                else -> {
+                    val index = Random().nextInt(imagesSize)
+                    rocket.images[index]
+                }
+            }
+            imagesMap[launch] = image
         }
     }
 
@@ -93,10 +110,7 @@ class LaunchesAdapter(
             binding.launchAgency.text = context.getString(R.string.space_x_label)
             binding.launchLocation.text = launchpad.fullName
             binding.launchRocket.text = rocket.name
-            val image: String? = when (rocket.images.size) {
-                0 -> null
-                else -> rocket.images[0]
-            }
+            val image: String? = imagesMap[launchWithData]
             image?.let {
                 Picasso.get()
                         .load(it)

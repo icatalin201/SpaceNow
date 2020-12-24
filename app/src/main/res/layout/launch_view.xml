@@ -9,15 +9,15 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:paddingStart="@dimen/padding_8"
-        android:paddingEnd="@dimen/padding_8">
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_16">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/launch_image"
             android:layout_width="130dp"
-            android:layout_height="180dp"
-            android:layout_marginTop="@dimen/margin_16"
-            android:layout_marginBottom="@dimen/margin_16"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_8"
             android:background="@color/primaryDark"
             android:contentDescription="@string/launches"
             android:transitionName="launchImage"
@@ -29,7 +29,7 @@
             android:id="@+id/line"
             android:layout_width="5dp"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_16"
             android:background="@drawable/launches_line_middle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/launch_image"
@@ -39,7 +39,7 @@
             android:id="@+id/launch_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_16"
             android:textSize="@dimen/size_16"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
             android:id="@+id/launch_agency"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_8"
             android:drawableStart="@drawable/ic_baseline_business_24"
             android:drawablePadding="@dimen/padding_8"
@@ -60,12 +60,12 @@
             app:layout_constraintTop_toBottomOf="@id/launch_name" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/launch_location"
+            android:id="@+id/launch_rocket"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_8"
-            android:drawableStart="@drawable/ic_baseline_location_on_24"
+            android:drawableStart="@drawable/ic_rocket_24"
             android:drawablePadding="@dimen/padding_8"
             android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,10 +73,23 @@
             app:layout_constraintTop_toBottomOf="@id/launch_agency" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/launch_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_8"
+            android:drawableStart="@drawable/ic_baseline_location_on_24"
+            android:drawablePadding="@dimen/padding_8"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/line"
+            app:layout_constraintTop_toBottomOf="@id/launch_rocket" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/launch_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_8"
             android:drawableStart="@drawable/ic_baseline_calendar_today_24"
             android:drawablePadding="@dimen/padding_8"
@@ -85,18 +98,6 @@
             app:layout_constraintStart_toEndOf="@id/line"
             app:layout_constraintTop_toBottomOf="@id/launch_location" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/launch_rocket"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_8"
-            android:layout_marginTop="@dimen/margin_8"
-            android:drawableStart="@drawable/ic_rocket_24"
-            android:drawablePadding="@dimen/padding_8"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/line"
-            app:layout_constraintTop_toBottomOf="@id/launch_date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

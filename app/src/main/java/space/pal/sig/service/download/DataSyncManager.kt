@@ -3,8 +3,11 @@ package space.pal.sig.service.download
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.google.gson.Gson
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import space.pal.sig.R
+import space.pal.sig.model.entity.Fact
 import space.pal.sig.repository.*
 
 /**
@@ -21,6 +24,8 @@ class DataSyncManager(
     private val apodRepository: ApodRepository by inject()
     private val rocketRepository: RocketRepository by inject()
     private val launchPadRepository: LaunchPadRepository by inject()
+    private val factRepository: FactRepository by inject()
+    private val gson = Gson()
 
     override fun doWork(): Result {
         syncAstronomyPicturesOfTheDay()
@@ -28,6 +33,7 @@ class DataSyncManager(
         syncLaunches()
         syncRockets()
         syncLaunchpads()
+        syncFacts()
         return Result.success()
     }
 
@@ -70,6 +76,12 @@ class DataSyncManager(
         launchpads.forEach { launchpadDto ->
             launchPadRepository.save(launchpadDto.toLaunchpad())
         }
+    }
+
+    private fun syncFacts() {
+        val factsJson: String = DataSyncUtil.readJsonFromResource(R.raw.facts, applicationContext)
+        val facts: Array<Fact> = gson.fromJson(factsJson, Array<Fact>::class.java)
+        facts.forEach { fact -> factRepository.save(fact) }
     }
 
     companion object {
