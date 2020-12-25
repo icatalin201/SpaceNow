@@ -13,18 +13,17 @@ import java.util.*
 data class News(
         @PrimaryKey(autoGenerate = false)
         @ColumnInfo
-        val id: String,
-        @ColumnInfo
         val title: String,
         @ColumnInfo
-        val description: String,
+        val description: String?,
         @ColumnInfo
-        val image: String,
         val date: Date,
         @ColumnInfo
-        val thumbnail: String,
+        val link: String,
         @ColumnInfo
-        val url: String,
+        val image: String?,
         @ColumnInfo
-        val source: NewsSource
+        val thumbnail: String?,
+        @ColumnInfo
+        val source: NewsSource,
 )

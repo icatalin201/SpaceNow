@@ -5,9 +5,10 @@ import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityLaunchBinding
-import space.pal.sig.model.dto.LaunchDto
+import space.pal.sig.model.entity.LaunchWithData
 import java.util.*
 
 class LaunchActivity : AppCompatActivity() {
@@ -17,11 +18,22 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityLaunchBinding
+    private val viewModel: LaunchViewModel by inject()
     private var countDownTimer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_launch)
+        setSupportActionBar(binding.launchToolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
+        }
+        title = null
+        val launchId = intent.getStringExtra(LAUNCH_ID)
+        viewModel.submitLaunchId(launchId)
+        viewModel.getLaunch()
+                .observe(this) { showLaunch(it) }
         setupCoverAndToolbar()
     }
 
@@ -30,8 +42,14 @@ class LaunchActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun showLaunch(launch: LaunchDto) {
-        val rocket = launch.rocket
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
+    }
+
+    private fun showLaunch(launchWithData: LaunchWithData) {
+        val launch = launchWithData.launch
+        val rocket = launchWithData.rocket
         if (launch.upcoming) {
             val now = Calendar.getInstance().timeInMillis
             val countDown: Long = launch.dateUnix - now
@@ -53,6 +71,10 @@ class LaunchActivity : AppCompatActivity() {
                     val hString = formatNumber(h)
                     val mString = formatNumber(m)
                     val sString = formatNumber(s)
+                    binding.days.text = dString
+                    binding.hours.text = hString
+                    binding.minutes.text = mString
+                    binding.seconds.text = sString
                 }
 
                 override fun onFinish() {}

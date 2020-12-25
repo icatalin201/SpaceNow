@@ -18,10 +18,13 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(news: News)
 
-    @Query("SELECT * FROM news WHERE source = :source order by date desc")
+    @Query("SELECT * FROM news WHERE source = :source ORDER BY date DESC")
     fun findAllBySource(source: NewsSource): LiveData<MutableList<News>>
 
-    @Query("SELECT * FROM news WHERE id = :id")
-    fun findById(id: String): LiveData<News>
+    @Query("SELECT * FROM news ORDER BY date DESC")
+    fun findAll(): LiveData<MutableList<News>>
+
+    @Query("SELECT * FROM news WHERE title = :title")
+    fun findByTitle(title: String): LiveData<News>
 
 }

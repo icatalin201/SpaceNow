@@ -9,7 +9,7 @@ enum class NewsSource(val text: String) {
     companion object {
         fun fromText(text: String): NewsSource {
             for (newsSource in values()) {
-                if (newsSource.text == text) return newsSource
+                if (newsSource.text.equals(text)) return newsSource
             }
             return HUBBLE
         }

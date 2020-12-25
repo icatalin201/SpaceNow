@@ -1,6 +1,7 @@
 package space.pal.sig.view.launches
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -11,12 +12,13 @@ import space.pal.sig.R
 import space.pal.sig.databinding.FragmentLaunchesBinding
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.view.BaseFragment
+import space.pal.sig.view.launch.LaunchActivity
 
 /**
  * SpaceNow
  * Created by Catalin on 12/21/2020
  **/
-class LaunchesFragment : BaseFragment() {
+class LaunchesFragment : BaseFragment(), LaunchClickListener {
 
     private lateinit var binding: FragmentLaunchesBinding
     private lateinit var adapter: LaunchesAdapter
@@ -35,7 +37,7 @@ class LaunchesFragment : BaseFragment() {
                 .observe(viewLifecycleOwner) { showLaunches(it) }
         viewModel.getSelectedOption()
                 .observe(viewLifecycleOwner) { showOption(it) }
-        adapter = LaunchesAdapter(requireContext())
+        adapter = LaunchesAdapter(requireContext(), this)
         binding.launchesRecycler.adapter = adapter
         binding.launchesRecycler.layoutManager = LinearLayoutManager(requireContext())
         return binding.root
@@ -57,6 +59,12 @@ class LaunchesFragment : BaseFragment() {
             dialog.show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(launchWithData: LaunchWithData) {
+        val intent = Intent(requireContext(), LaunchActivity::class.java)
+        intent.putExtra(LaunchActivity.LAUNCH_ID, launchWithData.launch.id)
+        startActivity(intent)
     }
 
     private fun showOption(option: String?) {

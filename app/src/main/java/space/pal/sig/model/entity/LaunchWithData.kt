@@ -11,7 +11,7 @@ data class LaunchWithData(
         @Embedded
         val launch: Launch,
         @Relation(parentColumn = "rocketId", entityColumn = "id", entity = Rocket::class)
-        val rocket: Rocket,
+        val rocket: Rocket?,
         @Relation(parentColumn = "launchpadId", entityColumn = "id", entity = LaunchPad::class)
-        val launchpad: LaunchPad
+        val launchpad: LaunchPad?
 )

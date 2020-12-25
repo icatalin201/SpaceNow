@@ -18,7 +18,8 @@ import kotlin.collections.HashMap
  * Created by Catalin on 12/21/2020
  **/
 class LaunchesAdapter(
-        private val context: Context
+        private val context: Context,
+        private val listener: LaunchClickListener
 ) : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
 
     companion object {
@@ -68,11 +69,14 @@ class LaunchesAdapter(
     private fun setupImages(launches: List<LaunchWithData>) {
         launches.forEach { launch ->
             val rocket = launch.rocket
-            val image: String? = when (val imagesSize = rocket.images.size) {
-                0 -> null
-                else -> {
-                    val index = Random().nextInt(imagesSize)
-                    rocket.images[index]
+            var image: String? = null
+            rocket?.let {
+                image = when (val imagesSize = rocket.images.size) {
+                    0 -> null
+                    else -> {
+                        val index = Random().nextInt(imagesSize)
+                        rocket.images[index]
+                    }
                 }
             }
             imagesMap[launch] = image
@@ -84,6 +88,7 @@ class LaunchesAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun render(launchWithData: LaunchWithData, viewType: Int) {
+            binding.launchLayout.setOnClickListener { listener.onClick(launchWithData) }
             val params = binding.launchLayout.layoutParams as RecyclerView.LayoutParams
             when (viewType) {
                 TOP_BOTTOM -> {
@@ -108,8 +113,12 @@ class LaunchesAdapter(
             binding.launchName.text = launch.name
             binding.launchDate.text = context.getString(R.string.launch_date_label, date)
             binding.launchAgency.text = context.getString(R.string.space_x_label)
-            binding.launchLocation.text = launchpad.fullName
-            binding.launchRocket.text = rocket.name
+            launchpad?.let {
+                binding.launchLocation.text = it.fullName
+            }
+            rocket?.let {
+                binding.launchRocket.text = it.name
+            }
             val image: String? = imagesMap[launchWithData]
             image?.let {
                 Picasso.get()

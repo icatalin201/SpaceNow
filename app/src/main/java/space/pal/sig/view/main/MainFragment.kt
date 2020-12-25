@@ -1,5 +1,6 @@
 package space.pal.sig.view.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,8 @@ import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.model.entity.Roadster
-import space.pal.sig.model.entity.Rocket
 import space.pal.sig.view.BaseFragment
-import java.util.*
+import space.pal.sig.view.launch.LaunchActivity
 
 /**
  * SpaceNow
@@ -51,14 +51,25 @@ class MainFragment : BaseFragment() {
             val launch = it.launch
             binding.mainNextLaunchPreview.text = launch.name
             val rocket = launchWithData.rocket
-            val image: String? = getRandomImage(rocket)
-            image?.let {
-                Picasso.get()
-                        .load(image)
-                        .fit()
-                        .centerCrop()
-                        .placeholder(R.drawable.launch)
-                        .into(binding.mainNextLaunchImage)
+            rocket?.let {
+                val image: String? = when (rocket.images.size) {
+                    1 -> rocket.images[0]
+                    2 -> rocket.images[1]
+                    else -> null
+                }
+                image?.let {
+                    Picasso.get()
+                            .load(image)
+                            .fit()
+                            .centerCrop()
+                            .placeholder(R.drawable.launch)
+                            .into(binding.mainNextLaunchImage)
+                }
+            }
+            binding.mainNextLaunchCard.setOnClickListener {
+                val intent = Intent(requireContext(), LaunchActivity::class.java)
+                intent.putExtra(LaunchActivity.LAUNCH_ID, launch.id)
+                startActivity(intent)
             }
         }
     }
@@ -68,14 +79,26 @@ class MainFragment : BaseFragment() {
             val launch = it.launch
             binding.mainLastLaunchPreview.text = launch.name
             val rocket = launchWithData.rocket
-            val image: String? = getRandomImage(rocket)
-            image?.let {
-                Picasso.get()
-                        .load(image)
-                        .fit()
-                        .centerCrop()
-                        .placeholder(R.drawable.launch)
-                        .into(binding.mainLastLaunchImage)
+            rocket?.let {
+                val image: String? = when (rocket.images.size) {
+                    1 -> rocket.images[0]
+                    2 -> rocket.images[1]
+                    3 -> rocket.images[2]
+                    else -> null
+                }
+                image?.let {
+                    Picasso.get()
+                            .load(image)
+                            .fit()
+                            .centerCrop()
+                            .placeholder(R.drawable.launch)
+                            .into(binding.mainLastLaunchImage)
+                }
+            }
+            binding.mainLastLaunchCard.setOnClickListener {
+                val intent = Intent(requireContext(), LaunchActivity::class.java)
+                intent.putExtra(LaunchActivity.LAUNCH_ID, launch.id)
+                startActivity(intent)
             }
         }
     }
@@ -108,16 +131,6 @@ class MainFragment : BaseFragment() {
             binding.mainRoadsterSpeed.text = getString(
                     R.string.roadster_speed,
                     roadster.speedKph)
-        }
-    }
-
-    private fun getRandomImage(rocket: Rocket): String? {
-        return when (val imagesSize = rocket.images.size) {
-            0 -> null
-            else -> {
-                val index = Random().nextInt(imagesSize)
-                rocket.images[index]
-            }
         }
     }
 

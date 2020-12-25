@@ -2,7 +2,8 @@ package space.pal.sig.view.facts
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import space.pal.sig.model.entity.Fact
+import androidx.lifecycle.MediatorLiveData
+import space.pal.sig.model.dto.FactDto
 import space.pal.sig.repository.FactRepository
 import space.pal.sig.view.BaseViewModel
 
@@ -15,9 +16,17 @@ class FactsViewModel(
         factRepository: FactRepository
 ) : BaseViewModel(application) {
 
-    private val facts = factRepository.findAll()
+    private val facts = MediatorLiveData<List<FactDto>>()
 
-    fun getFacts(): LiveData<MutableList<Fact>> {
+    init {
+        facts.addSource(factRepository.findAll()) { facts ->
+            this.facts.value = facts.mapIndexed { index, fact ->
+                FactDto(fact.content, "#${index + 1}")
+            }.shuffled()
+        }
+    }
+
+    fun getFacts(): LiveData<List<FactDto>> {
         return facts
     }
 

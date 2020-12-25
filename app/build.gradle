@@ -10,7 +10,7 @@ android {
         applicationId "space.pal.sig"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 40
+        versionCode 41
         versionName "4.0.0"
     }
     buildTypes {
@@ -39,6 +39,7 @@ android {
         production {
             applicationId "space.pal.sig"
             buildConfigField 'String', 'SPACE_X_API_URL', '"https://api.spacexdata.com/v4/"'
+            buildConfigField 'String', 'HUBBLE_API_URL', '"http://hubblesite.org/api/v3/"'
             buildConfigField 'String', 'NASA_API_URL', '"https://api.nasa.gov/"'
             buildConfigField 'String', 'NASA_API_KEY', '"BST2Npgb7FKgBIVzIW2Dd3qARcQbwgk1jdY5Hc28"'
         }

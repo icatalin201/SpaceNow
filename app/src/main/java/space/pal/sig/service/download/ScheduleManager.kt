@@ -26,6 +26,7 @@ object ScheduleManager {
     fun launchOneTimeSync(context: Context, tag: String): LiveData<List<WorkInfo>> {
         val manager = WorkManager.getInstance(context)
         manager.cancelAllWorkByTag(tag)
+        manager.pruneWork()
         val workRequest = createOneTimeWorkRequest(DataSyncManager::class.java, tag)
         manager.enqueue(workRequest)
         return manager.getWorkInfosByTagLiveData(tag)

@@ -16,7 +16,7 @@ class NewsSourceConverter {
 
     @TypeConverter
     fun toString(obj: NewsSource): String {
-        return obj.name
+        return obj.text
     }
 
 }
