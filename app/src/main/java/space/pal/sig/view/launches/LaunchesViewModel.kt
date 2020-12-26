@@ -56,7 +56,7 @@ class LaunchesViewModel(
 
     private fun findFutureLaunches() {
         launchesLiveData?.let { launches.removeSource(it) }
-        launchesLiveData = launchRepository.findUpcomingLaunches()
+        launchesLiveData = launchRepository.findAllFromFuture()
         launchesLiveData?.let {
             launches.addSource(it) { data ->
                 launches.value = data
@@ -66,7 +66,7 @@ class LaunchesViewModel(
 
     private fun findPastLaunches() {
         launchesLiveData?.let { launches.removeSource(it) }
-        launchesLiveData = launchRepository.findPastLaunches()
+        launchesLiveData = launchRepository.findAllFromPast()
         launchesLiveData?.let {
             launches.addSource(it) { data ->
                 launches.value = data

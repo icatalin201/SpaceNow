@@ -2,19 +2,21 @@ package space.pal.sig.view.launch
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityLaunchBinding
 import space.pal.sig.model.entity.LaunchWithData
+import space.pal.sig.util.ActivityExtensions.getStatusBarHeight
 import space.pal.sig.util.displayDatetime
+import space.pal.sig.view.BaseActivity
 import java.util.*
 
-class LaunchActivity : AppCompatActivity() {
+class LaunchActivity : BaseActivity() {
 
     companion object {
         const val LAUNCH_ID = "launch_id"
@@ -22,6 +24,7 @@ class LaunchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLaunchBinding
     private val viewModel: LaunchViewModel by inject()
+    private val adapter = CrewAdapter()
     private var countDownTimer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +35,17 @@ class LaunchActivity : AppCompatActivity() {
             it.setDisplayHomeAsUpEnabled(true)
             it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         }
-        title = null
         val launchId = intent.getStringExtra(LAUNCH_ID)
         viewModel.submitLaunchId(launchId)
+        binding.launchCrewRecycler.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false)
+        binding.launchCrewRecycler.adapter = adapter
         viewModel.getLaunch()
                 .observe(this) { showLaunch(it) }
+        viewModel.getCurrentImage()
+                .observe(this) { showImage(it) }
         setupCoverAndToolbar()
     }
 
@@ -50,10 +59,22 @@ class LaunchActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
+    private fun showImage(image: String) {
+        val picasso = Picasso.get()
+        picasso.load(image).fit()
+                .centerCrop()
+                .into(binding.launchRocketImageCover)
+        picasso.load(image)
+                .fit()
+                .centerCrop()
+                .into(binding.launchRocketImage)
+    }
+
     private fun showLaunch(launchWithData: LaunchWithData) {
         val launch = launchWithData.launch
         val rocket = launchWithData.rocket
         val launchpad = launchWithData.launchpad
+        val crew = launchWithData.crew
         if (launch.upcoming) {
             val now = Calendar.getInstance().timeInMillis
             val countDown: Long = launch.dateUnix - now
@@ -84,45 +105,44 @@ class LaunchActivity : AppCompatActivity() {
                 override fun onFinish() {}
             }
             countDownTimer?.start()
-            binding.launchClock.isVisible = true
+            binding.launchCountdownLayout.isVisible = true
             binding.divider2.isVisible = true
-            binding.launchStatus.setBackgroundResource(R.drawable.launch_status_success)
-            binding.launchStatus.text = getString(R.string.launch_available)
+            binding.launchStatusTv.setBackgroundResource(R.drawable.launch_status_success)
+            binding.launchStatusTv.text = getString(R.string.launch_available)
         } else {
-            binding.launchClock.isVisible = false
+            binding.launchCountdownLayout.isVisible = false
             binding.divider2.isVisible = false
-            binding.launchStatus.text = getString(R.string.launch_unknown)
+            binding.launchStatusTv.text = getString(R.string.launch_unknown)
             launch.success?.let {
                 if (it) {
-                    binding.launchStatus.setBackgroundResource(R.drawable.launch_status_success)
-                    binding.launchStatus.text = getString(R.string.launch_success)
+                    binding.launchStatusTv.setBackgroundResource(R.drawable.launch_status_success)
+                    binding.launchStatusTv.text = getString(R.string.launch_success)
                 } else {
-                    binding.launchStatus.setBackgroundResource(R.drawable.launch_status_failure)
-                    binding.launchStatus.text = getString(R.string.launch_failure)
+                    binding.launchStatusTv.setBackgroundResource(R.drawable.launch_status_failure)
+                    binding.launchStatusTv.text = getString(R.string.launch_failure)
                 }
             }
+        }
+        crew?.let {
+            adapter.submit(it)
+            binding.launchCrewRecycler.isVisible = it.isNotEmpty()
         }
         binding.launchTitle.text = launch.name
         binding.launchDate.text = getString(R.string.launch_date_label,
                 Date(launch.dateUnix).displayDatetime())
         launchpad?.let {
-            binding.launchLocationName.text = it.fullName
+            binding.launchLocationTv.text = it.fullName
+            binding.launchLocationCard.isVisible = true
+        }
+        launch.details?.let {
+            binding.launchDetailsTv.text = it
+            binding.launchDetailsCard.isVisible = true
         }
         rocket?.let {
-            val image = when (val imagesSize = rocket.images.size) {
-                0 -> null
-                else -> {
-                    val index = Random().nextInt(imagesSize)
-                    rocket.images[index]
-                }
-            }
-            image?.let {
-                Picasso.get()
-                        .load(it)
-                        .fit()
-                        .centerCrop()
-                        .into(binding.launchRocketImageCover)
-            }
+            val name = "${it.name} | ${it.company}"
+            binding.launchRocketName.text = name
+            binding.launchRocketDescription.text = it.description
+            binding.launchRocketCard.isVisible = true
         }
     }
 
@@ -131,8 +151,8 @@ class LaunchActivity : AppCompatActivity() {
         val params = binding.launchCoverLayout.layoutParams as CollapsingToolbarLayout.LayoutParams
         params.bottomMargin = -titleBarHeight
         binding.launchCoverLayout.layoutParams = params
+        title = null
         setSupportActionBar(binding.launchToolbar)
-        title = ""
         val actionBar = supportActionBar
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
@@ -146,15 +166,5 @@ class LaunchActivity : AppCompatActivity() {
         } else {
             number.toString()
         }
-    }
-
-    private fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources
-                .getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
     }
 }

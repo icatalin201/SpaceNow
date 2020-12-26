@@ -27,6 +27,7 @@ class DataSyncManager(
     private val launchPadRepository: LaunchPadRepository by inject()
     private val factRepository: FactRepository by inject()
     private val newsRepository: NewsRepository by inject()
+    private val crewMemberRepository: CrewMemberRepository by inject()
     private val gson = Gson()
 
     override fun doWork(): Result {
@@ -35,6 +36,7 @@ class DataSyncManager(
         syncLaunches()
         syncRockets()
         syncLaunchpads()
+        syncCrewMembers()
         syncFacts()
         syncNews()
         return Result.success()
@@ -49,14 +51,14 @@ class DataSyncManager(
 
     private fun syncRoadster() {
         val roadsterDto = roadsterRepository
-                .downloadRoadster()
+                .download()
                 .blockingGet()
         roadsterRepository.save(roadsterDto.toRoadster())
     }
 
     private fun syncLaunches() {
         val launches = launchRepository
-                .downloadAllLaunches()
+                .downloadAll()
                 .blockingGet()
         launches.forEach { launchDto ->
             launchRepository.save(launchDto.toLaunch())
@@ -65,7 +67,7 @@ class DataSyncManager(
 
     private fun syncRockets() {
         val rockets = rocketRepository
-                .downloadAllRockets()
+                .downloadAll()
                 .blockingGet()
         rockets.forEach { rocketDto ->
             rocketRepository.save(rocketDto.toRocket())
@@ -74,7 +76,7 @@ class DataSyncManager(
 
     private fun syncLaunchpads() {
         val launchpads = launchPadRepository
-                .downloadAllLaunchpads()
+                .downloadAll()
                 .blockingGet()
         launchpads.forEach { launchpadDto ->
             launchPadRepository.save(launchpadDto.toLaunchpad())
@@ -85,6 +87,15 @@ class DataSyncManager(
         val factsJson: String = DataSyncUtil.readJsonFromResource(R.raw.facts, applicationContext)
         val facts = gson.fromJson(factsJson, Array<FactDto>::class.java)
         facts.forEach { factDto -> factRepository.save(factDto.toFact()) }
+    }
+
+    private fun syncCrewMembers() {
+        val crewMembers = crewMemberRepository
+                .downloadAll()
+                .blockingGet()
+        crewMembers.forEach { crewMemberDto ->
+            crewMemberRepository.save(crewMemberDto.toCrewMember())
+        }
     }
 
     private fun syncNews() {

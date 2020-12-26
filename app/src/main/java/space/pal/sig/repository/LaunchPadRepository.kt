@@ -19,7 +19,7 @@ class LaunchPadRepository(
         launchPadDao.save(launchPad)
     }
 
-    fun downloadAllLaunchpads(): Single<MutableList<LaunchPadDto>> {
+    fun downloadAll(): Single<MutableList<LaunchPadDto>> {
         return spaceXApiService.getAllLaunchpads()
     }
 

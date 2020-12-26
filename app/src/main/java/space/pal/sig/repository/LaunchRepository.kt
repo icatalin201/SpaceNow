@@ -21,31 +21,31 @@ class LaunchRepository(
         launchDao.save(launch)
     }
 
-    fun findAllLaunches(): LiveData<MutableList<LaunchWithData>> {
+    fun findAll(): LiveData<MutableList<LaunchWithData>> {
         return launchDao.findAll()
     }
 
-    fun findLaunch(id: String): LiveData<LaunchWithData> {
+    fun findById(id: String): LiveData<LaunchWithData> {
         return launchDao.findById(id)
     }
 
-    fun findPastLaunches(): LiveData<MutableList<LaunchWithData>> {
+    fun findAllFromPast(): LiveData<MutableList<LaunchWithData>> {
         return launchDao.findPastLaunches()
     }
 
-    fun findUpcomingLaunches(): LiveData<MutableList<LaunchWithData>> {
+    fun findAllFromFuture(): LiveData<MutableList<LaunchWithData>> {
         return launchDao.findUpcomingLaunches()
     }
 
-    fun findLatestLaunch(): LiveData<LaunchWithData> {
+    fun findLatest(): LiveData<LaunchWithData> {
         return launchDao.findLatestLaunch()
     }
 
-    fun findNextLaunch(): LiveData<LaunchWithData> {
+    fun findNext(): LiveData<LaunchWithData> {
         return launchDao.findNextLaunch()
     }
 
-    fun downloadAllLaunches(): Single<MutableList<LaunchDto>> {
+    fun downloadAll(): Single<MutableList<LaunchDto>> {
         return spaceXApiService.getAllLaunches()
     }
 

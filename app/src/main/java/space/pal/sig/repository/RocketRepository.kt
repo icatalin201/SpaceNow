@@ -20,15 +20,15 @@ class RocketRepository(
         rocketDao.save(rocket)
     }
 
-    fun findAllRockets(): LiveData<MutableList<Rocket>> {
+    fun findAll(): LiveData<MutableList<Rocket>> {
         return rocketDao.findAll()
     }
 
-    fun findRocket(id: String): LiveData<Rocket> {
+    fun findById(id: String): LiveData<Rocket> {
         return rocketDao.findById(id)
     }
 
-    fun downloadAllRockets(): Single<MutableList<RocketDto>> {
+    fun downloadAll(): Single<MutableList<RocketDto>> {
         return spaceXApiService.getAllRockets()
     }
 

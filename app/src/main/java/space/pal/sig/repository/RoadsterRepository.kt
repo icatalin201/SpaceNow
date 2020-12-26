@@ -20,11 +20,11 @@ class RoadsterRepository(
         roadsterDao.save(roadster)
     }
 
-    fun getRoadster(): LiveData<Roadster> {
+    fun get(): LiveData<Roadster> {
         return roadsterDao.find()
     }
 
-    fun downloadRoadster(): Single<RoadsterDto> {
+    fun download(): Single<RoadsterDto> {
         return spaceXApiService.getRoadster()
     }
 

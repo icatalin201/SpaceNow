@@ -36,6 +36,7 @@ object InjectionModule {
         single { get<SpaceNowDatabase>().launchpadDao() }
         single { get<SpaceNowDatabase>().factDao() }
         single { get<SpaceNowDatabase>().newsDao() }
+        single { get<SpaceNowDatabase>().crewMemberDao() }
 
         single { NasaClient() }
         single { SpaceXClient() }
@@ -52,6 +53,7 @@ object InjectionModule {
         single { LaunchPadRepository(get(), get()) }
         single { FactRepository(get()) }
         single { NewsRepository(get(), get()) }
+        single { CrewMemberRepository(get(), get()) }
 
         viewModel { SplashViewModel(get(), get()) }
         viewModel { MainViewModel(get(), get(), get(), get()) }

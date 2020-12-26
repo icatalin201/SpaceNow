@@ -22,9 +22,9 @@ class MainViewModel(
 ) : BaseViewModel(application) {
 
     private val astronomyPictureOfTheDay = apodRepository.findLatest()
-    private val nextLaunch = launchRepository.findNextLaunch()
-    private val latestLaunch = launchRepository.findLatestLaunch()
-    private val roadster = roadsterRepository.getRoadster()
+    private val nextLaunch = launchRepository.findNext()
+    private val latestLaunch = launchRepository.findLatest()
+    private val roadster = roadsterRepository.get()
 
     fun getAstronomyPictureOfTheDay(): LiveData<AstronomyPictureOfTheDay> {
         return astronomyPictureOfTheDay

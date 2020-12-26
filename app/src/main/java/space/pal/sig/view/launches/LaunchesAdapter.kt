@@ -20,7 +20,7 @@ import kotlin.collections.HashMap
 class LaunchesAdapter(
         private val context: Context,
         private val listener: LaunchClickListener
-) : RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LaunchesAdapter.LaunchesViewHolder>() {
 
     companion object {
         private const val TOP = 1
@@ -39,14 +39,14 @@ class LaunchesAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchesViewHolder {
         val inflater = LayoutInflater.from(context)
         val binding: LaunchViewBinding = DataBindingUtil
                 .inflate(inflater, R.layout.launch_view, parent, false)
-        return ViewHolder(binding)
+        return LaunchesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LaunchesViewHolder, position: Int) {
         holder.render(launchesList[position], getItemViewType(position))
     }
 
@@ -83,7 +83,7 @@ class LaunchesAdapter(
         }
     }
 
-    inner class ViewHolder(
+    inner class LaunchesViewHolder(
             private val binding: LaunchViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 

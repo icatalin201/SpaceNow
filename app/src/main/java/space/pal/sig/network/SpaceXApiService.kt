@@ -24,10 +24,10 @@ interface SpaceXApiService {
     fun getCore(@Path("id") id: String): Single<Core>
 
     @GET("crew")
-    fun getAllCrewMembers(): Single<MutableList<CrewMember>>
+    fun getAllCrewMembers(): Single<MutableList<CrewMemberDto>>
 
     @GET("crew/{id}")
-    fun getCrewMembers(@Path("id") id: String): Single<CrewMember>
+    fun getCrewMembers(@Path("id") id: String): Single<CrewMemberDto>
 
     @GET("dragons")
     fun getAllDragons(): Single<MutableList<Dragon>>
