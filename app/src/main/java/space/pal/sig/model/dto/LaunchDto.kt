@@ -61,7 +61,7 @@ data class LaunchDto(
 ) {
     fun toLaunch(): Launch {
         return Launch(
-                id, flightNumber, name, dateUtc, dateUnix,
+                id, flightNumber, name, dateUtc, dateUnix * 1000,
                 dateLocal, staticFireDateUtc, staticFireDateUnix,
                 tbd, net, window, rocket, success, failures,
                 upcoming, details, crew, ships, capsules, payloads,

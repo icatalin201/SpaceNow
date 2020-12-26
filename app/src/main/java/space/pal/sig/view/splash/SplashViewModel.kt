@@ -26,12 +26,13 @@ class SplashViewModel(
             .launchOneTimeSync(application, DataSyncManager.DATA_SYNC_WORKER_TAG)
 
     init {
-        val isFirstTime = sharedPreferencesUtil.get(IS_FIRST_TIME, false)
+        val isFirstTime = sharedPreferencesUtil.get(IS_FIRST_TIME, true)
         if (isFirstTime) {
             safeForStart.addSource(syncResult) { workInfoList ->
                 val finished = workInfoList[0].state.isFinished
                 safeForStart.value = finished
             }
+            sharedPreferencesUtil.save(IS_FIRST_TIME, false)
         } else {
             safeForStart.value = true
         }

@@ -52,9 +52,8 @@ class MainFragment : BaseFragment() {
             binding.mainNextLaunchPreview.text = launch.name
             val rocket = launchWithData.rocket
             rocket?.let {
-                val image: String? = when (rocket.images.size) {
-                    1 -> rocket.images[0]
-                    2 -> rocket.images[1]
+                val image: String? = when (rocket.images.size > 2) {
+                    true -> rocket.images[1]
                     else -> null
                 }
                 image?.let {
@@ -80,10 +79,8 @@ class MainFragment : BaseFragment() {
             binding.mainLastLaunchPreview.text = launch.name
             val rocket = launchWithData.rocket
             rocket?.let {
-                val image: String? = when (rocket.images.size) {
-                    1 -> rocket.images[0]
-                    2 -> rocket.images[1]
-                    3 -> rocket.images[2]
+                val image: String? = when (rocket.images.size > 3) {
+                    true -> rocket.images[2]
                     else -> null
                 }
                 image?.let {

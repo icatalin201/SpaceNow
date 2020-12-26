@@ -3,12 +3,15 @@ package space.pal.sig.view.launch
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityLaunchBinding
 import space.pal.sig.model.entity.LaunchWithData
+import space.pal.sig.util.displayDatetime
 import java.util.*
 
 class LaunchActivity : AppCompatActivity() {
@@ -50,6 +53,7 @@ class LaunchActivity : AppCompatActivity() {
     private fun showLaunch(launchWithData: LaunchWithData) {
         val launch = launchWithData.launch
         val rocket = launchWithData.rocket
+        val launchpad = launchWithData.launchpad
         if (launch.upcoming) {
             val now = Calendar.getInstance().timeInMillis
             val countDown: Long = launch.dateUnix - now
@@ -80,6 +84,45 @@ class LaunchActivity : AppCompatActivity() {
                 override fun onFinish() {}
             }
             countDownTimer?.start()
+            binding.launchClock.isVisible = true
+            binding.divider2.isVisible = true
+            binding.launchStatus.setBackgroundResource(R.drawable.launch_status_success)
+            binding.launchStatus.text = getString(R.string.launch_available)
+        } else {
+            binding.launchClock.isVisible = false
+            binding.divider2.isVisible = false
+            binding.launchStatus.text = getString(R.string.launch_unknown)
+            launch.success?.let {
+                if (it) {
+                    binding.launchStatus.setBackgroundResource(R.drawable.launch_status_success)
+                    binding.launchStatus.text = getString(R.string.launch_success)
+                } else {
+                    binding.launchStatus.setBackgroundResource(R.drawable.launch_status_failure)
+                    binding.launchStatus.text = getString(R.string.launch_failure)
+                }
+            }
+        }
+        binding.launchTitle.text = launch.name
+        binding.launchDate.text = getString(R.string.launch_date_label,
+                Date(launch.dateUnix).displayDatetime())
+        launchpad?.let {
+            binding.launchLocationName.text = it.fullName
+        }
+        rocket?.let {
+            val image = when (val imagesSize = rocket.images.size) {
+                0 -> null
+                else -> {
+                    val index = Random().nextInt(imagesSize)
+                    rocket.images[index]
+                }
+            }
+            image?.let {
+                Picasso.get()
+                        .load(it)
+                        .fit()
+                        .centerCrop()
+                        .into(binding.launchRocketImageCover)
+            }
         }
     }
 

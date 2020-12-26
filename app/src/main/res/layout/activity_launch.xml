@@ -44,20 +44,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/launch_title"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@color/primaryDarkSemiTransparent"
                         android:fitsSystemWindows="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/launch_title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:padding="@dimen/padding_16"
                         android:textAlignment="center"
                         android:textSize="@dimen/size_24"
@@ -65,7 +58,8 @@
                         android:translationZ="1dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -45,6 +45,10 @@
     <string name="past_launches">Past launches</string>
     <string name="latest_launch">Latest launch</string>
     <string name="did_you_know">Did you know?</string>
+    <string name="launch_available">Available for launch</string>
+    <string name="launch_success">Launched successfully</string>
+    <string name="launch_unknown">Unknown status</string>
+    <string name="launch_failure">Launch failed</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

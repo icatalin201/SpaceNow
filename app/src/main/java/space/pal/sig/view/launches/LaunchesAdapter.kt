@@ -109,7 +109,7 @@ class LaunchesAdapter(
             val launch = launchWithData.launch
             val rocket = launchWithData.rocket
             val launchpad = launchWithData.launchpad
-            val date = Date(launch.dateUnix * 1000).displayDatetime()
+            val date = Date(launch.dateUnix).displayDatetime()
             binding.launchName.text = launch.name
             binding.launchDate.text = context.getString(R.string.launch_date_label, date)
             binding.launchAgency.text = context.getString(R.string.space_x_label)
