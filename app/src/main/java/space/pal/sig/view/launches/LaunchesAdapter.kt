@@ -67,19 +67,18 @@ class LaunchesAdapter(
     }
 
     private fun setupImages(launches: List<LaunchWithData>) {
-        launches.forEach { launch ->
-            val rocket = launch.rocket
-            var image: String? = null
-            rocket?.let {
-                image = when (val imagesSize = rocket.images.size) {
-                    0 -> null
-                    else -> {
-                        val index = Random().nextInt(imagesSize)
-                        rocket.images[index]
-                    }
-                }
+        launches.forEach { launchWithData ->
+            val rocket = launchWithData.rocket
+            val launch = launchWithData.launch
+            val images = mutableListOf<String>()
+            launch.links.flickr.original?.let {
+                images.addAll(it)
             }
-            imagesMap[launch] = image
+            if (images.isEmpty() && rocket != null) {
+                images.addAll(rocket.images)
+            }
+            val index = Random().nextInt(images.size)
+            imagesMap[launchWithData] = images[index]
         }
     }
 

@@ -6,29 +6,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.WebActivity">
+        tools:context=".view.AboutActivity">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/web_app_bar"
+            android:id="@+id/about_app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:translationZ="3dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/web_toolbar"
+                android:id="@+id/about_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/primaryDark"
                 android:theme="@style/SpaceNow.Toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>
-
-        <WebView
-            android:id="@+id/web_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

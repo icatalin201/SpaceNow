@@ -29,14 +29,19 @@ class LaunchViewModel(
 
     private val launch = MediatorLiveData<LaunchWithData>()
     private val crew = MediatorLiveData<List<CrewMember>>()
-    private val currentImage = MutableLiveData<String>()
-    private val images: MutableList<String> = mutableListOf()
+    private val currentRocketImage = MutableLiveData<String>()
+    private val currentLaunchImage = MutableLiveData<String>()
+    private val rocketImages: MutableList<String> = mutableListOf()
+    private val launchImages: MutableList<String> = mutableListOf()
 
     private val runnable = object : Runnable {
         override fun run() {
-            var index = images.indexOf(currentImage.value) + 1
-            if (index == images.size) index = 0
-            currentImage.value = images[index]
+            var rocketIndex = rocketImages.indexOf(currentRocketImage.value) + 1
+            var launchIndex = launchImages.indexOf(currentLaunchImage.value) + 1
+            if (rocketIndex == rocketImages.size) rocketIndex = 0
+            if (launchIndex == launchImages.size) launchIndex = 0
+            currentRocketImage.value = rocketImages[rocketIndex]
+            currentLaunchImage.value = launchImages[launchIndex]
             mainHandler.postDelayed(this, IMAGE_CHANGE_DELAY)
         }
     }
@@ -67,8 +72,14 @@ class LaunchViewModel(
                 this.launch.value = launch
                 val liveCrewData = crewMemberRepository.findAllById(launch.launch.crewIds)
                 crew.addSource(liveCrewData) { this.crew.value = it }
+                launch.launch.links.flickr.original?.let {
+                    launchImages.addAll(it)
+                }
                 launch.rocket?.let { rocket ->
-                    this.images.addAll(rocket.images)
+                    rocketImages.addAll(rocket.images)
+                    if (launchImages.isEmpty()) {
+                        launchImages.addAll(rocket.images)
+                    }
                 }
                 mainHandler.post(runnable)
             }
@@ -83,8 +94,12 @@ class LaunchViewModel(
         return crew
     }
 
-    fun getCurrentImage(): LiveData<String> {
-        return currentImage
+    fun getCurrentRocketImage(): LiveData<String> {
+        return currentRocketImage
+    }
+
+    fun getCurrentLaunchImage(): LiveData<String> {
+        return currentLaunchImage
     }
 
 }

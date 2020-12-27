@@ -14,7 +14,9 @@ import space.pal.sig.util.displayDate
  * SpaceNow
  * Created by Catalin on 12/25/2020
  **/
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(
+        private val listener: NewsClickListener
+) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private val newsList: MutableList<News> = mutableListOf()
 
@@ -45,6 +47,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun render(news: News) {
+            binding.newsCardView.setOnClickListener { listener.onClick(news) }
             binding.newsTitle.text = news.title
             binding.newsDescription.text = news.description
             binding.newsSource.text = news.source.text

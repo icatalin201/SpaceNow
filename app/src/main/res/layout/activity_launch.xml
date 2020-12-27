@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 android:theme="@style/SpaceNow.Toolbar"
-                app:contentScrim="@color/primary"
+                app:contentScrim="@color/primaryDark"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,6 +60,32 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/launch_notifications_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/padding_16"
+                        android:src="@drawable/ic_baseline_notifications_24"
+                        android:translationZ="1dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/launch_watch_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/padding_16"
+                        android:src="@drawable/ic_baseline_remove_red_eye_24"
+                        android:translationZ="1dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/launch_notifications_btn" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

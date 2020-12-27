@@ -37,7 +37,7 @@ class SpaceNow : Application() {
         val okHttpDownloader = OkHttp3Downloader(okHttpClient)
         val picasso = Picasso.Builder(this)
                 .downloader(okHttpDownloader)
-                .loggingEnabled(true)
+                .loggingEnabled(false)
                 .build()
         Picasso.setSingletonInstance(picasso)
     }

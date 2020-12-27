@@ -1,11 +1,10 @@
 package space.pal.sig.view.launch
 
-import android.app.Dialog
-import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +18,10 @@ import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.util.ActivityExtensions.getStatusBarHeight
 import space.pal.sig.util.displayDatetime
 import space.pal.sig.view.BaseActivity
+import space.pal.sig.view.WebActivity
 import java.util.*
 
-class LaunchActivity : BaseActivity() {
+class LaunchActivity : BaseActivity(), CrewClickListener {
 
     companion object {
         const val LAUNCH_ID = "launch_id"
@@ -29,27 +29,28 @@ class LaunchActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLaunchBinding
     private val viewModel: LaunchViewModel by inject()
-    private val adapter = CrewAdapter()
+    private val adapter = CrewAdapter(this)
     private var countDownTimer: CountDownTimer? = null
     private var launchId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_launch)
-        setSupportActionBar(binding.launchToolbar)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
-        }
         launchId = intent.getStringExtra(LAUNCH_ID)
         viewModel.submitLaunchId(launchId)
         viewModel.getLaunch()
                 .observe(this) { showLaunch(it) }
-        viewModel.getCurrentImage()
-                .observe(this) { showImage(it) }
+        viewModel.getCurrentRocketImage()
+                .observe(this) { showRocketImage(it) }
+        viewModel.getCurrentLaunchImage()
+                .observe(this) { showLaunchImage(it) }
         viewModel.getCrew()
                 .observe(this) { showCrew(it) }
         setupCoverAndToolbar()
+        binding.launchNotificationsBtn
+                .setOnClickListener { onNotificationBtnClick() }
+        binding.launchWatchBtn
+                .setOnClickListener { onWatchBtnClick() }
     }
 
     override fun onDestroy() {
@@ -62,32 +63,25 @@ class LaunchActivity : BaseActivity() {
         return super.onSupportNavigateUp()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.notification -> {
-                val options = arrayOf("On", "Off")
-                val dialog: Dialog = AlertDialog.Builder(this, R.style.SpaceNow_Dialog)
-                        .setTitle(R.string.notification)
-                        .setItems(options) { dialogInterface: DialogInterface, i: Int ->
-                            viewModel.toggleNotifications(i == 0, launchId)
-                            dialogInterface.dismiss()
-                        }
-                        .create()
-                dialog.show()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onClick(crewMember: CrewMember) {
+        val intent = Intent(this, WebActivity::class.java)
+        intent.putExtra(WebActivity.URL, crewMember.wikipedia)
+        intent.putExtra(WebActivity.TITLE, crewMember.name)
+        startActivity(intent)
     }
 
-    private fun showImage(image: String) {
-        val picasso = Picasso.get()
-        picasso.load(image).fit()
-                .centerCrop()
-                .into(binding.launchRocketImageCover)
-        picasso.load(image)
+    private fun showRocketImage(image: String) {
+        Picasso.get().load(image)
                 .fit()
                 .centerCrop()
                 .into(binding.launchRocketImage)
+    }
+
+    private fun showLaunchImage(image: String) {
+        Picasso.get().load(image)
+                .fit()
+                .centerCrop()
+                .into(binding.launchRocketImageCover)
     }
 
     private fun showCrew(crew: List<CrewMember>?) {
@@ -140,10 +134,12 @@ class LaunchActivity : BaseActivity() {
             binding.divider2.isVisible = true
             binding.launchStatusTv.setBackgroundResource(R.drawable.launch_status_success)
             binding.launchStatusTv.text = getString(R.string.launch_available)
+            binding.launchNotificationsBtn.isVisible = true
         } else {
             binding.launchCountdownLayout.isVisible = false
             binding.divider2.isVisible = false
             binding.launchStatusTv.text = getString(R.string.launch_unknown)
+            binding.launchNotificationsBtn.isVisible = false
             launch.success?.let {
                 if (it) {
                     binding.launchStatusTv.setBackgroundResource(R.drawable.launch_status_success)
@@ -165,12 +161,51 @@ class LaunchActivity : BaseActivity() {
             binding.launchDetailsTv.text = it
             binding.launchDetailsCard.isVisible = true
         }
+        launch.links.webcast?.let {
+            binding.launchWatchBtn.tag = it
+            binding.launchWatchBtn.isVisible = true
+        }
         rocket?.let {
             val name = "${it.name} | ${it.company}"
             binding.launchRocketName.text = name
             binding.launchRocketDescription.text = it.description
             binding.launchRocketCard.isVisible = true
         }
+        handleNotificationBtn(launch.id)
+    }
+
+    private fun handleNotificationBtn(launchId: String?) {
+        val hasNotifications: Boolean = viewModel.hasNotifications(launchId)
+        binding.launchNotificationsBtn.tag = hasNotifications
+        if (hasNotifications) {
+            binding.launchNotificationsBtn
+                    .setImageResource(R.drawable.ic_baseline_notifications_active_24)
+        } else {
+            binding.launchNotificationsBtn
+                    .setImageResource(R.drawable.ic_baseline_notifications_24)
+        }
+    }
+
+    private fun onNotificationBtnClick() {
+        val isOn = !(binding.launchNotificationsBtn.tag as Boolean)
+        binding.launchNotificationsBtn.tag = isOn
+        viewModel.toggleNotifications(isOn, launchId)
+        handleNotificationBtn(launchId)
+        val message = when (isOn) {
+            true -> getString(R.string.launch_notification_on)
+            else -> getString(R.string.launch_notification_off)
+        }
+        Toast.makeText(
+                this,
+                message,
+                Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun onWatchBtnClick() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(binding.launchWatchBtn.tag as String)
+        startActivity(intent)
     }
 
     private fun setupCoverAndToolbar() {
@@ -180,10 +215,9 @@ class LaunchActivity : BaseActivity() {
         binding.launchCoverLayout.layoutParams = params
         title = null
         setSupportActionBar(binding.launchToolbar)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
-            actionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         }
     }
 

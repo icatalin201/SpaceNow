@@ -99,31 +99,30 @@ class DataSyncManager(
     }
 
     private fun syncNews() {
-        for (i in 1..3) {
-            val hubblePreviewNews = newsRepository
-                    .downloadHubbleFeed(i)
+        val page = 1
+        val hubblePreviewNews = newsRepository
+                .downloadHubbleFeed(page)
+                .blockingGet()
+        hubblePreviewNews.forEach { newsPreviewDto ->
+            val newsDto = newsRepository
+                    .downloadHubbleNews(newsPreviewDto.id)
                     .blockingGet()
-            hubblePreviewNews.forEach { newsPreviewDto ->
-                val newsDto = newsRepository
-                        .downloadHubbleNews(newsPreviewDto.id)
-                        .blockingGet()
-                newsRepository.save(newsDto.toNews(NewsSource.HUBBLE))
-            }
-            val esaNews = newsRepository
-                    .downloadEuropeanSpaceAgencyFeed(i)
-                    .blockingGet()
-            esaNews.forEach { newsDto ->
-                newsRepository.save(newsDto.toNews(NewsSource.EUROPEAN_SPACE_AGENCY))
-            }
-            val jwstNews = newsRepository
-                    .downloadJamesWebbSpaceTelescopeFeed(i)
-                    .blockingGet()
-            jwstNews.forEach { newsDto ->
-                newsRepository.save(newsDto.toNews(NewsSource.JAMES_WEBB_SPACE_TELESCOPE))
-            }
+            newsRepository.save(newsDto.toNews(NewsSource.HUBBLE))
+        }
+        val esaNews = newsRepository
+                .downloadEuropeanSpaceAgencyFeed(page)
+                .blockingGet()
+        esaNews.forEach { newsDto ->
+            newsRepository.save(newsDto.toNews(NewsSource.EUROPEAN_SPACE_AGENCY))
+        }
+        val jwstNews = newsRepository
+                .downloadJamesWebbSpaceTelescopeFeed(page)
+                .blockingGet()
+        jwstNews.forEach { newsDto ->
+            newsRepository.save(newsDto.toNews(NewsSource.JAMES_WEBB_SPACE_TELESCOPE))
         }
         val stNews = newsRepository
-                .downloadSpaceTelescopeLiveFeed(1)
+                .downloadSpaceTelescopeLiveFeed(page)
                 .blockingGet()
         stNews.forEach { newsDto ->
             newsRepository.save(newsDto.toNews(NewsSource.SPACE_TELESCOPE_LIVE))

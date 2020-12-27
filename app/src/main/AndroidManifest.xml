@@ -18,6 +18,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".view.AboutActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SpaceNow" />
+        <activity
+            android:name=".view.WebActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SpaceNow" />
+        <activity
             android:name=".view.apod.ApodActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/SpaceNow" />

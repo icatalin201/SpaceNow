@@ -13,7 +13,9 @@ import space.pal.sig.model.entity.CrewMember
  * SpaceNow
  * Created by Catalin on 12/26/2020
  **/
-class CrewAdapter : RecyclerView.Adapter<CrewAdapter.CrewViewHolder>() {
+class CrewAdapter(
+        private val listener: CrewClickListener
+) : RecyclerView.Adapter<CrewAdapter.CrewViewHolder>() {
 
     private val crew: MutableList<CrewMember> = mutableListOf()
 
@@ -43,6 +45,7 @@ class CrewAdapter : RecyclerView.Adapter<CrewAdapter.CrewViewHolder>() {
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun render(crewMember: CrewMember) {
+            binding.crewMemberCard.setOnClickListener { listener.onClick(crewMember) }
             binding.crewMemberName.text = crewMember.name
             Picasso.get()
                     .load(crewMember.image)
