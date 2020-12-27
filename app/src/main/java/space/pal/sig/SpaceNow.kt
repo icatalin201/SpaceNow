@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import space.pal.sig.service.notification.SpaceNotificationManager.createNotificationChannel
 import space.pal.sig.util.InjectionModule
 import space.pal.sig.util.OkHttpBuilderExtensions.setupTrustManager
 
@@ -25,6 +26,7 @@ class SpaceNow : Application() {
             modules(InjectionModule.appModule)
         }
         setupPicasso()
+        createNotificationChannel(applicationContext)
     }
 
     private fun setupPicasso() {

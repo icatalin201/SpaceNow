@@ -2,6 +2,7 @@ package space.pal.sig.util
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 
 /**
 SpaceNow
@@ -47,6 +48,16 @@ class SharedPreferencesUtil(
 
     fun get(key: String, defaultValue: Boolean): Boolean {
         return sharedPreferences.getBoolean(key, defaultValue)
+    }
+
+    fun save(key: String, items: Set<String>) {
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putStringSet(key, items)
+        editor.apply()
+    }
+
+    fun get(key: String): MutableSet<String> {
+        return sharedPreferences.getStringSet(key, mutableSetOf())!!
     }
 
     fun remove(key: String) {

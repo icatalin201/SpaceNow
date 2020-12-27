@@ -13,7 +13,5 @@ data class LaunchWithData(
         @Relation(parentColumn = "rocketId", entityColumn = "id", entity = Rocket::class)
         val rocket: Rocket?,
         @Relation(parentColumn = "launchpadId", entityColumn = "id", entity = LaunchPad::class)
-        val launchpad: LaunchPad?,
-        @Relation(parentColumn = "crewIds", entityColumn = "id", entity = CrewMember::class)
-        val crew: List<CrewMember>?
+        val launchpad: LaunchPad?
 )

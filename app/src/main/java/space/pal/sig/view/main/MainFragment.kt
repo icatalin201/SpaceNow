@@ -17,6 +17,7 @@ import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.model.entity.Roadster
 import space.pal.sig.view.BaseFragment
+import space.pal.sig.view.apod.ApodActivity
 import space.pal.sig.view.launch.LaunchActivity
 
 /**
@@ -103,6 +104,11 @@ class MainFragment : BaseFragment() {
     private fun showApod(apod: AstronomyPictureOfTheDay?) {
         apod?.let {
             if (apod.mediaType == AstronomyPictureOfTheDayDto.IMAGE) {
+                binding.mainApodTitle.setOnClickListener {
+                    val intent = Intent(requireContext(), ApodActivity::class.java)
+                    intent.putExtra(ApodActivity.APOD_DATE, apod.date)
+                    startActivity(intent)
+                }
                 binding.mainApodImage.contentDescription = apod.title
                 Picasso.get().load(apod.url)
                         .fit()

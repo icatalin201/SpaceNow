@@ -11,6 +11,7 @@ import space.pal.sig.network.client.HubbleClient
 import space.pal.sig.network.client.NasaClient
 import space.pal.sig.network.client.SpaceXClient
 import space.pal.sig.repository.*
+import space.pal.sig.view.apod.ApodViewModel
 import space.pal.sig.view.facts.FactsViewModel
 import space.pal.sig.view.launch.LaunchViewModel
 import space.pal.sig.view.launches.LaunchesViewModel
@@ -60,7 +61,8 @@ object InjectionModule {
         viewModel { LaunchesViewModel(get(), get()) }
         viewModel { FactsViewModel(get(), get()) }
         viewModel { NewsViewModel(get(), get()) }
-        viewModel { LaunchViewModel(get(), get()) }
+        viewModel { LaunchViewModel(get(), get(), get(), get()) }
+        viewModel { ApodViewModel(get(), get()) }
 
     }
 

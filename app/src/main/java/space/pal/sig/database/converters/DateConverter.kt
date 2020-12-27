@@ -1,6 +1,8 @@
 package space.pal.sig.database.converters
 
 import androidx.room.TypeConverter
+import space.pal.sig.util.formatDate
+import space.pal.sig.util.parseDateString
 import java.util.*
 
 /**
@@ -9,12 +11,12 @@ import java.util.*
  */
 class DateConverter {
     @TypeConverter
-    fun fromTimestamp(time: Long?): Date? {
-        return if (time == null) null else Date(time)
+    fun fromString(date: String): Date? {
+        return parseDateString(date)
     }
 
     @TypeConverter
-    fun toTimestamp(date: Date?): Long? {
-        return date?.time
+    fun toString(date: Date): String {
+        return date.formatDate()
     }
 }

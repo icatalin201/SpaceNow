@@ -49,6 +49,8 @@
     <string name="launch_success">Launched successfully</string>
     <string name="launch_unknown">Unknown status</string>
     <string name="launch_failure">Launch failed</string>
+    <string name="select_another">Select another</string>
+    <string name="no_apod_label">There is no picture for the selected date</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

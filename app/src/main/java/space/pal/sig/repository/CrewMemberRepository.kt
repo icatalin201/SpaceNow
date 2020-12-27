@@ -1,5 +1,6 @@
 package space.pal.sig.repository
 
+import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import space.pal.sig.database.dao.CrewMemberDao
 import space.pal.sig.model.dto.CrewMemberDto
@@ -17,6 +18,10 @@ class CrewMemberRepository(
 
     fun save(crewMember: CrewMember) {
         crewMemberDao.save(crewMember)
+    }
+
+    fun findAllById(ids: List<String>): LiveData<List<CrewMember>> {
+        return crewMemberDao.findAllById(ids)
     }
 
     fun downloadAll(): Single<MutableList<CrewMemberDto>> {

@@ -1,7 +1,11 @@
 package space.pal.sig.view.launch
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +14,7 @@ import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityLaunchBinding
+import space.pal.sig.model.entity.CrewMember
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.util.ActivityExtensions.getStatusBarHeight
 import space.pal.sig.util.displayDatetime
@@ -26,6 +31,7 @@ class LaunchActivity : BaseActivity() {
     private val viewModel: LaunchViewModel by inject()
     private val adapter = CrewAdapter()
     private var countDownTimer: CountDownTimer? = null
+    private var launchId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +41,14 @@ class LaunchActivity : BaseActivity() {
             it.setDisplayHomeAsUpEnabled(true)
             it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         }
-        val launchId = intent.getStringExtra(LAUNCH_ID)
+        launchId = intent.getStringExtra(LAUNCH_ID)
         viewModel.submitLaunchId(launchId)
-        binding.launchCrewRecycler.layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.HORIZONTAL,
-                false)
-        binding.launchCrewRecycler.adapter = adapter
         viewModel.getLaunch()
                 .observe(this) { showLaunch(it) }
         viewModel.getCurrentImage()
                 .observe(this) { showImage(it) }
+        viewModel.getCrew()
+                .observe(this) { showCrew(it) }
         setupCoverAndToolbar()
     }
 
@@ -55,8 +58,25 @@ class LaunchActivity : BaseActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.notification -> {
+                val options = arrayOf("On", "Off")
+                val dialog: Dialog = AlertDialog.Builder(this, R.style.SpaceNow_Dialog)
+                        .setTitle(R.string.notification)
+                        .setItems(options) { dialogInterface: DialogInterface, i: Int ->
+                            viewModel.toggleNotifications(i == 0, launchId)
+                            dialogInterface.dismiss()
+                        }
+                        .create()
+                dialog.show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showImage(image: String) {
@@ -70,11 +90,22 @@ class LaunchActivity : BaseActivity() {
                 .into(binding.launchRocketImage)
     }
 
+    private fun showCrew(crew: List<CrewMember>?) {
+        binding.launchCrewRecycler.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false)
+        binding.launchCrewRecycler.adapter = adapter
+        crew?.let {
+            adapter.submit(it)
+            binding.launchCrewRecycler.isVisible = it.isNotEmpty()
+        }
+    }
+
     private fun showLaunch(launchWithData: LaunchWithData) {
         val launch = launchWithData.launch
         val rocket = launchWithData.rocket
         val launchpad = launchWithData.launchpad
-        val crew = launchWithData.crew
         if (launch.upcoming) {
             val now = Calendar.getInstance().timeInMillis
             val countDown: Long = launch.dateUnix - now
@@ -122,10 +153,6 @@ class LaunchActivity : BaseActivity() {
                     binding.launchStatusTv.text = getString(R.string.launch_failure)
                 }
             }
-        }
-        crew?.let {
-            adapter.submit(it)
-            binding.launchCrewRecycler.isVisible = it.isNotEmpty()
         }
         binding.launchTitle.text = launch.name
         binding.launchDate.text = getString(R.string.launch_date_label,

@@ -18,7 +18,7 @@ data class AstronomyPictureOfTheDayDto(
         @SerializedName("title")
         val title: String,
         @SerializedName(value = "copyright", alternate = ["photographer"])
-        val copyright: String,
+        val copyright: String?,
         @SerializedName("service_version")
         val serviceVersion: String,
         @SerializedName("media_type")

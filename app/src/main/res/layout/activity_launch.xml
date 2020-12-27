@@ -382,8 +382,10 @@
                     android:id="@+id/launch_crew_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/launch_rocket_card" />
+                    app:layout_constraintTop_toBottomOf="@id/launch_rocket_card"
+                    tools:listitem="@layout/crew_member_view" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/launch_location_card"

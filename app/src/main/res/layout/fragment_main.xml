@@ -25,7 +25,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_8"
                     android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardBackgroundColor="@color/primary"
                     app:cardCornerRadius="8dp">
 
@@ -45,6 +44,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:background="@color/primarySemiTransparent"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:gravity="bottom|end"
                             android:paddingStart="@dimen/padding_16"
                             android:paddingTop="@dimen/padding_8"
