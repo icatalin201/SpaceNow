@@ -17,6 +17,7 @@ buildscript {
     ext.preference_version = "1.1.1"
     ext.room_version = "2.2.6"
     ext.work_version = "2.4.0"
+    ext.play_services_verion = "17.0.0"
 
     repositories {
         google()

@@ -32,7 +32,7 @@
     <string name="share">Share</string>
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="pref_title_launch_notification">Launch notification</string>
-    <string name="rate">Rate us</string>
+    <string name="rate">Rate the app</string>
     <string name="home">Home</string>
     <string name="earth_distance">Earth distance: %1$.2f km</string>
     <string name="mars_distance">Mars distance: %1$.2f km</string>
@@ -53,6 +53,8 @@
     <string name="no_apod_label">There is no picture for the selected date</string>
     <string name="launch_notification_on">You will be notified at launch time</string>
     <string name="launch_notification_off">You won`t be notified at launch time</string>
+    <string name="iss_live_label">ISS Live</string>
+    <string name="iss">International Space Station</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

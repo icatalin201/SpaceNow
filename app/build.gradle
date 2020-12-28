@@ -41,6 +41,7 @@ android {
             buildConfigField 'String', 'SPACE_X_API_URL', '"https://api.spacexdata.com/v4/"'
             buildConfigField 'String', 'HUBBLE_API_URL', '"http://hubblesite.org/api/v3/"'
             buildConfigField 'String', 'NASA_API_URL', '"https://api.nasa.gov/"'
+            buildConfigField 'String', 'ISS_API_URL', '"http://api.open-notify.org/"'
             buildConfigField 'String', 'NASA_API_KEY', '"BST2Npgb7FKgBIVzIW2Dd3qARcQbwgk1jdY5Hc28"'
         }
     }
@@ -69,6 +70,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     implementation "com.google.android.material:material:$material_version"
+    implementation "com.google.android.gms:play-services-maps:$play_services_verion"
 
     implementation "com.squareup.picasso:picasso:$picasso_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

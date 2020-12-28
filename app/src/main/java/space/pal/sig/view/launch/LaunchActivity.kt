@@ -8,17 +8,23 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityLaunchBinding
 import space.pal.sig.model.entity.CrewMember
+import space.pal.sig.model.entity.LaunchPad
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.util.ActivityExtensions.getStatusBarHeight
 import space.pal.sig.util.displayDatetime
 import space.pal.sig.view.BaseActivity
-import space.pal.sig.view.WebActivity
+import space.pal.sig.view.extra.WebActivity
 import java.util.*
 
 class LaunchActivity : BaseActivity(), CrewClickListener {
@@ -156,6 +162,7 @@ class LaunchActivity : BaseActivity(), CrewClickListener {
         launchpad?.let {
             binding.launchLocationTv.text = it.fullName
             binding.launchLocationCard.isVisible = true
+            setupMap(it)
         }
         launch.details?.let {
             binding.launchDetailsTv.text = it
@@ -172,6 +179,24 @@ class LaunchActivity : BaseActivity(), CrewClickListener {
             binding.launchRocketCard.isVisible = true
         }
         handleNotificationBtn(launch.id)
+    }
+
+    private fun setupMap(launchpad: LaunchPad) {
+        val fragment: SupportMapFragment = supportFragmentManager
+                .findFragmentById(R.id.launch_location_map) as SupportMapFragment
+        fragment.getMapAsync { googleMap ->
+            googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            googleMap.uiSettings.isZoomGesturesEnabled = false
+            googleMap.uiSettings.isScrollGesturesEnabled = false
+            if (launchpad.latitude != null && launchpad.longitude != null) {
+                val latLng = LatLng(launchpad.latitude, launchpad.longitude)
+                googleMap.addMarker(
+                        MarkerOptions().position(latLng).title(launchpad.name)
+                )
+                val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 7.0f)
+                googleMap.animateCamera(cameraUpdate)
+            }
+        }
     }
 
     private fun handleNotificationBtn(launchId: String?) {

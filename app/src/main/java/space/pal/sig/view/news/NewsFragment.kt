@@ -12,7 +12,7 @@ import space.pal.sig.R
 import space.pal.sig.databinding.FragmentNewsBinding
 import space.pal.sig.model.entity.News
 import space.pal.sig.view.BaseFragment
-import space.pal.sig.view.WebActivity
+import space.pal.sig.view.extra.WebActivity
 
 /**
  * SpaceNow

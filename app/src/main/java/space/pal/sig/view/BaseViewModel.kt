@@ -30,4 +30,8 @@ open class BaseViewModel(
         super.onCleared()
     }
 
+    open fun onResume() {}
+
+    open fun onPause() {}
+
 }

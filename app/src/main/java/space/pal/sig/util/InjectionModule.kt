@@ -5,9 +5,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import space.pal.sig.database.SpaceNowDatabase
 import space.pal.sig.network.HubbleService
+import space.pal.sig.network.IssService
 import space.pal.sig.network.NasaApiService
 import space.pal.sig.network.SpaceXApiService
 import space.pal.sig.network.client.HubbleClient
+import space.pal.sig.network.client.IssClient
 import space.pal.sig.network.client.NasaClient
 import space.pal.sig.network.client.SpaceXClient
 import space.pal.sig.repository.*
@@ -42,10 +44,12 @@ object InjectionModule {
         single { NasaClient() }
         single { SpaceXClient() }
         single { HubbleClient() }
+        single { IssClient() }
 
         single { get<NasaClient>().createService(NasaApiService::class.java) }
         single { get<SpaceXClient>().createService(SpaceXApiService::class.java) }
         single { get<HubbleClient>().createService(HubbleService::class.java) }
+        single { get<IssClient>().createService(IssService::class.java) }
 
         single { ApodRepository(get(), get()) }
         single { RoadsterRepository(get(), get()) }
@@ -55,9 +59,10 @@ object InjectionModule {
         single { FactRepository(get()) }
         single { NewsRepository(get(), get()) }
         single { CrewMemberRepository(get(), get()) }
+        single { IssRepository(get()) }
 
         viewModel { SplashViewModel(get(), get()) }
-        viewModel { MainViewModel(get(), get(), get(), get()) }
+        viewModel { MainViewModel(get(), get(), get(), get(), get()) }
         viewModel { LaunchesViewModel(get(), get()) }
         viewModel { FactsViewModel(get(), get()) }
         viewModel { NewsViewModel(get(), get()) }

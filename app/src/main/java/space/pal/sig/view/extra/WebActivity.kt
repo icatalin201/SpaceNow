@@ -1,4 +1,4 @@
-package space.pal.sig.view
+package space.pal.sig.view.extra
 
 import android.net.http.SslError
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.webkit.WebViewClient
 import androidx.databinding.DataBindingUtil
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityWebBinding
+import space.pal.sig.view.BaseActivity
 
 class WebActivity : BaseActivity() {
 

@@ -6,17 +6,24 @@ import android.view.*
 import android.webkit.WebChromeClient
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.FragmentMainBinding
 import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
+import space.pal.sig.model.dto.IssPosition
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.model.entity.Roadster
-import space.pal.sig.view.AboutActivity
 import space.pal.sig.view.BaseFragment
 import space.pal.sig.view.apod.ApodActivity
+import space.pal.sig.view.extra.AboutActivity
 import space.pal.sig.view.launch.LaunchActivity
 
 /**
@@ -44,7 +51,19 @@ class MainFragment : BaseFragment() {
                 .observe(viewLifecycleOwner) { showNextLaunch(it) }
         viewModel.getLatestLaunch()
                 .observe(viewLifecycleOwner) { showLastLaunch(it) }
+        viewModel.getIssPosition()
+                .observe(viewLifecycleOwner) { showIssLive(it) }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
+    override fun onPause() {
+        viewModel.onPause()
+        super.onPause()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -157,6 +176,29 @@ class MainFragment : BaseFragment() {
             binding.mainRoadsterSpeed.text = getString(
                     R.string.roadster_speed,
                     roadster.speedKph)
+            binding.mainRoadsterCard.setOnClickListener { }
+        }
+    }
+
+    private fun showIssLive(issPosition: IssPosition?) {
+        issPosition?.let {
+            val map = childFragmentManager
+                    .findFragmentById(R.id.main_iss_map) as SupportMapFragment
+            map.getMapAsync { googleMap ->
+                googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                googleMap.uiSettings.isZoomGesturesEnabled = false
+                googleMap.uiSettings.isScrollGesturesEnabled = false
+                googleMap.clear()
+                val latLng = LatLng(issPosition.latitude, issPosition.longitude)
+                googleMap.addMarker(
+                        MarkerOptions().position(latLng)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iss))
+                                .zIndex(3.0f).title(getString(R.string.iss))
+                )
+                val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 1.0f)
+                googleMap.animateCamera(cameraUpdate)
+            }
+            binding.mainIssCard.setOnClickListener { }
         }
     }
 
