@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 import space.pal.sig.R
 import space.pal.sig.databinding.ActivityApodBinding
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
-import space.pal.sig.util.displayDate
+import space.pal.sig.util.DateExtensions.displayDate
 import java.util.*
 
 class ApodActivity : AppCompatActivity() {

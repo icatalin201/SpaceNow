@@ -9,7 +9,7 @@ import com.squareup.picasso.Picasso
 import space.pal.sig.R
 import space.pal.sig.databinding.LaunchViewBinding
 import space.pal.sig.model.entity.LaunchWithData
-import space.pal.sig.util.displayDatetime
+import space.pal.sig.util.DateExtensions.displayDatetime
 import java.util.*
 import kotlin.collections.HashMap
 

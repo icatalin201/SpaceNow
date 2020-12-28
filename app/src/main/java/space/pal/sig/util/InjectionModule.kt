@@ -15,6 +15,7 @@ import space.pal.sig.network.client.SpaceXClient
 import space.pal.sig.repository.*
 import space.pal.sig.view.apod.ApodViewModel
 import space.pal.sig.view.facts.FactsViewModel
+import space.pal.sig.view.iss.IssViewModel
 import space.pal.sig.view.launch.LaunchViewModel
 import space.pal.sig.view.launches.LaunchesViewModel
 import space.pal.sig.view.main.MainViewModel
@@ -53,7 +54,7 @@ object InjectionModule {
 
         single { ApodRepository(get(), get()) }
         single { RoadsterRepository(get(), get()) }
-        single { LaunchRepository(get(), get()) }
+        single { LaunchRepository(get(), get(), get()) }
         single { RocketRepository(get(), get()) }
         single { LaunchPadRepository(get(), get()) }
         single { FactRepository(get()) }
@@ -68,6 +69,7 @@ object InjectionModule {
         viewModel { NewsViewModel(get(), get()) }
         viewModel { LaunchViewModel(get(), get(), get(), get()) }
         viewModel { ApodViewModel(get(), get()) }
+        viewModel { IssViewModel(get(), get()) }
 
     }
 

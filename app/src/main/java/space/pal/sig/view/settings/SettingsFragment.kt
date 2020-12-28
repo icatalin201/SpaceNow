@@ -6,9 +6,9 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import space.pal.sig.R
-import space.pal.sig.service.download.DataSyncManager
-import space.pal.sig.service.download.NotificationLaunchManager
-import space.pal.sig.service.download.ScheduleManager
+import space.pal.sig.service.DataSyncManager
+import space.pal.sig.service.NotificationLaunchManager
+import space.pal.sig.service.ScheduleManager
 
 /**
  * SpaceNow
@@ -27,12 +27,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         preference.setSummary(entry)
                         if (preference.getKey() == DataSyncManager.DATA_SYNC_WORKER_TAG) {
                             ScheduleManager.scheduleDataSync(requireContext(),
-                                    entryValue.toString().toLong(),
-                                    DataSyncManager.DATA_SYNC_WORKER_TAG)
+                                    entryValue.toString().toLong())
                         } else {
                             ScheduleManager.scheduleLaunchNotification(requireContext(),
-                                    15,
-                                    NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG)
+                                    15)
                         }
                     }
                 } else {

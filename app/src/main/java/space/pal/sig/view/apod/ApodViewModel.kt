@@ -9,9 +9,8 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.repository.ApodRepository
-import space.pal.sig.service.download.DownloadImageWorker
-import space.pal.sig.util.displayDate
-import space.pal.sig.util.formatDate
+import space.pal.sig.service.DownloadImageWorker
+import space.pal.sig.util.DateExtensions.formatDate
 import space.pal.sig.view.BaseViewModel
 import java.util.*
 

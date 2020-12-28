@@ -24,6 +24,9 @@ interface LaunchDao {
     @Query("SELECT * FROM launches WHERE id = :id")
     fun findById(id: String): LiveData<LaunchWithData>
 
+    @Query("SELECT * FROM launches WHERE id = :id")
+    fun getById(id: String): Launch
+
     @Query("""
         SELECT * FROM launches 
         WHERE dateUtc >= DATETIME('now') 

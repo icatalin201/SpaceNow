@@ -1,4 +1,4 @@
-package space.pal.sig.service.notification
+package space.pal.sig.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

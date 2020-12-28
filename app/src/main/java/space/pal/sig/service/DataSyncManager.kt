@@ -1,4 +1,4 @@
-package space.pal.sig.service.download
+package space.pal.sig.service
 
 import android.content.Context
 import androidx.work.Worker

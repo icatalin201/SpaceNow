@@ -17,6 +17,7 @@
         android:theme="@style/SpaceNow.Splash"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".view.iss.IssActivity"></activity>
         <activity
             android:name=".view.extra.AboutActivity"
             android:screenOrientation="sensorPortrait"

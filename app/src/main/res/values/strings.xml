@@ -25,10 +25,6 @@
     <string name="download">Download</string>
     <string name="description">Description</string>
     <string name="ok">OK</string>
-    <string name="see_all">See all</string>
-    <string name="read_more">Read more</string>
-    <string name="view_location">View location</string>
-    <string name="next_fact">Give me another one</string>
     <string name="share">Share</string>
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="pref_title_launch_notification">Launch notification</string>
@@ -55,6 +51,7 @@
     <string name="launch_notification_off">You won`t be notified at launch time</string>
     <string name="iss_live_label">ISS Live</string>
     <string name="iss">International Space Station</string>
+    <string name="launch_notification_message">%1$s is about to launch soon!</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

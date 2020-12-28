@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso
 import space.pal.sig.R
 import space.pal.sig.databinding.NewsViewBinding
 import space.pal.sig.model.entity.News
-import space.pal.sig.util.displayDate
+import space.pal.sig.util.DateExtensions.displayDate
 
 /**
  * SpaceNow

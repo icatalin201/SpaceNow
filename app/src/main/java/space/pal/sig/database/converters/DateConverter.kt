@@ -1,8 +1,8 @@
 package space.pal.sig.database.converters
 
 import androidx.room.TypeConverter
-import space.pal.sig.util.formatDate
-import space.pal.sig.util.parseDateString
+import space.pal.sig.util.DateExtensions.formatDate
+import space.pal.sig.util.DateExtensions.parseDateString
 import java.util.*
 
 /**

@@ -24,7 +24,6 @@ class LaunchViewModel(
 
     companion object {
         private const val IMAGE_CHANGE_DELAY: Long = 15000
-        private const val LAUNCH_NOTIFICATIONS = "notifications"
     }
 
     private val launch = MediatorLiveData<LaunchWithData>()
@@ -52,17 +51,11 @@ class LaunchViewModel(
     }
 
     fun toggleNotifications(isOn: Boolean, launchId: String?) {
-        val notifications: MutableSet<String> = sharedPreferencesUtil.get(LAUNCH_NOTIFICATIONS)
-        if (isOn) {
-            notifications.add(launchId.toString())
-        } else {
-            notifications.remove(launchId.toString())
-        }
-        sharedPreferencesUtil.save(LAUNCH_NOTIFICATIONS, notifications)
+        launchRepository.toggleNotifications(isOn, launchId)
     }
 
     fun hasNotifications(launchId: String?): Boolean {
-        return sharedPreferencesUtil.get(LAUNCH_NOTIFICATIONS).contains(launchId.toString())
+        return launchRepository.hasNotifications(launchId)
     }
 
     fun submitLaunchId(launchId: String?) {

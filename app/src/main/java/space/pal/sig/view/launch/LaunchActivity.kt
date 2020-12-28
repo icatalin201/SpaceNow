@@ -22,7 +22,7 @@ import space.pal.sig.model.entity.CrewMember
 import space.pal.sig.model.entity.LaunchPad
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.util.ActivityExtensions.getStatusBarHeight
-import space.pal.sig.util.displayDatetime
+import space.pal.sig.util.DateExtensions.displayDatetime
 import space.pal.sig.view.BaseActivity
 import space.pal.sig.view.extra.WebActivity
 import java.util.*

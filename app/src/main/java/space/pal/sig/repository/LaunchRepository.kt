@@ -7,6 +7,7 @@ import space.pal.sig.model.dto.LaunchDto
 import space.pal.sig.model.entity.Launch
 import space.pal.sig.model.entity.LaunchWithData
 import space.pal.sig.network.SpaceXApiService
+import space.pal.sig.util.SharedPreferencesUtil
 
 /**
  * SpaceNow
@@ -14,8 +15,35 @@ import space.pal.sig.network.SpaceXApiService
  **/
 class LaunchRepository(
         private val launchDao: LaunchDao,
-        private val spaceXApiService: SpaceXApiService
+        private val spaceXApiService: SpaceXApiService,
+        private val sharedPreferencesUtil: SharedPreferencesUtil
 ) {
+
+    companion object {
+        private const val LAUNCH_NOTIFICATIONS = "notifications"
+    }
+
+    fun toggleNotifications(isOn: Boolean, launchId: String?) {
+        val notifications = getLaunchNotifications()
+        if (isOn) {
+            notifications.add(launchId.toString())
+        } else {
+            notifications.remove(launchId.toString())
+        }
+        saveLaunchNotifications(notifications)
+    }
+
+    fun saveLaunchNotifications(notifications: MutableSet<String>) {
+        sharedPreferencesUtil.save(LAUNCH_NOTIFICATIONS, notifications)
+    }
+
+    fun getLaunchNotifications(): MutableSet<String> {
+        return sharedPreferencesUtil.get(LAUNCH_NOTIFICATIONS)
+    }
+
+    fun hasNotifications(launchId: String?): Boolean {
+        return getLaunchNotifications().contains(launchId.toString())
+    }
 
     fun save(launch: Launch) {
         launchDao.save(launch)
@@ -47,6 +75,10 @@ class LaunchRepository(
 
     fun downloadAll(): Single<MutableList<LaunchDto>> {
         return spaceXApiService.getAllLaunches()
+    }
+
+    fun getById(id: String): Launch {
+        return launchDao.getById(id)
     }
 
 }

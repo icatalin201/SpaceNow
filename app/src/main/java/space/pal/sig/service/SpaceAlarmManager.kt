@@ -1,4 +1,4 @@
-package space.pal.sig.service.notification
+package space.pal.sig.service
 
 import android.app.AlarmManager
 import android.app.PendingIntent

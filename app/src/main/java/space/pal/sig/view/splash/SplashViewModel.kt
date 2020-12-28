@@ -3,8 +3,8 @@ package space.pal.sig.view.splash
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import space.pal.sig.service.download.DataSyncManager
-import space.pal.sig.service.download.ScheduleManager
+import space.pal.sig.service.DataSyncManager
+import space.pal.sig.service.ScheduleManager
 import space.pal.sig.util.SharedPreferencesUtil
 import space.pal.sig.view.BaseViewModel
 

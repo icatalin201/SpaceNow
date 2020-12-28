@@ -1,4 +1,4 @@
-package space.pal.sig.service.download
+package space.pal.sig.service
 
 import android.content.Context
 import android.content.Intent
@@ -8,8 +8,8 @@ import android.net.Uri
 import android.os.Environment
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import space.pal.sig.service.notification.SpaceNotificationManager.createBigNotification
-import space.pal.sig.service.notification.SpaceNotificationManager.createNotification
+import space.pal.sig.service.SpaceNotificationManager.createBigNotification
+import space.pal.sig.service.SpaceNotificationManager.createNotification
 import space.pal.sig.view.apod.ApodViewModel.Companion.IMAGE_URL
 import java.io.File
 import java.io.FileOutputStream

@@ -1,9 +1,8 @@
-package space.pal.sig.service.download
+package space.pal.sig.service
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.work.*
-import space.pal.sig.service.download.DataSyncManager
 import java.util.concurrent.TimeUnit
 
 /**
@@ -13,13 +12,15 @@ import java.util.concurrent.TimeUnit
 object ScheduleManager {
 
     @JvmStatic
-    fun scheduleDataSync(context: Context, repeatInterval: Long, tag: String) {
-        createQueue(context, DataSyncManager::class.java, repeatInterval, tag)
+    fun scheduleDataSync(context: Context, repeatInterval: Long) {
+        createQueue(context, DataSyncManager::class.java, repeatInterval,
+                DataSyncManager.DATA_SYNC_WORKER_TAG)
     }
 
     @JvmStatic
-    fun scheduleLaunchNotification(context: Context, repeatInterval: Long, tag: String) {
-        createQueue(context, NotificationLaunchManager::class.java, repeatInterval, tag)
+    fun scheduleLaunchNotification(context: Context, repeatInterval: Long) {
+        createQueue(context, NotificationLaunchManager::class.java, repeatInterval,
+                NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG)
     }
 
     @JvmStatic

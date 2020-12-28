@@ -24,6 +24,7 @@ import space.pal.sig.model.entity.Roadster
 import space.pal.sig.view.BaseFragment
 import space.pal.sig.view.apod.ApodActivity
 import space.pal.sig.view.extra.AboutActivity
+import space.pal.sig.view.iss.IssActivity
 import space.pal.sig.view.launch.LaunchActivity
 
 /**
@@ -52,7 +53,7 @@ class MainFragment : BaseFragment() {
         viewModel.getLatestLaunch()
                 .observe(viewLifecycleOwner) { showLastLaunch(it) }
         viewModel.getIssPosition()
-                .observe(viewLifecycleOwner) { showIssLive(it) }
+                .observe(viewLifecycleOwner) { showIssPosition(it) }
         return binding.root
     }
 
@@ -180,7 +181,7 @@ class MainFragment : BaseFragment() {
         }
     }
 
-    private fun showIssLive(issPosition: IssPosition?) {
+    private fun showIssPosition(issPosition: IssPosition?) {
         issPosition?.let {
             val map = childFragmentManager
                     .findFragmentById(R.id.main_iss_map) as SupportMapFragment
@@ -198,7 +199,10 @@ class MainFragment : BaseFragment() {
                 val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 1.0f)
                 googleMap.animateCamera(cameraUpdate)
             }
-            binding.mainIssCard.setOnClickListener { }
+            binding.mainIssCard.setOnClickListener {
+                val intent = Intent(requireContext(), IssActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
