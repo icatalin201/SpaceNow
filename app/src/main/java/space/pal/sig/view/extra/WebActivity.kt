@@ -38,7 +38,7 @@ class WebActivity : BaseActivity() {
     private fun setupWebView(url: String?) {
         binding.webView.settings.javaScriptEnabled = true
         url?.let {
-            binding.webView.webViewClient = CustomWebViewClient(url)
+            binding.webView.webViewClient = CustomWebViewClient(url, this)
             binding.webView.loadUrl(it)
         }
     }
