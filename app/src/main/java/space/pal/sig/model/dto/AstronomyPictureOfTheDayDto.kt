@@ -20,11 +20,11 @@ data class AstronomyPictureOfTheDayDto(
         @SerializedName(value = "copyright", alternate = ["photographer"])
         val copyright: String?,
         @SerializedName("service_version")
-        val serviceVersion: String,
+        val serviceVersion: String?,
         @SerializedName("media_type")
         val mediaType: String,
         @SerializedName(value = "hdurl", alternate = ["hd_image"])
-        val hdUrl: String
+        val hdUrl: String?
 ) {
     companion object {
         const val IMAGE = "image"

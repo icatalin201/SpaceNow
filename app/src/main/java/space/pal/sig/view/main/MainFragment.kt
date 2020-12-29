@@ -186,10 +186,10 @@ class MainFragment : BaseFragment() {
             val map = childFragmentManager
                     .findFragmentById(R.id.main_iss_map) as SupportMapFragment
             map.getMapAsync { googleMap ->
-                googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                googleMap.clear()
+                googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
                 googleMap.uiSettings.isZoomGesturesEnabled = false
                 googleMap.uiSettings.isScrollGesturesEnabled = false
-                googleMap.clear()
                 val latLng = LatLng(issPosition.latitude, issPosition.longitude)
                 googleMap.addMarker(
                         MarkerOptions().position(latLng)

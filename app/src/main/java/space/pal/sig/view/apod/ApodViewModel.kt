@@ -7,6 +7,7 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.repository.ApodRepository
 import space.pal.sig.service.DownloadImageWorker
@@ -38,7 +39,17 @@ class ApodViewModel(
         date?.let {
             val liveApod = apodRepository.findByDate(date.formatDate())
             astronomyPictureOfTheDay.addSource(liveApod) { apod ->
-                astronomyPictureOfTheDay.value = apod
+                if (apod == null) {
+                    apodRepository
+                            .downloadByDate(date.formatDate())
+                            .subscribe({
+                                if (it.mediaType == AstronomyPictureOfTheDayDto.IMAGE) {
+                                    apodRepository.save(it.toAstronomyPictureOfTheDay())
+                                }
+                            }, { it.printStackTrace() })
+                } else {
+                    astronomyPictureOfTheDay.value = apod
+                }
             }
         }
     }

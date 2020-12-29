@@ -10,7 +10,7 @@ android {
         applicationId "space.pal.sig"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 41
+        versionCode 42
         versionName "4.0.0"
     }
     buildTypes {
@@ -71,6 +71,7 @@ dependencies {
 
     implementation "com.google.android.material:material:$material_version"
     implementation "com.google.android.gms:play-services-maps:$play_services_verion"
+    implementation "com.google.android.gms:play-services-location:$play_services_verion"
 
     implementation "com.squareup.picasso:picasso:$picasso_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

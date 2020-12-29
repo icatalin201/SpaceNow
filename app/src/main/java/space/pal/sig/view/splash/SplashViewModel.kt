@@ -18,7 +18,7 @@ class SplashViewModel(
 ) : BaseViewModel(application) {
 
     companion object {
-        private const val IS_FIRST_TIME = "SpaceNow.IsFirstTime"
+        const val IS_FIRST_TIME = "SpaceNow.IsFirstTime"
     }
 
     private val safeForStart = MediatorLiveData<Boolean>()
@@ -31,8 +31,8 @@ class SplashViewModel(
             safeForStart.addSource(syncResult) { workInfoList ->
                 val finished = workInfoList[0].state.isFinished
                 safeForStart.value = finished
+                sharedPreferencesUtil.save(IS_FIRST_TIME, false)
             }
-            sharedPreferencesUtil.save(IS_FIRST_TIME, false)
         } else {
             safeForStart.value = true
         }

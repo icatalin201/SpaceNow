@@ -23,9 +23,9 @@ data class AstronomyPictureOfTheDay(
         @ColumnInfo
         val copyright: String?,
         @ColumnInfo
-        val serviceVersion: String,
+        val serviceVersion: String?,
         @ColumnInfo
         val mediaType: String,
         @ColumnInfo
-        val hdUrl: String
+        val hdUrl: String?
 )

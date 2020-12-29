@@ -18,7 +18,7 @@ import java.security.SecureRandom
  */
 object SpaceNotificationManager {
 
-    const val NOTIFICATION_CHANNEL_ID = "space_now_channel_01"
+    private const val NOTIFICATION_CHANNEL_ID = "space_now_channel_01"
     private const val CHANNEL_NAME = "Space Now"
     private const val CHANNEL_DESCRIPTION = "Space Now - The Space at your fingertips"
 

@@ -7,9 +7,13 @@ import com.google.gson.Gson
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import space.pal.sig.R
+import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
 import space.pal.sig.model.dto.FactDto
 import space.pal.sig.model.entity.NewsSource
 import space.pal.sig.repository.*
+import space.pal.sig.util.SharedPreferencesUtil
+import space.pal.sig.view.splash.SplashViewModel
+import java.util.*
 
 /**
  * SpaceNow
@@ -20,6 +24,10 @@ class DataSyncManager(
         workerParams: WorkerParameters
 ) : Worker(context, workerParams), KoinComponent {
 
+    companion object {
+        const val DATA_SYNC_WORKER_TAG = "data_sync_worker_tag"
+    }
+
     private val launchRepository: LaunchRepository by inject()
     private val roadsterRepository: RoadsterRepository by inject()
     private val apodRepository: ApodRepository by inject()
@@ -28,6 +36,7 @@ class DataSyncManager(
     private val factRepository: FactRepository by inject()
     private val newsRepository: NewsRepository by inject()
     private val crewMemberRepository: CrewMemberRepository by inject()
+    private val sharedPreferencesUtil: SharedPreferencesUtil by inject()
     private val gson = Gson()
 
     override fun doWork(): Result {
@@ -43,10 +52,17 @@ class DataSyncManager(
     }
 
     private fun syncAstronomyPicturesOfTheDay() {
-        val apod = apodRepository
+        if (sharedPreferencesUtil.get(SplashViewModel.IS_FIRST_TIME, true)) {
+            val json: String = DataSyncUtil.readJsonFromResource(R.raw.apod, applicationContext)
+            val apods = gson.fromJson(json, Array<AstronomyPictureOfTheDayDto>::class.java)
+            apods.forEach { apod ->
+                apodRepository.save(apod.toAstronomyPictureOfTheDay())
+            }
+        }
+        val currentApodDto = apodRepository
                 .downloadCurrent()
                 .blockingGet()
-        apodRepository.save(apod.toAstronomyPictureOfTheDay())
+        apodRepository.save(currentApodDto.toAstronomyPictureOfTheDay())
     }
 
     private fun syncRoadster() {
@@ -84,9 +100,11 @@ class DataSyncManager(
     }
 
     private fun syncFacts() {
-        val factsJson: String = DataSyncUtil.readJsonFromResource(R.raw.facts, applicationContext)
-        val facts = gson.fromJson(factsJson, Array<FactDto>::class.java)
-        facts.forEach { factDto -> factRepository.save(factDto.toFact()) }
+        if (sharedPreferencesUtil.get(SplashViewModel.IS_FIRST_TIME, true)) {
+            val json: String = DataSyncUtil.readJsonFromResource(R.raw.facts, applicationContext)
+            val facts = gson.fromJson(json, Array<FactDto>::class.java)
+            facts.forEach { factDto -> factRepository.save(factDto.toFact()) }
+        }
     }
 
     private fun syncCrewMembers() {
@@ -127,9 +145,5 @@ class DataSyncManager(
         stNews.forEach { newsDto ->
             newsRepository.save(newsDto.toNews(NewsSource.SPACE_TELESCOPE_LIVE))
         }
-    }
-
-    companion object {
-        const val DATA_SYNC_WORKER_TAG = "data_sync_worker_tag"
     }
 }

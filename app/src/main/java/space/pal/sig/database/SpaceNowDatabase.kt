@@ -22,7 +22,7 @@ import space.pal.sig.model.entity.*
     News::class,
     CrewMember::class,
     AstronomyPictureOfTheDay::class
-], version = 1, exportSchema = false)
+], version = 2, exportSchema = false)
 @TypeConverters(
         UtilConverter::class,
         DateConverter::class,
