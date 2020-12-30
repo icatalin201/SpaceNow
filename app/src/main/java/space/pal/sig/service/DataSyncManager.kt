@@ -1,6 +1,7 @@
 package space.pal.sig.service
 
 import android.content.Context
+import android.content.Intent
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
@@ -12,6 +13,7 @@ import space.pal.sig.model.dto.FactDto
 import space.pal.sig.model.entity.NewsSource
 import space.pal.sig.repository.*
 import space.pal.sig.util.SharedPreferencesUtil
+import space.pal.sig.view.splash.SplashActivity
 import space.pal.sig.view.splash.SplashViewModel
 import java.util.*
 
@@ -39,20 +41,26 @@ class DataSyncManager(
     private val sharedPreferencesUtil: SharedPreferencesUtil by inject()
     private val gson = Gson()
 
+    private val isFirstTime = sharedPreferencesUtil
+            .get(SplashViewModel.IS_FIRST_TIME, true)
+
     override fun doWork(): Result {
+        sendSplashSyncMessage("Initializing...")
         syncAstronomyPicturesOfTheDay()
         syncRoadster()
         syncLaunches()
+        sendSplashSyncMessage("Searching for alien life...")
         syncRockets()
         syncLaunchpads()
         syncCrewMembers()
         syncFacts()
+        sendSplashSyncMessage("Searching for habitable planets...")
         syncNews()
         return Result.success()
     }
 
     private fun syncAstronomyPicturesOfTheDay() {
-        if (sharedPreferencesUtil.get(SplashViewModel.IS_FIRST_TIME, true)) {
+        if (isFirstTime) {
             val json: String = DataSyncUtil.readJsonFromResource(R.raw.apod, applicationContext)
             val apods = gson.fromJson(json, Array<AstronomyPictureOfTheDayDto>::class.java)
             apods.forEach { apod ->
@@ -100,7 +108,7 @@ class DataSyncManager(
     }
 
     private fun syncFacts() {
-        if (sharedPreferencesUtil.get(SplashViewModel.IS_FIRST_TIME, true)) {
+        if (isFirstTime) {
             val json: String = DataSyncUtil.readJsonFromResource(R.raw.facts, applicationContext)
             val facts = gson.fromJson(json, Array<FactDto>::class.java)
             facts.forEach { factDto -> factRepository.save(factDto.toFact()) }
@@ -144,6 +152,14 @@ class DataSyncManager(
                 .blockingGet()
         stNews.forEach { newsDto ->
             newsRepository.save(newsDto.toNews(NewsSource.SPACE_TELESCOPE_LIVE))
+        }
+    }
+
+    private fun sendSplashSyncMessage(message: String) {
+        if (isFirstTime) {
+            val intent = Intent(SplashActivity.SPLASH_SYNC_PROGRESS_ACTION)
+            intent.putExtra(SplashActivity.SYNC_MESSAGE, message)
+            applicationContext.sendBroadcast(intent)
         }
     }
 }

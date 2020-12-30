@@ -8,6 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/splash_sync_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_32"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/splash_progress_bar" />
+
         <ProgressBar
             android:id="@+id/splash_progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
