@@ -1,15 +1,14 @@
 package space.pal.sig.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import space.pal.sig.BuildConfig
 import space.pal.sig.database.dao.ApodDao
 import space.pal.sig.model.dto.AstronomyPictureOfTheDayDto
 import space.pal.sig.model.entity.AstronomyPictureOfTheDay
 import space.pal.sig.network.NasaApiService
-import java.util.*
 
 /**
  * SpaceNow
@@ -25,7 +24,18 @@ class ApodRepository(
     }
 
     fun findByDate(date: String): LiveData<AstronomyPictureOfTheDay> {
-        return apodDao.findByDate(date)
+        val apodMediator = MediatorLiveData<AstronomyPictureOfTheDay>()
+        apodMediator.addSource(apodDao.findByDate(date)) { apod ->
+            if (apod == null) {
+                downloadByDate(date)
+                        .subscribe(
+                                { save(it.toAstronomyPictureOfTheDay()) },
+                                { it.printStackTrace() })
+            } else {
+                apodMediator.value = apod
+            }
+        }
+        return apodMediator
     }
 
     fun findLatest(): LiveData<AstronomyPictureOfTheDay> {
@@ -35,14 +45,14 @@ class ApodRepository(
     fun downloadCurrent(): Single<AstronomyPictureOfTheDayDto> {
         return nasaService
                 .getPictureOfTheDay(BuildConfig.NASA_API_KEY)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
     }
 
     fun downloadByDate(date: String): Single<AstronomyPictureOfTheDayDto> {
         return nasaService
                 .getPictureOfTheDay(BuildConfig.NASA_API_KEY, date)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
     }
 }

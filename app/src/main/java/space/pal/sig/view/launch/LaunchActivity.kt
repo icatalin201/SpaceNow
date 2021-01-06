@@ -106,9 +106,9 @@ class LaunchActivity : BaseActivity(), CrewClickListener {
         val launch = launchWithData.launch
         val rocket = launchWithData.rocket
         val launchpad = launchWithData.launchpad
-        if (launch.upcoming) {
-            val now = Calendar.getInstance().timeInMillis
-            val countDown: Long = launch.dateUnix - now
+        val now = Calendar.getInstance().timeInMillis
+        val countDown: Long = launch.dateUnix - now
+        if (countDown > 0) {
             countDownTimer = object : CountDownTimer(countDown, 1000) {
                 override fun onTick(l: Long) {
                     var millis = l

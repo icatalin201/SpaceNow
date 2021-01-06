@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
@@ -137,8 +138,16 @@ class ApodActivity : AppCompatActivity() {
         this.apod = apod
         title = date?.displayDate()
         if (apod != null) {
+            binding.apodLoadingLabel.isVisible = true
             binding.apodImage.contentDescription = apod.title
-            Picasso.get().load(apod.url).centerCrop().fit().into(binding.apodImage)
+            Picasso.get().load(apod.url).centerCrop().fit()
+                    .into(binding.apodImage, object : Callback {
+                        override fun onSuccess() {
+                            binding.apodLoadingLabel.isVisible = false
+                        }
+
+                        override fun onError(e: Exception?) {}
+                    })
             binding.apodImage.isVisible = true
             binding.apodLabel.isVisible = false
         } else {

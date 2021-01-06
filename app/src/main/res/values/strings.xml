@@ -54,7 +54,14 @@
     <string name="launch_notification_message">%1$s is about to launch soon!</string>
     <string name="iss_pass_label">When will be ISS above my location?</string>
     <string name="iss_pass_message">ISS will be above your location around %1$s UTC time</string>
-    <string name="copyright">All credits goes to NASA, Hubble, SpaceX</string>
+    <string name="copyright">
+        <![CDATA[
+        The app is using the News API provided by HubbleSite\n
+        www.hubblesite.org/contact\n\n
+        All credits goes to NASA, Hubble, SpaceX
+        ]]>
+    </string>
+    <string name="loading">loading…</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>

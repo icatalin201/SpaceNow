@@ -39,16 +39,10 @@ class ApodViewModel(
         date?.let {
             val liveApod = apodRepository.findByDate(date.formatDate())
             astronomyPictureOfTheDay.addSource(liveApod) { apod ->
-                if (apod == null) {
-                    apodRepository
-                            .downloadByDate(date.formatDate())
-                            .subscribe({
-                                if (it.mediaType == AstronomyPictureOfTheDayDto.IMAGE) {
-                                    apodRepository.save(it.toAstronomyPictureOfTheDay())
-                                }
-                            }, { it.printStackTrace() })
-                } else {
+                if (apod != null && apod.mediaType == AstronomyPictureOfTheDayDto.IMAGE) {
                     astronomyPictureOfTheDay.value = apod
+                } else {
+                    astronomyPictureOfTheDay.value = null
                 }
             }
         }
