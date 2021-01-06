@@ -9,7 +9,7 @@ import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import space.pal.sig.R
-import space.pal.sig.view.main.MainActivity
+import space.pal.sig.view.splash.SplashActivity
 import java.security.SecureRandom
 
 /**
@@ -33,8 +33,15 @@ object SpaceNotificationManager {
         }
     }
 
-    fun createBigNotification(context: Context, text: String?, id: Int, bitmap: Bitmap?) {
-        val intent = Intent(context, MainActivity::class.java)
+    @JvmStatic
+    @JvmOverloads
+    fun createBigNotification(
+            context: Context,
+            text: String,
+            bitmap: Bitmap,
+            id: Int = SecureRandom().nextInt()
+    ) {
+        val intent = Intent(context, SplashActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
@@ -51,14 +58,14 @@ object SpaceNotificationManager {
         notificationManager.notify(id, notification)
     }
 
-    fun createBigNotification(context: Context, text: String?, bitmap: Bitmap?) {
-        createBigNotification(context, text, SecureRandom().nextInt(), bitmap)
-    }
-
     @JvmStatic
     @JvmOverloads
-    fun createNotification(context: Context, text: String?, id: Int = SecureRandom().nextInt()) {
-        val intent = Intent(context, MainActivity::class.java)
+    fun createNotification(
+            context: Context,
+            text: String,
+            id: Int = SecureRandom().nextInt()
+    ) {
+        val intent = Intent(context, SplashActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)

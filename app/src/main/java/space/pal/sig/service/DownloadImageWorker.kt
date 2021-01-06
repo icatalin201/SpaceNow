@@ -40,7 +40,7 @@ class DownloadImageWorker(
                 bitmap?.let {
                     saveImageToGallery(bitmap)
                     createBigNotification(applicationContext,
-                            "Image downloaded", notificationId, bitmap)
+                            "Image downloaded", bitmap, notificationId)
                 }
             }
         } catch (e: IOException) {

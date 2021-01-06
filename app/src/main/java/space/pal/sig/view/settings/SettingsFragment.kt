@@ -6,7 +6,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import space.pal.sig.R
-import space.pal.sig.service.DataSyncManager
+import space.pal.sig.service.DataSyncWorker
 import space.pal.sig.service.NotificationLaunchManager
 import space.pal.sig.service.ScheduleManager
 
@@ -25,7 +25,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         val entry = preference.entries[index]
                         val entryValue = preference.entryValues[index]
                         preference.setSummary(entry)
-                        if (preference.getKey() == DataSyncManager.DATA_SYNC_WORKER_TAG) {
+                        if (preference.getKey() == DataSyncWorker.DATA_SYNC_WORKER_TAG) {
                             ScheduleManager.scheduleDataSync(requireContext(),
                                     entryValue.toString().toLong())
                         } else {
@@ -41,7 +41,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
         setPreferencesFromResource(R.xml.settings, rootKey)
-        val syncPreference = findPreference<Preference>(DataSyncManager.DATA_SYNC_WORKER_TAG)
+        val syncPreference = findPreference<Preference>(DataSyncWorker.DATA_SYNC_WORKER_TAG)
         val notificationPreference = findPreference<Preference>(NotificationLaunchManager.NOTIFICATION_LAUNCH_WORKER_TAG)
         bindPreferenceSummaryToValue(syncPreference)
         bindPreferenceSummaryToValue(notificationPreference)

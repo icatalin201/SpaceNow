@@ -13,8 +13,8 @@ object ScheduleManager {
 
     @JvmStatic
     fun scheduleDataSync(context: Context, repeatInterval: Long) {
-        createQueue(context, DataSyncManager::class.java, repeatInterval,
-                DataSyncManager.DATA_SYNC_WORKER_TAG)
+        createQueue(context, DataSyncWorker::class.java, repeatInterval,
+                DataSyncWorker.DATA_SYNC_WORKER_TAG)
     }
 
     @JvmStatic
@@ -28,7 +28,7 @@ object ScheduleManager {
         val manager = WorkManager.getInstance(context)
         manager.cancelAllWorkByTag(tag)
         manager.pruneWork()
-        val workRequest = createOneTimeWorkRequest(DataSyncManager::class.java, tag)
+        val workRequest = createOneTimeWorkRequest(DataSyncWorker::class.java, tag)
         manager.enqueue(workRequest)
         return manager.getWorkInfosByTagLiveData(tag)
     }

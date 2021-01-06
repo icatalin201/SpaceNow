@@ -21,7 +21,7 @@ import java.util.*
  * SpaceNow
  * Created by Catalin on 7/31/2020
  */
-class DataSyncManager(
+class DataSyncWorker(
         context: Context,
         workerParams: WorkerParameters
 ) : Worker(context, workerParams), KoinComponent {

@@ -16,7 +16,8 @@ class SharedPreferencesUtil(
         private const val SPACE_NOW_PREF = "space_now_pref"
     }
 
-    private val sharedPreferences = context.getSharedPreferences(SPACE_NOW_PREF, Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences(
+            SPACE_NOW_PREF, Context.MODE_PRIVATE)
 
     fun save(key: String, value: String) {
         sharedPreferences.edit().putString(key, value).apply()

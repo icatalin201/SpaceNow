@@ -3,7 +3,7 @@ package space.pal.sig.view.splash
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import space.pal.sig.service.DataSyncManager
+import space.pal.sig.service.DataSyncWorker
 import space.pal.sig.service.ScheduleManager
 import space.pal.sig.util.SharedPreferencesUtil
 import space.pal.sig.view.BaseViewModel
@@ -23,7 +23,7 @@ class SplashViewModel(
 
     private val safeForStart = MediatorLiveData<Boolean>()
     private val syncResult = ScheduleManager
-            .launchOneTimeSync(application, DataSyncManager.DATA_SYNC_WORKER_TAG)
+            .launchOneTimeSync(application, DataSyncWorker.DATA_SYNC_WORKER_TAG)
 
     init {
         val isFirstTime = sharedPreferencesUtil.get(IS_FIRST_TIME, true)
