@@ -97,7 +97,7 @@ class IssActivity : BaseActivity() {
     private fun showIssPass(issPassList: List<IssPass>?) {
         issPassList?.let {
             if (issPassList.isNotEmpty()) {
-                val date = Date(issPassList[0].risetime).displayDatetime()
+                val date = Date(issPassList[0].risetime * 1000).displayDatetime()
                 val dialog = AlertDialog.Builder(this, R.style.SpaceNow_Dialog)
                         .setTitle(R.string.app_name)
                         .setMessage(getString(R.string.iss_pass_message, date))

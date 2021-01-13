@@ -5,7 +5,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import space.pal.sig.database.SpaceNowDatabase
 import space.pal.sig.network.HubbleService
-import space.pal.sig.network.IssService
+import space.pal.sig.network.IssApiService
 import space.pal.sig.network.NasaApiService
 import space.pal.sig.network.SpaceXApiService
 import space.pal.sig.network.client.HubbleClient
@@ -50,7 +50,7 @@ object InjectionModule {
         single { get<NasaClient>().createService(NasaApiService::class.java) }
         single { get<SpaceXClient>().createService(SpaceXApiService::class.java) }
         single { get<HubbleClient>().createService(HubbleService::class.java) }
-        single { get<IssClient>().createService(IssService::class.java) }
+        single { get<IssClient>().createService(IssApiService::class.java) }
 
         single { ApodRepository(get(), get()) }
         single { RoadsterRepository(get(), get()) }

@@ -10,14 +10,14 @@ import space.pal.sig.model.dto.IssPassDto
 SpaceNow
 Created by Catalin on 12/28/2020
  **/
-interface IssService {
+interface IssApiService {
 
     @GET("iss-now.json")
     fun getLiveLocation(): Single<IssLocationDto>
 
     @GET("iss-pass.json")
     fun getPassTimes(
-            @Query("latitude") latitude: Double,
-            @Query("longitude") longitude: Double): Single<IssPassDto>
+            @Query("lat") latitude: Double,
+            @Query("lon") longitude: Double): Single<IssPassDto>
 
 }
