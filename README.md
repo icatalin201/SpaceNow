@@ -1,16 +1,34 @@
 # Space Now - Your Space Pal.
+Space application containing launches information, news and facts for all enthusiasts.
 
-Space Now is an educational app that aims to all kind of users. Using Space Now you can view and download on your phone space images, read and learn a lot from news (Hubble News, James Webb Space Telescope News, Space Telescope Live), read amazing space facts and glossary terms.
+### Installation
+<a href="https://play.google.com/store/apps/details?id=space.pal.sig" target="_blank">
+<img src="files/others/google_play.png" a_blank
+    href="https://play.google.com/store/apps/details?id=space.pal.sig">
+</a>
 
-Space Infinity requires internet access for functions like Astronomy Picture of the Day, Hubble News, James Webb Telescope News, Space Telescope Live , Image Gallery, Glossary. Without an internet connection those will not be able to use but you are free to use Space Facts.
+### Screenshots
+<p float="left">
+  <img src="files/screenshots/spacenow1.png" hspace="4" width="197" />
+  <img src="files/screenshots/spacenow2.png" hspace="4" width="197" />
+  <img src="files/screenshots/spacenow3.png" hspace="4" width="197" />
+  <img src="files/screenshots/spacenow4.png" hspace="4" width="197" />
+  <img src="files/screenshots/spacenow5.png" hspace="4" width="197" />
+  <img src="files/screenshots/spacenow6.png" hspace="4" width="197" />
+</p>
 
-## Top Features:
-- APOD - Astronomy Picture of the Day.
-- Glossary - contains informations about planets, moons, galaxies and much more.
-- Space Facts - 300+ updated amazing facts about space.
-- Hubble News, James Webb Telescope News and Space Telescope Live - news directly from NASA involving Hubble, James Webb Telescope and Space.
-- Image Gallery - collection of space images.
+### License
+```
+ Copyright 2021 Catalin Matache
 
-## Permissions:
-- Internet Connection.
-- Access to local storage.
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
