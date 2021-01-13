@@ -25,8 +25,9 @@ data class NewsDto(
 ) {
 
     fun toNews(source: NewsSource): News {
+        val url = link.replace("http://", "https://")
         return News(
-                title, description, date, link, image, thumbnail, source
+                title, description, date, url, image, thumbnail, source
         )
     }
 

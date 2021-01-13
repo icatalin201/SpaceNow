@@ -12,21 +12,12 @@
             android:id="@+id/splash_sync_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_32"
+            android:layout_margin="@dimen/margin_8"
             android:gravity="center"
+            android:letterSpacing="0.1"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@id/splash_progress_bar" />
-
-        <ProgressBar
-            android:id="@+id/splash_progress_bar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/accent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

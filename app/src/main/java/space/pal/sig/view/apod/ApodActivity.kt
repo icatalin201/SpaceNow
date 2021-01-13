@@ -140,7 +140,7 @@ class ApodActivity : AppCompatActivity() {
         if (apod != null) {
             binding.apodLoadingLabel.isVisible = true
             binding.apodImage.contentDescription = apod.title
-            Picasso.get().load(apod.url).centerCrop().fit()
+            Picasso.get().load(apod.url).centerInside().fit()
                     .into(binding.apodImage, object : Callback {
                         override fun onSuccess() {
                             binding.apodLoadingLabel.isVisible = false

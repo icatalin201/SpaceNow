@@ -18,6 +18,7 @@
                 android:id="@+id/apod_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/primaryDark"
                 android:theme="@style/SpaceNow.Toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>

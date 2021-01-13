@@ -30,9 +30,9 @@ class ApodRepository(
                 downloadByDate(date)
                         .subscribe(
                                 { save(it.toAstronomyPictureOfTheDay()) },
-                                { it.printStackTrace() })
+                                { it.printStackTrace(); apodMediator.postValue(null) })
             } else {
-                apodMediator.value = apod
+                apodMediator.postValue(apod)
             }
         }
         return apodMediator
@@ -49,7 +49,7 @@ class ApodRepository(
                 .subscribeOn(Schedulers.io())
     }
 
-    fun downloadByDate(date: String): Single<AstronomyPictureOfTheDayDto> {
+    private fun downloadByDate(date: String): Single<AstronomyPictureOfTheDayDto> {
         return nasaService
                 .getPictureOfTheDay(BuildConfig.NASA_API_KEY, date)
                 .observeOn(Schedulers.io())

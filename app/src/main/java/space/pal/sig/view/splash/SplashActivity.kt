@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import org.koin.android.ext.android.inject
 import space.pal.sig.R
@@ -51,7 +50,6 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun openMainActivity(canOpen: Boolean) {
-        binding.splashProgressBar.isVisible = !canOpen
         if (canOpen) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
